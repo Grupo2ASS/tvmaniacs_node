@@ -2,16 +2,19 @@ TVManiacs Crawler/Scraper
 =========================
 
 This repo has 2 Node.js projects, developed by Group 2 of *Arquitectura de Sistemas de Software* 2013-2, from Pontificia Universidad Católica de Chile (PUC).
-Both are independent modules with specific functions, and both use sylvinus' node-crawler(https://github.com/sylvinus/node-crawler).
+Both are independent modules with specific functions.
 
 Crawler
 -------
+Uses sylvinus' node-crawler(https://github.com/sylvinus/node-crawler).
+
 *	Gets urls for http://www.metacritic.com/ and http://www.imdb.com/tv/ from local database or randomly generates them.
 *	Gets html files and cleans them (to save memory space).
 * Stores clean HTML files on HDD.
 
 Scraper
 -------
+Uses Node.js jquery package.
 
 *	Reads .html files from HDD
 *	Stores links to other pages to be visited by the crawler on a local DB.
