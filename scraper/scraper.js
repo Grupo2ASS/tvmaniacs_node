@@ -6,7 +6,9 @@
 
 
 var fs = require('fs');
+//Cargamos Cheerio para usar jquery con los archivos
+var cheerio = require('cheerio');
 var imdbActorProcesser = require('./imdb_actor');
 var html = fs.readFileSync('./html_test_files/imdb/actors/imdb_actor.html')
-var actor = imdbActorProcesser.getIMDBActorInfo(html);
+var actor = imdbActorProcesser.getIMDBActorInfo(html, cheerio);
 console.log(actor);

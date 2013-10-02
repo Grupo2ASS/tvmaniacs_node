@@ -1,4 +1,3 @@
-//Cargamos Cheerio para usar jquery con el archivo)
 var cheerio = require('cheerio');
 
 //Lo siguiente es un modulo, lo que nos permite tener variables
@@ -8,7 +7,7 @@ var cheerio = require('cheerio');
 	//getIMDBActorInfo recibe el html y devuelve la info del actor en formato JSON
     var getIMDBActorInfo = function(html)
 		{
-			var name, last_name, score, highest_score, lowest_score, bio, pic, birth_date, birth_place, series;
+			var name, last_name, bio, pic, birth_date, birth_place, series;
 			var $ = cheerio.load(html);
 			
 			var complete_name = $('span[itemprop="name"]').html().split(' ');
@@ -21,13 +20,21 @@ var cheerio = require('cheerio');
 			//1956-12-31
 			birth_place = $('a', born_info).last().html();
 			
+			bio = $('.inline[itemprop="description"]').html();
+			pic = $('#name-poster').attr('src');
+			
+			var filmo = $(".filmo-row:contains('(TV Series)')");
+			series = new Array(filmo.length);
+			filmo.each(function(index, elem){
+				series[index] = {};
+				series[index]["name"] = $(this).find('a').first().html();
+				var year = $(this).find('.year_column').html().split(';');
+				series[index]["year"] = year[1];
+			});
 			
 			return {
 				"first_name": first_name,
 				"last_name": last_name,
-				"score": score,					//(metacritic)
-				"highest_score": highest_score,  				//(metacritic)
-				"lowest_score": lowest_score, 				//(metacritic)
 				"bio": bio, 
 				"pic": pic,						//direccion a un recurso del media server??
 				"birth_date": birth_date,
@@ -36,11 +43,25 @@ var cheerio = require('cheerio');
 					/*[
 					{
 						"name": "House M.D.", 
-						"año": 2004
+						"year": 2004
 					}
 					]*/
 			}
 		};
+		
+		var getLinks = function(html)
+		{
+			links = [];
+			/*
+				{
+					"url":"http://...",
+					"site": "imdb"/"metacritic",
+					"type": "actor" / "series" / "episode" / "episode_list"
+				}
+			*/
+			return links;
+		};
+		
 
     module.exports.getIMDBActorInfo = function(html) {
         return getIMDBActorInfo(html);
