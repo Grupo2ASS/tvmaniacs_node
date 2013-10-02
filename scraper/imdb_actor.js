@@ -60,16 +60,24 @@ var cheerio = require('cheerio');
 			birth_date.each(function(index, elem){
 				links.push({
 					"url": this.attr('href'),
-					"site": "imdb",
+					"site": "IMDB",
 					"type": "actors_list"
 				 });
 			});
 			
-			
+			var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
+			series = new Array(filmo.length);
+			filmo.each(function(index, elem){
+				links.push({
+					"url": $(this).find('a').attr('href'),
+					"site": "IMDB",
+					"type": "series"
+				});
+			});
 			/*
 				{
 					"url":"http://...",
-					"site": "imdb"/"metacritic",
+					"site": "IMDB"/"Metacritic",
 					"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
 				}
 			*/
