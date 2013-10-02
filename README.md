@@ -14,7 +14,7 @@ Uses sylvinus' node-crawler(https://github.com/sylvinus/node-crawler).
 
 Scraper
 -------
-Uses Node.js jquery package.
+Uses cheerio (https://github.com/MatthewMueller/cheerio)
 
 *	Reads .html files from HDD
 *	Stores links to other pages to be visited by the crawler on a local DB.

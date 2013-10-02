@@ -4,8 +4,8 @@ var cheerio = require('cheerio');
 //locales y que hace que el archivo se comporte como una API
 (function() {
 	
-	//getIMDBActorInfo recibe el html y devuelve la info del actor en formato JSON
-    var getIMDBActorInfo = function(html)
+	//getInfo recibe el html y devuelve la info del actor en formato JSON
+    var getInfo = function(html)
 		{
 			var name, last_name, bio, pic, birth_date, birth_place, series;
 			var $ = cheerio.load(html);
@@ -23,7 +23,8 @@ var cheerio = require('cheerio');
 			bio = $('.inline[itemprop="description"]').html();
 			pic = $('#name-poster').attr('src');
 			
-			var filmo = $(".filmo-row:contains('(TV Series)')");
+			//solo filmografia como actor, por eso el first()
+			var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
 			series = new Array(filmo.length);
 			filmo.each(function(index, elem){
 				series[index] = {};
@@ -48,23 +49,39 @@ var cheerio = require('cheerio');
 					]*/
 			}
 		};
-		
+	//getLinks recibe el html y devuelve todos los links categorizados	
 		var getLinks = function(html)
 		{
+			var $ = cheerio.load(html);
 			links = [];
+			
+			//actors list from birth date links (monthday and year)
+			var birth_date = $('#name-born-info time a');
+			birth_date.each(function(index, elem){
+				links.push({
+					"url": this.attr('href'),
+					"site": "imdb",
+					"type": "actors_list"
+				 });
+			});
+			
+			
 			/*
 				{
 					"url":"http://...",
 					"site": "imdb"/"metacritic",
-					"type": "actor" / "series" / "episode" / "episode_list"
+					"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
 				}
 			*/
 			return links;
 		};
 		
 
-    module.exports.getIMDBActorInfo = function(html) {
-        return getIMDBActorInfo(html);
+    module.exports.getInfo = function(html) {
+        return getInfo(html);
+    };
+    module.exports.getLinks = function(html) {
+        return getLinks(html);
     };
 
 }());
