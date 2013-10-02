@@ -14,11 +14,18 @@ Uses sylvinus' node-crawler(https://github.com/sylvinus/node-crawler).
 
 Scraper
 -------
-Uses Node.js jquery package.
+Uses cheerio (https://github.com/MatthewMueller/cheerio)
 
 *	Reads .html files from HDD
 *	Stores links to other pages to be visited by the crawler on a local DB.
 *	Gets information about actors and tv series and stores them on dedicated MongoDB server.
+
+Workflow
+--------
+
+![Diagram](https://raw.github.com/iufuenza/tvmaniacs_node/master/Blank.png)
+The Cacoo diagram is editable at https://cacoo.com/diagrams/doKBa3jfieyMd57k
+
 
 Project Management
 ------------------
