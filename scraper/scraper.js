@@ -24,13 +24,13 @@ console.log(links_actor);
 
 var imdbSeriesProcesser = require('./imdb_series');
 
-
+//obtener info de series imdb. Check!
 var html_series = fs.readFileSync('./html_test_files/imdb/series/imdb_series.html')
-var series = imdbSeriesProcesser.getInfo(html);
+var series = imdbSeriesProcesser.getInfo(html_series);
 console.log("Series Info:")
 console.log(series); 
 
 
-var links_series = imdbActorProcesser.getLinks(html);
+var links_series = imdbActorProcesser.getLinks(html_series);
 console.log("Series Links:")
 console.log(links_series);

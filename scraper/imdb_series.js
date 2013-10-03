@@ -1,14 +1,13 @@
-
 var cheerio = require('cheerio');
 
 //This is a module, which make this code behave as an API
 //Lo siguiente es un modulo, lo que nos permite tener variables
 //locales y que hace que el archivo se comporte como una API
-(function () {
+(function() {
 
-    var getInfo = function (html) {
-			
-			/*{
+	var getInfo = function(html) {
+
+		/*{
 				"name": "House M.D.",
 				"user_rating": 8.3, 			//(metacritic)
 				"description": "An antisocial maverick doctor who specializes in diagnostic medicine ...",
@@ -28,66 +27,80 @@ var cheerio = require('cheerio');
 				],
 				"seasons":[
 					{
-						"number": 1,
-						"year": 2004  
+						"number": 1		
 					}
 				]
 			}*/
-        var name, user_rating, description, duration, genres, pic, year_start, year_end, cast, seasons;
-        var $ = cheerio.load(html);
-				
-				name = $('span[itemprop="name"]').html();
-				user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
-				description = $('p[itemprop="description"]').html();
-				var unparsed_duration = $('time[itemprop="duration"]').html().split(' ');
-				duration = parseInt(unparsed_duration[0]);
-				genres = []; 
-				$('div[itemprop="description"] a').each(function(index, elem){
-					genres.push($(this).html());
-				});
+		var name, user_rating, description, duration, genres, pic, year_start, year_end, cast, seasons;
+		var $ = cheerio.load(html);
 
+		name = $('span[itemprop="name"]').html();
+		user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
+		description = $('p[itemprop="description"]').html();
+		var unparsed_duration = $('time[itemprop="duration"]').html().trim().split(' ');
+		duration = parseInt(unparsed_duration[0]);
+		genres = [];
+		$('div[itemprop="genre"] a').each(function(index, elem) {
+			genres.push($(this).html());
+		});
+		pic = $('img[itemprop="image"]').attr('src');
+		var years = $('.header > .nobr').html();
+		years = years.replace('(', '');
+		years = years.replace(')', '');
+		years = years.replace(' ', '');
+		years = years.split('–');
+		year_start = years[0];
+		if (years.length > 1)
+			year_end = years[1];
+		else
+			year_end = null;
+		cast = [];
+		$('.cast_list span[itemprop="name"]').each(function(index, elem){
+			cast.push({
+				"name": this.html()
+			});
+		});
+		seasons = [];
+		$('#titleTVSeries .see-more.inline').first().children('a').each(function(index, elem){
+			seasons.push({
+				"number": this.html()
+			});
+		});
 
-        return {
-					"name": name,
-					"user_rating": user_rating, 			//(metacritic)
-					"description": description,
-					"duration": duration,			//minutos
-					"genres":genres ,
-					"pic": pic, 				//Link a recurso del media server??
-					"year_start": year_start,
-					"year_end": year_end,				//Puede que sea más fácil sacarlo de metacritic
-					"cast": cast,
-					"seasons": seasons
-          
-            /*[
-					{
-						"name": "House M.D.", 
-						"year": 2004
-					}
-					]*/
-        }
-    };
+		return {
+			"name": name,
+			"user_rating": user_rating, //(metacritic)
+			"description": description,
+			"duration": duration, //minutos
+			"genres": genres,
+			"pic": pic, //Link a recurso del media server??
+			"year_start": year_start,
+			"year_end": year_end, //Puede que sea más fácil sacarlo de metacritic
+			"cast": cast,
+			"seasons": seasons
+		}
+	};
 
-    var getLinks = function (html) {
-        var $ = cheerio.load(html);
-        links = [];
+	var getLinks = function(html) {
+		var $ = cheerio.load(html);
+		links = [];
 
-        /*
+		/*
 				{
 					"url":"http://...",
 					"site": "IMDB"/"Metacritic",
 					"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
 				}
 			*/
-        return links;
-    };
+		return links;
+	};
 
 
-    module.exports.getInfo = function (html) {
-        return getInfo(html);
-    };
-    module.exports.getLinks = function (html) {
-        return getLinks(html);
-    };
+	module.exports.getInfo = function(html) {
+		return getInfo(html);
+	};
+	module.exports.getLinks = function(html) {
+		return getLinks(html);
+	};
 
 }());
