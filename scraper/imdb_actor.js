@@ -1,9 +1,11 @@
 var cheerio = require('cheerio');
 
+//This is a module, which make this code behave as an API
 //Lo siguiente es un modulo, lo que nos permite tener variables
 //locales y que hace que el archivo se comporte como una API
 (function() {
 	
+	//getInfo receives an html file and returns the actor's information in JSON format
 	//getInfo recibe el html y devuelve la info del actor en formato JSON
     var getInfo = function(html)
 		{
@@ -49,6 +51,7 @@ var cheerio = require('cheerio');
 					]*/
 			}
 		};
+		//getLinks receives an html file and returns all links categorized
 	//getLinks recibe el html y devuelve todos los links categorizados	
 		var getLinks = function(html)
 		{
