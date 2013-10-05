@@ -55,13 +55,13 @@ var cheerio = require('cheerio');
 		else
 			year_end = null;
 		cast = [];
-		$('.cast_list span[itemprop="name"]').each(function(index, elem){
+		$('.cast_list span[itemprop="name"]').each(function(index, elem) {
 			cast.push({
 				"name": this.html()
 			});
 		});
 		seasons = [];
-		$('#titleTVSeries .see-more.inline').first().children('a').each(function(index, elem){
+		$('#titleTVSeries .see-more.inline').first().children('a').each(function(index, elem) {
 			seasons.push({
 				"number": this.html()
 			});
@@ -84,7 +84,76 @@ var cheerio = require('cheerio');
 	var getLinks = function(html) {
 		var $ = cheerio.load(html);
 		links = [];
+		
+		var genres = $('.infobar a').filter(':has(span[itemprop="genre"])');
+		genres.each(function(index, elem){
+			links.push({
+				"url" : $(this).attr('href'),
+				"site" : "IMDB",
+				"type": "series_list"
+			});
+		});
 
+		var seasons = $('#titleTVSeries a');
+		seasons.each(function(index, val) {
+			 links.push({
+			 	"url" : $(this).attr('href'),
+			 	"site": "IMDB",
+			 	"type": "episodes_list"
+			 	});
+		});
+
+		var related_series = $('.rec-title').filter(':contains("TV Series")').children('a');
+		related_series.each(function(index, val) {
+			links.push({
+				"url" : $(this).attr('href'),
+			 	"site": "IMDB",
+			 	"type": "series"
+			});
+		});
+
+		var actors = $('.cast_list td[itemprop="actor"] a');
+		actors.each(function(index, val) {
+			links.push({
+				"url" : $(this).attr('href'),
+			 	"site": "IMDB",
+			 	"type": "actor"
+			});
+		});
+
+		var full_cast = $('#titleCast .see-more a');
+		links.push({
+			"url" : full_cast.attr('href'),
+			"site": "IMDB",
+			"type": "actors_list"
+		});
+
+		var keywords = $('div[itemprop="keywords"] > a');
+		keywords.each(function(index, val) {
+			links.push({
+				"url" : $(this).attr('href'),
+			 	"site": "IMDB",
+			 	"type": "series_list"
+			});
+		});
+
+		var country = $('#titleDetails > .txt-block').filter(':contains("Country")').children('a');
+		country.each(function(index, val) {
+			links.push({
+				"url" : $(this).attr('href'),
+			 	"site": "IMDB",
+			 	"type": "series_list"
+			});
+		});
+
+		var language = $('#titleDetails > .txt-block').filter(':contains("Language")').children('a');
+		language.each(function(index, val) {
+			links.push({
+				"url" : $(this).attr('href'),
+			 	"site": "IMDB",
+			 	"type": "series_list"
+			});
+		});
 		/*
 				{
 					"url":"http://...",

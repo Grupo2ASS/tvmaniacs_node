@@ -1,0 +1,12 @@
+{
+	"Mongo":{
+		"address" :"",
+		"username":"",
+		"password":""
+	},
+	"Local":{
+		"address" :"",
+		"username":"",
+		"password":""
+	}
+}
