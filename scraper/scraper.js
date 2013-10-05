@@ -1,46 +1,26 @@
-
-//Podriamos pasar parametros por linea de comandos, la carpeta dnd estan los html, el .js dnd esta el acceso a la bdd
-// (por los passwords y eso) y la cantidad de tiempo de cada cuanto rato revisa si hay
-//nuevos archivos.
-
-
-
 var fs = require('fs');
-
+var imdbActorProcesser = require('./imdb_actor');
+var imdbActorProcesser = require('./imdb_actor');
 var imdbActorProcesser = require('./imdb_actor');
 
-//obtener info de actor IMDB. Check!
-var html_actor = fs.readFileSync('./html_test_files/imdb/actors/imdb_actor.html')
-var actor = imdbActorProcesser.getInfo(html_actor);
-console.log("Actor Info:")
-console.log(actor);
 
-//obtener links de actor imdb. Check!
-var links_actor = imdbActorProcesser.getLinks(html_actor);
-console.log("Actor Links:")
-console.log(links_actor);
+/*
+Each of the next functions should:
+	Check if there are new files in its folder
+		If not, wait a minute
+		If true:
+			process file
+				get info (if there is any):
+					call function to store in mongo
+				get links
+					call function to store in local db
+			delete file
 
-var imdbSeriesProcesser = require('./imdb_series');
+*/
 
-//obtener info de series imdb. Check!
-var html_series = fs.readFileSync('./html_test_files/imdb/series/imdb_series.html')
-var series = imdbSeriesProcesser.getInfo(html_series);
-console.log("Series Info:")
-console.log(series);
-
-
-var links_series = imdbSeriesProcesser.getLinks(html_series);
-console.log("Series Links:")
-console.log(links_series);
-
-
-var imdbActorsListProcesser = require('./imdb_actor_list');
-//obtener lista de actores imdb.
-var html_actors_list = fs.readFileSync('./html_test_files/imdb/actors_lists/imdb_actors_list.html')
-
-
-var links_actors_list = imdbActorsListProcesser.getLinks(html_actors_list);
-console.log("Actor List Links:");
-console.log(links_actors_list);
-
-
+function imdb_actor(){};
+function imdb_series(){};
+function imdb_episode(){};
+function imdb_actors_list(){};
+function imdb_series_list(){};
+function imdb_episodes_list(){};
