@@ -1,4 +1,3 @@
-
 //Podriamos pasar parametros por linea de comandos, la carpeta dnd estan los html, el .js dnd esta el acceso a la bdd
 // (por los passwords y eso) y la cantidad de tiempo de cada cuanto rato revisa si hay
 //nuevos archivos.
@@ -29,18 +28,7 @@ console.log("Series Info:")
 console.log(series);
 
 
+
 var links_series = imdbSeriesProcesser.getLinks(html_series);
 console.log("Series Links:")
 console.log(links_series);
-
-
-var imdbActorsListProcesser = require('./imdb_actor_list');
-//obtener lista de actores imdb.
-var html_actors_list = fs.readFileSync('./html_test_files/imdb/actors_lists/imdb_actors_list.html')
-
-
-var links_actors_list = imdbActorsListProcesser.getLinks(html_actors_list);
-console.log("Actor List Links:");
-console.log(links_actors_list);
-
-
