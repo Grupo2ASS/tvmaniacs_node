@@ -28,7 +28,17 @@ console.log("Series Info:")
 console.log(series);
 
 
-
 var links_series = imdbSeriesProcesser.getLinks(html_series);
 console.log("Series Links:")
 console.log(links_series);
+
+
+var imdbActorsListProcesser = require('./imdb_actor_list');
+//obtener lista de actores imdb.
+var html_actors_list = fs.readFileSync('./html_test_files/imdb/actors_lists/imdb_actors_list.html')
+
+
+var links_actors_list = imdbActorsListProcesser.getLinks(html_actors_list);
+console.log("Actor List Links:");
+console.log(links_actors_list);
+
