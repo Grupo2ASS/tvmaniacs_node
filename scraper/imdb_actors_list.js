@@ -8,9 +8,8 @@ var cheerio = require('cheerio');
 	//getInfo recibe el html y devuelve null por defecto
     var getInfo = function(html)
 		{
-			return {
-				null;
-			}
+			return null;
+			
 		};
 	
 
