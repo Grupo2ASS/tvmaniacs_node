@@ -13,9 +13,9 @@ var cheerio = require('cheerio');
 			var $ = cheerio.load(html);
 			links = [];
 			
-			//episodes list 
-			var episodes = $('.info a');
-			episodes.each(function(index, elem){
+			//actors list 
+			var actors = $('.results .name a');
+			actors.each(function(index, elem){
 				links.push({
 					"url": this.attr('href'),
 					"site": "IMDB",
@@ -23,11 +23,11 @@ var cheerio = require('cheerio');
 				 });
 			});
 
-			//linkt to next season
-			var next_season = $('#load_next_episodes');
+			//linkt to next page
+			var next_page = $('#right .pagination a');
 			
 				links.push({
-					"url": next_season.attr('href'),
+					"url": next_page.attr('href'),
 					"site": "IMDB",
 					"type": "actors_list"
 				 

@@ -1,7 +1,11 @@
 var fs = require('fs');
 var imdbActorProcesser = require('./imdb_actor');
-var imdbActorProcesser = require('./imdb_actor');
-var imdbActorProcesser = require('./imdb_actor');
+var imdbSeriesProcesser = require('./imdb_series');
+var imdbEpisodeProcesser = require('./imdb_episode');
+var imdbActorsListProcesser = require('./imdb_actors_list');
+var imdbSeriesListProcesser = require('./imdb_series_list');
+var imdbEpisodesListProcesser = require('./imdb_episodes_list');
+
 
 
 /*
