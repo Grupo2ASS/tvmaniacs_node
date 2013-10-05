@@ -19,23 +19,23 @@ var cheerio = require('cheerio');
 			var $ = cheerio.load(html);
 			links = [];
 			
-			//episodes list 
-			var episodes = $('.info a');
-			episodes.each(function(index, elem){
+			//series list 
+			var series = $(".results td").filter(":contains('TV series')");
+			series.each(function(index, elem){
 				links.push({
-					"url": this.attr('href'),
+					"url": $(this).children().attr('href'),
 					"site": "IMDB",
-					"type": "actors_list"
+					"type": "series_list"
 				 });
 			});
 
 			//linkt to next season
-			var next_season = $('#load_next_episodes');
+			var next_page = $('#right a');
 			
 				links.push({
-					"url": next_season.attr('href'),
+					"url": next_page.attr('href'),
 					"site": "IMDB",
-					"type": "actors_list"
+					"type": ",m series_list"
 				 
 			});
 			
