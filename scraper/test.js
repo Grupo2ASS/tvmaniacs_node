@@ -10,15 +10,16 @@ var imdbActorProcesser = require('./imdb_actor');
 
 //obtener info de actor IMDB. Check!
 var html_actor = fs.readFileSync('./html_test_files/imdb/actors/imdb_actor.html')
-var actor = imdbActorProcesser.getInfo(html_actor);
+
+/*var actor = imdbActorProcesser.getInfo(html_actor);
 console.log("Actor Info:")
-console.log(actor);
+console.log(actor);*/
 
 //obtener links de actor imdb. Check!
 var links_actor = imdbActorProcesser.getLinks(html_actor);
 console.log("Actor Links:")
 console.log(links_actor);
-
+/*
 var imdbSeriesProcesser = require('./imdb_series');
 
 //obtener info de series imdb. Check!
@@ -41,5 +42,5 @@ var html_actors_list = fs.readFileSync('./html_test_files/imdb/episodes/imdb_epi
 var links_actors_list = imdbActorsListProcesser.getLinks(html_actors_list);
 console.log("Episode links:");
 console.log(links_actors_list);
-
+*/
 
