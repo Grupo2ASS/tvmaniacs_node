@@ -8,7 +8,7 @@ Crawler
 -------
 Uses sylvinus' node-crawler(https://github.com/sylvinus/node-crawler).
 
-*	Gets urls for http://www.metacritic.com/ and http://www.imdb.com/tv/ from local database or randomly generates them.
+*	Gets urls for http://www.metacritic.com/ and http://www.imdb.com/tv/ from local database (with scheduled revisiting) or randomly generates them.
 *	Gets html files and cleans them (to save memory space).
 * Stores clean HTML files on HDD.
 
