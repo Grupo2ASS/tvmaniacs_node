@@ -25,18 +25,18 @@ var cheerio = require('cheerio');
 				links.push({
 					"url": $(this).children().attr('href'),
 					"site": "IMDB",
-					"type": "series_list"
+					"type": "series"
 				 });
 			});
 
 			//linkt to next season
-			var next_page = $('#right a');
-			
+			var next_page = $('#right .pagination a');
+			next_page.each(function(index, elem){
 				links.push({
-					"url": next_page.attr('href'),
+					"url": this.attr('href'),
 					"site": "IMDB",
-					"type": ",m series_list"
-				 
+					"type": "series_list"
+				});
 			});
 			
 

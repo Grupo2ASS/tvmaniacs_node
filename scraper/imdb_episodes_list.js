@@ -25,7 +25,7 @@ var cheerio = require('cheerio');
 				links.push({
 					"url": this.attr('href'),
 					"site": "IMDB",
-					"type": "actors_list"
+					"type": "episode"
 				 });
 			});
 
@@ -35,7 +35,17 @@ var cheerio = require('cheerio');
 				links.push({
 					"url": next_season.attr('href'),
 					"site": "IMDB",
-					"type": "actors_list"
+					"type": "episodes_list"
+				 
+			});
+
+			//linkt to past season
+			var previous_season = $('#load_previous_episodes');
+			
+				links.push({
+					"url": previous_season.attr('href'),
+					"site": "IMDB",
+					"type": "episodes_list"
 				 
 			});
 			

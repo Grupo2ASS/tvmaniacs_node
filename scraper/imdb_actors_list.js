@@ -26,18 +26,18 @@ var cheerio = require('cheerio');
 				links.push({
 					"url": this.attr('href'),
 					"site": "IMDB",
-					"type": "actors_list"
+					"type": "actor"
 				 });
 			});
 
 			//linkt to next page
 			var next_page = $('#right .pagination a');
-			
+			next_page.each(function(index, elem){
 				links.push({
-					"url": next_page.attr('href'),
+					"url": this.attr('href'),
 					"site": "IMDB",
 					"type": "actors_list"
-				 
+				});
 			});
 			
 
