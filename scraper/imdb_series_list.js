@@ -17,26 +17,29 @@ var cheerio = require('cheerio');
 		var getLinks = function(html)
 		{
 			var $ = cheerio.load(html);
+			var pageURL = $('link[rel="canonical"]').attr('href');
 			links = [];
 			
 			//series list 
 			var series = $(".results td").filter(":contains('TV series')");
 			series.each(function(index, elem){
+				var url = checkURL(pageURL,$(this).children().attr('href'));
 				links.push({
-					"url": $(this).children().attr('href'),
+					"url": url,
 					"site": "IMDB",
-					"type": "series_list"
+					"type": "series"
 				 });
 			});
 
 			//linkt to next season
-			var next_page = $('#right a');
-			
+			var next_page = $('#right .pagination a');
+			next_page.each(function(index, elem){
+				var url = checkURL(pageURL,this.attr('href'));
 				links.push({
-					"url": next_page.attr('href'),
+					"url": url,
 					"site": "IMDB",
-					"type": ",m series_list"
-				 
+					"type": "series_list"
+				});
 			});
 			
 
@@ -49,6 +52,15 @@ var cheerio = require('cheerio');
 			*/
 			return links;
 		};
+
+	var checkURL = function(pageURL,url)
+	{
+		if (url.slice(0,1) == '?'){
+			return pageURL+url;
+		}
+		return "www.imdb.com"+url;
+		
+	};
 		
     module.exports.getInfo = function(html) {
         return getInfo(html);
