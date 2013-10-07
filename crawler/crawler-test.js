@@ -1,6 +1,19 @@
+// Config vars
+
+// Not crawl page again in days
+var revisit_page = 7
+
+
+
+
+// Crawler module
 var Crawler = require("crawler").Crawler;
 
+// File reading and writing module
 var fs = require('fs');
+
+// Info of links in queue
+var current_links = {}
 
 var c = new Crawler({
 "maxConnections":10,
@@ -8,87 +21,11 @@ var c = new Crawler({
 // This will be called for each crawled page
 "callback":function(error,result,$) {
 
-	// Get links in page (scrapper work)
-	// $ is a jQuery instance scoped to the server-side DOM of the page
-	/* Get all links in page
-	$("a").each(function(index, a) {
-		var href = a.href;
-		if(href != undefined)
-		{
-			//console.log(href);
-			c.queue(href);
-		}
-	});
-	*/
+	//console.log(current_links[result.uri]);
 
-	var website_name = "other";
-	var dir_name = "other"; 
-	// Check if the site es imdb
-	if (($('meta[property="og:site_name"]').attr('content') != undefined && $('meta[property="og:site_name"]').attr('content').toString().toLowerCase() == "imdb") || ($("title") != undefined && $("title").text().toLowerCase().indexOf("imdb") >= 0))
-	{
-		console.log("IMDB");
-		website_name = "imdb";
-		var page_type = $('meta[property="og:type"]').attr('content');
-		if (page_type != undefined)
-		{
-			switch(page_type.toString())
-			{
-				case "video.tv_show":
-				  if ($('meta[name="keywords"]').attr('content') != undefined && $('meta[name="keywords"]').attr('content').toString().toLowerCase() == "episodes")
-				  {
-				  	dir_name = "episodes_lists";
-				  }
-				  else
-				  {
-				  	dir_name = "series";
-				  }
-				  break;
-				case "actor":
-				  dir_name = "actors";
-				  break;
-				case "video.episode":
-				  dir_name = "episodes";
-				  break;
-				default:
-				  dir_name = "other";
-			}
-		}
-		else if ($('meta[property="og:title"]').attr('content') != undefined && $('meta[property="og:title"]').attr('content').toString().toLowerCase().indexOf("episodes cast") >= 0)
-		{
-			dir_name = "actors_lists";
-		}
-	}
-	// Check if the site is metacritic
-	else if ($('meta[name="application-name"]').attr('content') != undefined && $('meta[name="application-name"]').attr('content').toString().toLowerCase() == "metacritic" || ($("title") != undefined && $("title").text().toLowerCase().indexOf("metacritic") >= 0))
-	{
-		console.log("METACRITIC");
-		website_name = "metacritic";
-		var page_type = $('meta[name="og:type"]').attr('content');
-		if (page_type != undefined)
-		{
-			switch(page_type.toString())
-			{
-				case "tv_show":
-				  dir_name = "series";
-				  break;
-				case "public_figure":
-				  dir_name = "actors";
-				  break;
-				default:
-				  dir_name = "other";
-			}
-		}
-		else if ($("title") != undefined && $("title").text().toLowerCase().indexOf("tv shows") >= 0)
-		{
-			dir_name = "series_lists";
-		}
-	}
-	// If the site is not imdb or metacritic
-	else
-	{
-		console.log("OTHER");
-	}
 
+	var website_name = current_links[result.uri]['site'];
+	var dir_name = current_links[result.uri]['type'];
 
 	// Get page source code
     	var page = result.body.toString();
@@ -127,31 +64,62 @@ var c = new Crawler({
 	    }
 	});
 	
-}
+},
+"onDrain":function(){
+	// This function executes when queue is empty
+	console.log("No pages on queue..");
+
+	
+	// Check db and create if doesnt exists
+	var file = "test.db";
+	var exists = fs.existsSync(file);
+	if(!exists)
+	{
+		console.log("Creating DB file.");
+		fs.openSync(file, "w");
+	}
+	var sqlite3 = require("sqlite3").verbose();
+	var db = new sqlite3.Database(file);	
+
+	
+	db.serialize(function() {
+		if(!exists) {
+			db.run("CREATE TABLE links (url TEXT, site TEXT, type TEXT, last_visited datetime)");
+			// Add a link to the recently created db (REMOVE LINE WHEN SCRAPPER READY)
+			var stmt = db.prepare("INSERT INTO links VALUES ('http://www.imdb.com/title/tt0944947/', 'imdb', 'series',date('now'))");
+			stmt.run();
+			stmt.finalize();
+
+			exists = true;
+		}
+
+		// Get all rows in db
+		db.each("SELECT url, site, type, last_visited FROM links WHERE date(last_visited) <= date('now') LIMIT 0, 10", function(err, row) {
+
+			var row_estructure = {
+					'site':row.site,
+					'type':row.type}
+			current_links[row.url] = row_estructure;
+			c.queue(row.url);
+			
+			// Update last_visited date to revisit_page days later
+			var stmt = db.prepare("UPDATE links set last_visited=date('now','+"+revisit_page+" days') WHERE url='"+row.url+"'");
+			stmt.run();
+			stmt.finalize();
+  		}, function(err, row) {
+			// Close db when no rows left
+			db.close();
+  		});
+
+	});
+
+} 	
 });
 
-// Queue just one URL, with default callback
-/*c.queue("http://www.imdb.com/title/tt0944947/");
-c.queue("http://www.metacritic.com/tv/mad-men");
-c.queue("http://www.metacritic.com/feature/breaking-bad-series-finale-reviews-felina");
-c.queue("http://www.metacritic.com/person/vincent-kartheiser?filter-options=tv");
-c.queue("http://www.imdb.com/name/nm0372176/?ref_=tt_cl_t2");
-c.queue("http://www.google.com");*/
-c.queue("http://www.imdb.com/title/tt0903747/epcast?ref_=ttep_ql_2");
-c.queue("http://www.imdb.com/title/tt0903747/episodes");
-c.queue("http://www.imdb.com/gender/male");
-c.queue("http://www.metacritic.com/browse/tv/release-date/returning-series/name?view=condensed");
 
-// Queue a list of URLs
-/*c.queue(["http://jamendo.com/","http://tedxparis.com"]);*/
 
-// Queue URLs with custom callbacks & parameters
-/*c.queue([{
-"uri":"http://parishackers.org/",
-"jQuery":false,
-
-// The global callback won't be called
-"callback":function(error,result) {
-    console.log("Grabbed",result.body.length,"bytes");
-}
-}]);*/
+// First queue link
+c.queue("http://www.google.com");
+current_links["http://www.google.com"] = {
+					'site':'other',
+					'type':'other'}
