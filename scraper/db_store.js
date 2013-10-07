@@ -1,12 +1,12 @@
 (function() {
 	
 	var storeInLocalDB = function(links, username, password, address){
-
+        console.log(links);
 	};
 
 	var storeInMongo = function(info, username, password, address){
-
-	};
+        console.log(info);
+	}; 
 
 
     module.exports.storeInLocalDB = function(links, username, password, address) {
