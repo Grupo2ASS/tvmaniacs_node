@@ -33,13 +33,13 @@ var links_series = imdbSeriesProcesser.getLinks(html_series);
 console.log("Series Links:")
 console.log(links_series);
 
-var imdbActorsListProcesser = require('./imdb_actors_list');
+var imdbActorsListProcesser = require('./imdb_episodes_list');
 //obtener lista de actores imdb.
-var html_actors_list = fs.readFileSync('./html_test_files/imdb/actors_lists/imdb_actors_list.html')
+var html_actors_list = fs.readFileSync('./html_test_files/imdb/episodes_lists/imdb_episodes_list.html')
 
 
 var links_actors_list = imdbActorsListProcesser.getLinks(html_actors_list);
-console.log("actors list links:");
+console.log("Episiodekjnsk link:");
 console.log(links_actors_list);
 
 

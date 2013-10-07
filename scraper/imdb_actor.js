@@ -56,13 +56,15 @@ var cheerio = require('cheerio');
 		var getLinks = function(html)
 		{
 			var $ = cheerio.load(html);
+			var pageURL = $('link[rel="canonical"]').attr('href');
 			links = [];
 			
 			//actors list from birth date links (monthday and year)
 			var birth_date = $('#name-born-info time a');
 			birth_date.each(function(index, elem){
+				var url = checkURL(pageURL,this.attr('href'));
 				links.push({
-					"url": this.attr('href'),
+					"url": url,
 					"site": "IMDB",
 					"type": "actors_list"
 				 });
@@ -71,8 +73,9 @@ var cheerio = require('cheerio');
 			var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
 			series = new Array(filmo.length);
 			filmo.each(function(index, elem){
+				var url = checkURL(pageURL,$(this).find('a').attr('href'));
 				links.push({
-					"url": $(this).find('a').attr('href'),
+					"url": url,
 					"site": "IMDB",
 					"type": "series"
 				});
@@ -86,6 +89,15 @@ var cheerio = require('cheerio');
 			*/
 			return links;
 		};
+
+	var checkURL = function(pageURL,url)
+	{
+		if (url.slice(0,1) == '?'){
+			return pageURL+url;
+		}
+		return "www.imdb.com"+url;
+		
+	};
 		
 
     module.exports.getInfo = function(html) {
