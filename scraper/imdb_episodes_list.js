@@ -7,48 +7,69 @@ var cheerio = require('cheerio');
 	//getInfo receives an html file and returns null by default
 	//getInfo recibe el html y devuelve null por defecto
     var getInfo = function(html)
-		{
-			return null;
-			
-		};
+	{
+		return null;
+		
+	};
 
 	//getLinks receives an html file and returns all links categorized
 	//getLinks recibe el html y devuelve todos los links categorizados	
-		var getLinks = function(html)
-		{
-			var $ = cheerio.load(html);
-			links = [];
-			
-			//episodes list 
-			var episodes = $('.info a');
-			episodes.each(function(index, elem){
-				links.push({
-					"url": this.attr('href'),
-					"site": "IMDB",
-					"type": "actors_list"
-				 });
-			});
+	var getLinks = function(html)
+	{
+		var $ = cheerio.load(html);
+		var pageURL = $('link[rel="canonical"]').attr('href');
+		links = [];
+		
+		//episodes list 
+		var episodes = $('.info a');
+		episodes.each(function(index, elem){
+			var url = checkURL(pageURL,episodes.attr('href'));
+			links.push({
+				"url": url,
+				"site": "IMDB",
+				"type": "episode"
+			 });
+		});
 
-			//linkt to next season
-			var next_season = $('#load_next_episodes');
-			
-				links.push({
-					"url": next_season.attr('href'),
-					"site": "IMDB",
-					"type": "actors_list"
-				 
-			});
-			
+		//linkt to next season
+		var next_season = $('#load_next_episodes');
+		var url = checkURL(pageURL,next_season.attr('href'));
+		links.push({
+			"url": url,
+			"site": "IMDB",
+			"type": "episodes_list"
+			 
+		});
 
-			/*
-				{
-					"url":"http://...",
-					"site": "IMDB"/"Metacritic",
-					"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
-				}
-			*/
-			return links;
-		};
+		//linkt to past season
+		var previous_season = $('#load_previous_episodes');
+		
+			links.push({
+				"url": previous_season.attr('href'),
+				"site": "IMDB",
+				"type": "episodes_list"
+			 
+		});
+		
+
+		/*
+			{
+				"url":"http://...",
+				"site": "IMDB"/"Metacritic",
+				"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
+			}
+		*/
+		return links;
+	};
+
+    var checkURL = function(pageURL,url)
+	{
+		if (url.slice(0,1) == '?'){
+			return pageURL+url;
+		}
+		return "www.imdb.com"+url;
+		
+	};
 		
     module.exports.getInfo = function(html) {
         return getInfo(html);

@@ -83,12 +83,14 @@ var cheerio = require('cheerio');
 
 	var getLinks = function(html) {
 		var $ = cheerio.load(html);
+		var pageURL = $('link[rel="canonical"]').attr('href');
 		links = [];
 		
 		var genres = $('.infobar a').filter(':has(span[itemprop="genre"])');
 		genres.each(function(index, elem){
+			var url = checkURL(pageURL,$(this).attr('href'));
 			links.push({
-				"url" : $(this).attr('href'),
+				"url" : url,
 				"site" : "IMDB",
 				"type": "series_list"
 			});
@@ -96,8 +98,9 @@ var cheerio = require('cheerio');
 
 		var seasons = $('#titleTVSeries a');
 		seasons.each(function(index, val) {
+			var url = checkURL(pageURL,$(this).attr('href'));
 			 links.push({
-			 	"url" : $(this).attr('href'),
+			 	"url" : url,
 			 	"site": "IMDB",
 			 	"type": "episodes_list"
 			 	});
@@ -105,8 +108,9 @@ var cheerio = require('cheerio');
 
 		var related_series = $('.rec-title').filter(':contains("TV Series")').children('a');
 		related_series.each(function(index, val) {
+			var url = checkURL(pageURL,$(this).attr('href'));
 			links.push({
-				"url" : $(this).attr('href'),
+				"url" : url,
 			 	"site": "IMDB",
 			 	"type": "series"
 			});
@@ -114,24 +118,27 @@ var cheerio = require('cheerio');
 
 		var actors = $('.cast_list td[itemprop="actor"] a');
 		actors.each(function(index, val) {
+			var url = checkURL(pageURL,$(this).attr('href'));
 			links.push({
-				"url" : $(this).attr('href'),
+				"url" : url,
 			 	"site": "IMDB",
 			 	"type": "actor"
 			});
 		});
 
 		var full_cast = $('#titleCast .see-more a');
+		var url = checkURL(pageURL,full_cast.attr('href'));
 		links.push({
-			"url" : full_cast.attr('href'),
+			"url" : url,
 			"site": "IMDB",
 			"type": "actors_list"
 		});
 
 		var keywords = $('div[itemprop="keywords"] > a');
 		keywords.each(function(index, val) {
+			var url = checkURL(pageURL,$(this).attr('href'));
 			links.push({
-				"url" : $(this).attr('href'),
+				"url" : url,
 			 	"site": "IMDB",
 			 	"type": "series_list"
 			});
@@ -139,8 +146,9 @@ var cheerio = require('cheerio');
 
 		var country = $('#titleDetails > .txt-block').filter(':contains("Country")').children('a');
 		country.each(function(index, val) {
+			var url = checkURL(pageURL,$(this).attr('href'));
 			links.push({
-				"url" : $(this).attr('href'),
+				"url" : url,
 			 	"site": "IMDB",
 			 	"type": "series_list"
 			});
@@ -148,8 +156,9 @@ var cheerio = require('cheerio');
 
 		var language = $('#titleDetails > .txt-block').filter(':contains("Language")').children('a');
 		language.each(function(index, val) {
+			var url = checkURL(pageURL,$(this).attr('href'));
 			links.push({
-				"url" : $(this).attr('href'),
+				"url" : url,
 			 	"site": "IMDB",
 			 	"type": "series_list"
 			});
@@ -162,6 +171,15 @@ var cheerio = require('cheerio');
 				}
 			*/
 		return links;
+	};
+
+	var checkURL = function(pageURL,url)
+	{
+		if (url.slice(0,1) == '?'){
+			return pageURL+url;
+		}
+		return "www.imdb.com"+url;
+		
 	};
 
 

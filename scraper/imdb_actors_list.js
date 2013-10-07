@@ -18,26 +18,29 @@ var cheerio = require('cheerio');
 		var getLinks = function(html)
 		{
 			var $ = cheerio.load(html);
+			var pageURL = $('link[rel="canonical"]').attr('href');
 			links = [];
 			
 			//actors list 
 			var actors = $('.results .name a');
 			actors.each(function(index, elem){
+				var url = checkURL(pageURL,this.attr('href'));
 				links.push({
-					"url": this.attr('href'),
+					"url": url,
 					"site": "IMDB",
-					"type": "actors_list"
+					"type": "actor"
 				 });
 			});
 
 			//linkt to next page
 			var next_page = $('#right .pagination a');
-			
+			next_page.each(function(index, elem){
+				var url = checkURL(pageURL,this.attr('href'));
 				links.push({
-					"url": next_page.attr('href'),
+					"url": url,
 					"site": "IMDB",
 					"type": "actors_list"
-				 
+				});
 			});
 			
 
@@ -50,6 +53,15 @@ var cheerio = require('cheerio');
 			*/
 			return links;
 		};
+
+	var checkURL = function(pageURL,url)
+	{
+		if (url.slice(0,1) == '?'){
+			return pageURL+url;
+		}
+		return "www.imdb.com"+url;
+		
+	};
 		
     module.exports.getInfo = function(html) {
         return getInfo(html);
