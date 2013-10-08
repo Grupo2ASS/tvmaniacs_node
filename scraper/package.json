@@ -1,0 +1,16 @@
+{
+  "name": "scraper",
+  "version": "0.0.0",
+  "description": "",
+  "main": "scraper.js",
+  "dependencies": {
+    "cheerio": "~0.12.2",
+    "underscore": "~1.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause"
+}
