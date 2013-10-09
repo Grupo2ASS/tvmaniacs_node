@@ -4,7 +4,8 @@
   "description": "",
   "main": "crawler-test.js",
   "dependencies": {
-    "crawler": "~0.2.5"
+    "crawler": "~0.2.5",
+    "sqlite3": "~2.1.17"
   },
   "devDependencies": {},
   "scripts": {

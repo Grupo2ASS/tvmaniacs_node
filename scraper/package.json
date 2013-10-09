@@ -5,7 +5,8 @@
   "main": "scraper.js",
   "dependencies": {
     "cheerio": "~0.12.2",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "watch": "~0.8.0"
   },
   "devDependencies": {},
   "scripts": {
