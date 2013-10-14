@@ -1,0 +1,28 @@
+{
+    "maxConnections": 10,
+
+    "revisit_days": 7,
+
+    "db_file": "../tvmaniacs_node.db",
+
+    "html_folder": "../html_folder",
+
+    "first_site": {
+        "url": "http://www.imdb.com/title/tt0944947/",
+        "site": "imdb",
+        "site_type": "series"
+    },
+
+    "access": {
+        "Mongo":{
+            "address" :"",
+            "username":"",
+            "password":""
+        },
+            "Local":{
+            "address" :"",
+            "username":"",
+            "password":""
+        }
+    }
+}
