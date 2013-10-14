@@ -1,10 +1,5 @@
-// Config vars
-	// Not crawl page again in days
-	var revisit_page = 7
-	// Database name
-	var db_file = "../tvmaniacs_node.db";
-	// html_folder directory
-	var root_html_folder = "../html_folder";
+//Load config values
+var config = require('../config/config.json');
 
 // Crawler module
 var Crawler = require("crawler").Crawler;
@@ -17,12 +12,12 @@ var sqlite3 = require("sqlite3").verbose();
 var current_links = {}
 
 var crawler_instance = new Crawler({
-	"maxConnections": 10,
+	"maxConnections": config["maxConnections"],
 
 	// This will be called for each crawled page
 	"callback":function(error,result,$) {
 		//console.log(current_links[result.uri]);
-		var website_dir = root_html_folder+"/"+current_links[result.uri]['site'];
+		var website_dir = config["html_folder"]+"/"+current_links[result.uri]['site'];
 		var dir_name = current_links[result.uri]['type'];
 
 		// Get page source code
@@ -49,12 +44,12 @@ var crawler_instance = new Crawler({
 		console.log("No pages on queue..");
 		
 		// Load the database
-		var db = new sqlite3.Database(db_file);
+		var db = new sqlite3.Database(config["db_file"]);
 		
 		db.serialize(function() {
 			// Get all rows in db
 			var active_urls = "SELECT url, site, type, last_visited FROM links WHERE date(last_visited,'+" +
-				revisit_page + " days') <= date('now') LIMIT 0, 10";
+				config["revisit_days"] + " days') <= date('now') LIMIT 0, 10";
 			db.each(active_urls, function(err, row) {
 				var row_estructure = {
 						'site':row.site,
@@ -78,7 +73,7 @@ var crawler_instance = new Crawler({
 
 
 // Load the database
-var database = new sqlite3.Database(db_file);
+var database = new sqlite3.Database(config["db_file"]);
 		
 // First queue link
 database.serialize(function() {

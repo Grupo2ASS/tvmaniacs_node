@@ -6,7 +6,7 @@
 
 var fs = require('fs');
 
-var imdbActorProcesser = require('./imdb_actor');
+var imdbActorProcesser = require('./processers/imdb/imdb_actor');
 
 //obtener info de actor IMDB. Check!
 var html_actor = fs.readFileSync('./html_test_files/imdb/actors/imdb_actor.html')

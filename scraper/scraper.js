@@ -1,20 +1,20 @@
+var config = require('../config/config.json'); //Load config values
+
 var fs = require('fs'); // files streaming
 var _ = require('underscore'); // utilities like _.each
 var watch = require('watch'); // adding a new file asynchronous event
 //<processers>
-var imdbActorProcesser = require('./imdb_actor');
-var imdbSeriesProcesser = require('./imdb_series');
-var imdbEpisodeProcesser = require('./imdb_episode');
-var imdbActorsListProcesser = require('./imdb_actors_list');
-var imdbSeriesListProcesser = require('./imdb_series_list');
-var imdbEpisodesListProcesser = require('./imdb_episodes_list');
+var imdbActorProcesser = require('./processers/imdb/imdb_actor');
+var imdbSeriesProcesser = require('./processers/imdb/imdb_series');
+var imdbEpisodeProcesser = require('./processers/imdb/imdb_episode');
+var imdbActorsListProcesser = require('./processers/imdb/imdb_actors_list');
+var imdbSeriesListProcesser = require('./processers/imdb/imdb_series_list');
+var imdbEpisodesListProcesser = require('./processers/imdb/imdb_episodes_list');
 //</processers>
 //folder where all html files are (could be an argument when running node scraper.js)
 var path = './html_test_files';
 //modules for storing in databases and access keys
 var dbStore = require('./db_store');
-var access = require('./access.json');
-
 
 /*
 Each of the next functions should:
@@ -34,10 +34,12 @@ Each of the next functions should:
 //function that calls dbstore modules and sends it the info and access keys
 function store(info, links) {
 	if(links){
-		dbStore.storeInLocalDB(links, access["Local"]["username"], access["Local"]["password"], access["Local"]["address"]);
+		dbStore.storeInLocalDB(links, config["access"]["Local"]["username"], config["access"]["Local"]["password"],
+            config["access"]["Local"]["address"]);
 	}
 	if(info){
-		dbStore.storeInMongo(info, access["Mongo"]["username"], access["Mongo"]["password"], access["Mongo"]["address"]);
+		dbStore.storeInMongo(info, config["access"]["Mongo"]["username"], config["access"]["Mongo"]["password"],
+            config["access"]["Mongo"]["address"]);
 	}
 };
 
