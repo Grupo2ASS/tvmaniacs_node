@@ -27,8 +27,6 @@ Each of the next functions should:
 				get links
 					call function to store in local db
 			delete file
-
-
 */
 
 //function that calls dbstore modules and sends it the info and access keys

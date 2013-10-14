@@ -1,1 +1,11 @@
 .DS_Store
+html_folder/*
+*.db
+*.idea
+
+
+/tvmaniacs_node.sublime-project
+/tvmaniacs_node.sublime-workspace
+
+/scraper/node_modules/*
+/scraper/node_modules/
