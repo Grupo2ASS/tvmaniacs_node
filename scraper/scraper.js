@@ -4,12 +4,12 @@ var fs = require('fs'); // files streaming
 var _ = require('underscore'); // utilities like _.each
 var watch = require('watch'); // adding a new file asynchronous event
 //<processers>
-var imdbActorProcesser = require('./processers/imdb/imdb_actor');
-var imdbSeriesProcesser = require('./processers/imdb/imdb_series');
-var imdbEpisodeProcesser = require('./processers/imdb/imdb_episode');
-var imdbActorsListProcesser = require('./processers/imdb/imdb_actors_list');
-var imdbSeriesListProcesser = require('./processers/imdb/imdb_series_list');
-var imdbEpisodesListProcesser = require('./processers/imdb/imdb_episodes_list');
+var imdbActorProcesser = require('./processers/imdb/imdb_actor.js');
+var imdbSeriesProcesser = require('./processers/imdb/imdb_series.js');
+var imdbEpisodeProcesser = require('./processers/imdb/imdb_episode.js');
+var imdbActorsListProcesser = require('./processers/imdb/imdb_actors_list.js');
+var imdbSeriesListProcesser = require('./processers/imdb/imdb_series_list.js');
+var imdbEpisodesListProcesser = require('./processers/imdb/imdb_episodes_list.js');
 //</processers>
 //folder where all html files are (could be an argument when running node scraper.js)
 var path = './html_test_files';
@@ -58,7 +58,6 @@ function threadProcess(processer, folder) {
 		});
 	}
 };
-
 
 
 watch.createMonitor(path + '/imdb/actors/',function(monitor){
