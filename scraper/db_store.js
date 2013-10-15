@@ -43,9 +43,9 @@ module.exports.storeInMongo = function(info, username, password, address) {
         birth_place: info.birth_place, 
     });
 
-    // aux.save(function(err){
-    //     if (err) { console.log(err); }
-    //     else { console.log('exito')}
-    // });
+    aux.save(function(err){
+        if (err) { console.log(err); }
+        else { console.log('exito')}
+    });
 };
 
