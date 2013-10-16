@@ -45,6 +45,7 @@ season = new Schema({
 
 
 serie = new Schema({
+	_id: Number,
 	name: String,
 	user_rating: Number,
 	metascore: Number,
