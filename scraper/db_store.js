@@ -12,7 +12,8 @@ module.exports.storeInLocalDB = function(links, username, password, address) {
 };
 
 module.exports.storeInMongo = function(info, username, password, address, model) {
-    console.log('Guardando actor: ' + info._id);
+    // console.log('Guardando actor: ' + info._id);
+    console.log(info)
     
     // aux = new models.actorModel( info );
 

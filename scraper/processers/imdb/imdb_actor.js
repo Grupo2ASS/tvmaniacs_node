@@ -13,7 +13,7 @@ module.exports.getInfo = function(html) {
 
 	//Obtengo el id del actor del tag con el link a la página 
 	pattern = /\d{7}/;
-	var _id = $('link[rel = "canonical"]').attr("href").match(pattern);
+	_id = $('link[rel = "canonical"]').attr("href").match(pattern);
 	_id = parseInt(_id);
 	
 	var complete_name = $('span[itemprop="name"]').html().split(' ');

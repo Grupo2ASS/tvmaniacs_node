@@ -45,6 +45,7 @@ season = new Schema({
 
 
 serie = new Schema({
+	_id: Number, 
 	name: String,
 	user_rating: Number,
 	metascore: Number,
@@ -53,7 +54,7 @@ serie = new Schema({
 	genre: [String],
 	pic: String,
 	year: Number,
-	actors: [Schema.Types.ObjectId],
+	cast: [Number],
 	seasons: [season]
 });
 

@@ -74,11 +74,11 @@ watch.createMonitor(path + '/imdb/actors/',function(monitor){
 //     })
 // });
 
-// watch.createMonitor(path + '/imdb/series/',function(monitor){
-// 	 monitor.on("created", function (f, stat) {
-//       threadProcess(imdbSeriesProcesser,path + '/imdb/series/');
-//     })
-// });
+watch.createMonitor(path + '/imdb/series/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+      threadProcess(imdbSeriesProcesser,path + '/imdb/series/', models.serieModel);
+    })
+});
 
 // watch.createMonitor(path + '/imdb/series_lists/',function(monitor){
 // 	 monitor.on("created", function (f, stat) {
