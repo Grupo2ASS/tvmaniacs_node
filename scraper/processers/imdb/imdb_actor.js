@@ -8,8 +8,13 @@ var cheerio = require('cheerio');
 	//getInfo receives an html file and returns the actor's information in JSON format
 	//getInfo recibe el html y devuelve la info del actor en formato JSON
 module.exports.getInfo = function(html) {
-	var name, last_name, bio, pic, birth_date, birth_place, series;
+	var _id, name, last_name, bio, pic, birth_date, birth_place, series;
 	var $ = cheerio.load(html);
+
+	//Obtengo el id del actor del tag con el link a la página 
+	pattern = /\d{7}/;
+	var _id = $('link[rel = "canonical"]').attr("href").match(pattern);
+	_id = parseInt(_id);
 	
 	var complete_name = $('span[itemprop="name"]').html().split(' ');
 	first_name = complete_name[0];
@@ -27,14 +32,21 @@ module.exports.getInfo = function(html) {
 	//solo filmografia como actor, por eso el first()
 	var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
 	series = new Array(filmo.length);
+
+
+	//Obtenemos el id de las series en las que actuado el actor
 	filmo.each(function(index, elem){
-		series[index] = {};
-		series[index]["name"] = $(this).find('a').first().html();
-		var year = $(this).find('.year_column').html().split(';');
-		series[index]["year"] = year[1];
+		// series[index] = {};
+		// series[index]["name"] = $(this).find('a').first().html();
+		// var year = $(this).find('.year_column').html().split(';');
+		// series[index]["year"] = year[1];
+
+		pattern = /\d{7}/;
+		series[index] = parseInt($(this).find('a').attr('href').match(pattern));
 	});
 	
 	return {
+		"_id": _id,
 		"first_name": first_name,
 		"last_name": last_name,
 		"bio": bio, 
