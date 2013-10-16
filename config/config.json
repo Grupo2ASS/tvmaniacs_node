@@ -1,7 +1,11 @@
 {
     "maxConnections": 10,
 
-    "revisit_days": 7,
+    "new_links_limit": 1,
+
+    "interval_to_check": 5,
+
+    "revisit_days": 2,
 
     "db_file": "../tvmaniacs_node.db",
 
