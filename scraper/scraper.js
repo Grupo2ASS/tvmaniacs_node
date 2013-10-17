@@ -64,36 +64,48 @@ function threadProcess(processer, folder, model) {
 
 watch.createMonitor(path + '/imdb/actors/',function(monitor){
 	 monitor.on("created", function (f, stat) {
-      threadProcess(imdbActorProcesser,path + '/imdb/actors/', models.actorModel );
+	 	if (monitor.files[f] === undefined) {
+     		threadProcess(imdbActorProcesser,path + '/imdb/actors/', models.actorModel );	
+  		}
     })
 });
 
 // watch.createMonitor(path + '/imdb/actors_lists/',function(monitor){
 // 	 monitor.on("created", function (f, stat) {
-//       threadProcess(imdbActorsListProcesser,path + '/imdb/actors_lists/');
+// 	 	if (monitor.files[f] === undefined) {
+//       		threadProcess(imdbActorsListProcesser,path + '/imdb/actors_lists/');
+//       	}
 //     })
 // });
 
 watch.createMonitor(path + '/imdb/series/',function(monitor){
 	 monitor.on("created", function (f, stat) {
-      threadProcess(imdbSeriesProcesser,path + '/imdb/series/', models.serieModel);
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(imdbSeriesProcesser,path + '/imdb/series/', models.serieModel);
+      	}
     })
 });
 
 // watch.createMonitor(path + '/imdb/series_lists/',function(monitor){
 // 	 monitor.on("created", function (f, stat) {
-//       threadProcess(imdbSeriesListProcesser,path + '/imdb/series_lists/');
+// 	 	if (monitor.files[f] === undefined) {
+//       		threadProcess(imdbSeriesListProcesser,path + '/imdb/series_lists/');
+//       	}
 //     })
 // });
 
 // watch.createMonitor(path + '/imdb/episodes/',function(monitor){
 // 	 monitor.on("created", function (f, stat) {
-//       threadProcess(imdbEpisodeProcesser,path + '/imdb/episodes/');
+// 	 	if (monitor.files[f] === undefined) {
+//       		threadProcess(imdbEpisodeProcesser,path + '/imdb/episodes/');
+//       	}
 //     })
 // });
 
 // watch.createMonitor(path + '/imdb/episodes_lists/',function(monitor){
 // 	 monitor.on("created", function (f, stat) {
-//       threadProcess(imdbEpisodesListProcesser,path + '/imdb/episodes_lists/');
+// 	 	if (monitor.files[f] === undefined) {
+//       		threadProcess(imdbEpisodesListProcesser,path + '/imdb/episodes_lists/');
+//       	}
 //     })
 // });
