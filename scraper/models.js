@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 actor = new Schema({
-	_id: Number,
+	imdb_id: Number,
     first_name: String, 
     last_name: String,
     score: Number,                  
@@ -45,7 +45,7 @@ season = new Schema({
 
 
 serie = new Schema({
-	_id: Number, 
+	imdb_id: Number, 
 	name: String,
 	user_rating: Number,
 	metascore: Number,

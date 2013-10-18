@@ -6,13 +6,13 @@ var cheerio = require('cheerio');
 (function() {
 
 	var getInfo = function(html) {
-		var _id, name, user_rating, description, duration, genres, pic, year_start, year_end, cast, seasons;
+		var imdb_id, name, user_rating, description, duration, genres, pic, year_start, year_end, cast, seasons;
 		var $ = cheerio.load(html);
 
 		//Obtengo el id del actor del tag con el link a la página 
 		pattern = /\d{7}/;	
-		_id = $('link[rel = "canonical"]').attr("href").match(pattern);		//Busca un numero de exactamente 7 digitos en la url
-		_id = parseInt(_id);
+		imdb_id = $('link[rel = "canonical"]').attr("href").match(pattern);		//Busca un numero de exactamente 7 digitos en la url
+		imdb_id = parseInt(imdb_id);
 
 		name = $('span[itemprop="name"]').html();
 		user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
@@ -54,7 +54,7 @@ var cheerio = require('cheerio');
 		});
 
 		return {
-			"_id": _id,
+			"imdb_id": imdb_id,
 			"name": name,
 			"user_rating": user_rating, //(metacritic)
 			"description": description,

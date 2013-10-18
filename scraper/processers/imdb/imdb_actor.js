@@ -8,13 +8,13 @@ var cheerio = require('cheerio');
 	//getInfo receives an html file and returns the actor's information in JSON format
 	//getInfo recibe el html y devuelve la info del actor en formato JSON
 module.exports.getInfo = function(html) {
-	var _id, name, last_name, bio, pic, birth_date, birth_place, series;
+	var imdb_id, name, last_name, bio, pic, birth_date, birth_place, series;
 	var $ = cheerio.load(html);
 
 	//Obtengo el id del actor del tag con el link a la página 
 	pattern = /\d{7}/;
-	_id = $('link[rel = "canonical"]').attr("href").match(pattern);
-	_id = parseInt(_id);
+	imdb_id = $('link[rel = "canonical"]').attr("href").match(pattern);
+	imdb_id = parseInt(imdb_id);
 	
 	var complete_name = $('span[itemprop="name"]').html().split(' ');
 	first_name = complete_name[0];
@@ -46,7 +46,7 @@ module.exports.getInfo = function(html) {
 	});
 	
 	return {
-		"_id": _id,
+		"imdb_id": imdb_id,
 		"first_name": first_name,
 		"last_name": last_name,
 		"bio": bio, 
