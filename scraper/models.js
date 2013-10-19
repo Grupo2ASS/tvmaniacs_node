@@ -38,7 +38,7 @@ chapter = new Schema({
 
 season = new Schema({
 	number: Number,
-	date: String,
+	// date: String,
 	chapters: [chapter],
 	reviews: [review]
 });
@@ -53,7 +53,8 @@ serie = new Schema({
 	length: Number,
 	genre: [String],
 	pic: String,
-	year: Number,
+	year_start: Number,
+	year_end: Number,
 	cast: [Number],
 	seasons: [season]
 });

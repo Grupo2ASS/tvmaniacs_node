@@ -43,22 +43,12 @@ module.exports.getLinks = function(html)
 
 	//linkt to past season
 	var previous_season = $('#load_previous_episodes');
-	
 		links.push({
 			"url": previous_season.attr('href'),
 			"site": "IMDB",
 			"type": "episodes_list"
-		 
 	});
 	
-
-	/*
-		{
-			"url":"http://...",
-			"site": "IMDB"/"Metacritic",
-			"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
-		}
-	*/
 	return links;
 };
 

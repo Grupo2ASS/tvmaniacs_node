@@ -52,6 +52,7 @@ var cheerio = require('cheerio');
 				"number": this.html()
 			});
 		});
+		seasons = seasons.reverse();
 
 		return {
 			"imdb_id": imdb_id,
@@ -64,7 +65,7 @@ var cheerio = require('cheerio');
 			"year_start": year_start,
 			"year_end": year_end, //Puede que sea más fácil sacarlo de metacritic
 			"cast": cast,
-			//"seasons": seasons
+			"seasons": seasons
 		}
 	};
 

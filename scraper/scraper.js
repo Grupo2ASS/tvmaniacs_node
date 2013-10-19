@@ -94,13 +94,13 @@ watch.createMonitor(path + '/imdb/series/',function(monitor){
 //     })
 // });
 
-// watch.createMonitor(path + '/imdb/episodes/',function(monitor){
-// 	 monitor.on("created", function (f, stat) {
-// 	 	if (monitor.files[f] === undefined) {
-//       		threadProcess(imdbEpisodeProcesser,path + '/imdb/episodes/');
-//       	}
-//     })
-// });
+watch.createMonitor(path + '/imdb/episodes/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(imdbEpisodeProcesser,path + '/imdb/episodes/', models.chapterModel );
+      	}
+    })
+});
 
 // watch.createMonitor(path + '/imdb/episodes_lists/',function(monitor){
 // 	 monitor.on("created", function (f, stat) {

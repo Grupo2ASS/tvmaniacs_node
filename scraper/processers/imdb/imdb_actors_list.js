@@ -8,8 +8,7 @@ var cheerio = require('cheerio');
 //getInfo receives an html file and returns null by default
 //getInfo recibe el html y devuelve null por defecto
 module.exports.getInfo = function(html){
-	return null;
-	
+	return null;	
 };
 	
 

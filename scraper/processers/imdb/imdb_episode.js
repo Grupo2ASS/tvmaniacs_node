@@ -7,25 +7,20 @@ var cheerio = require('cheerio');
 
 module.exports.getInfo = function(html) {
 
-	/*	chapters:[
-	{
-		name: "Pilot",
-		description: "Young kindergarten teacher Rebecca Adler collapses..."
-		rating: 8.6			//IMDB
-
-	}*/
 	var name, user_rating, description, series, season;
 	var $ = cheerio.load(html);
 
-	name = $('span[itemprop="name"]').html();
+	name = $('span[itemprop="name"]').html().trim();
+
 	user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
 	description = $('p[itemprop="description"]').html();
-	series = $(".tv_header a").html()
+	serie = $(".tv_header a").html().trim();
 	var season_episode = $(".nobr").html().split(',');
 	season = season_episode[0];
+	season = parseInt( season.split(" ")[1] );
 
 	return {
-		"series": series,
+		"serie": serie,
 		"season": season,
 		"name": name,
 		"user_rating": user_rating, //(metacritic)

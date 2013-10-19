@@ -12,14 +12,37 @@ module.exports.storeInLocalDB = function(links, username, password, address) {
 };
 
 module.exports.storeInMongo = function(info, username, password, address, model) {
-    // console.log('Guardando actor: ' + info._id);
-    console.log('Guardando info')
-
-    aux = new model( info );
     
-    aux.save(function(err){
-        if (err) { console.log(err); }
-        else { console.log('exito')}
-    });
+    if ( model == models.chapterModel ){    	
+    	console.log('Saving episode %s from %s', info.name, info.serie );
+
+    	models.serieModel.findOne( { 'name': info.serie }, 'name seasons', function( err, serie){
+    		if (err) return handleError(err);
+    		
+  			var num = info.season - 1;
+  			delete info.season;
+  			aux = new model ( info );
+
+  			serie.seasons[ num ].chapters.push( aux );
+
+  			serie.save( function(err){
+  				if (err) { console.log(err); }
+	        	else { console.log('exito')}
+  			});
+
+    	});
+
+    }
+
+    else {
+    	console.log('Guardando info')
+    	aux = new model( info );
+    
+	    aux.save(function(err){
+	        if (err) { console.log(err); }
+	        else { console.log('exito')}
+	    });	
+    }
+    
 };
 
