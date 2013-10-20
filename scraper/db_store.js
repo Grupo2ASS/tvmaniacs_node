@@ -19,7 +19,7 @@ module.exports.storeInLocalDB = function(links, username, password, address) {
     var insert = links_db.prepare( "INSERT INTO links VALUES (?,?,?,?)" );
 
     for( var i = 0; i < links.length; i++){
-      insert.run( links[i].url, links[i].site, links[i].type, 0);
+      insert.run( links[i].url, links[i].site.toLowerCase(), links[i].type, date('now', (-(config["revisit_days"] + 1)).toString() + ' days'));
     }
 
     insert.finalize();
