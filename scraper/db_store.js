@@ -13,7 +13,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 module.exports.storeInLocalDB = function(links, username, password, address) {
     // console.log(links);
-    console.log("Guardando los siguientes links: ");
+    // console.log("Guardando los siguientes links: ");
 
     //Solo si no se encuentra el link se agrega. 
     var insert = links_db.prepare( "INSERT INTO links VALUES (?,?,?,?)" );
@@ -24,6 +24,8 @@ module.exports.storeInLocalDB = function(links, username, password, address) {
 
     insert.finalize();
 
+
+    //Para testear que este guardando.
     // links_db.each("SELECT url, site, type, last_visited as lv FROM links", function(err, row) {
     //     console.log(row.url + ", " + row.site + ", " + row.type + ", " + row.lv);
     // });

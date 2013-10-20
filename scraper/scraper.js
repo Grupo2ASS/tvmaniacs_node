@@ -56,7 +56,12 @@ function threadProcess(processer, folder, model) {
 			var info = processer.getInfo(fs.readFileSync(folder + element));
 			var links = processer.getLinks(fs.readFileSync(folder + element));
 			store(info, links, model);
+			
 			//delete file
+			fs.unlinkSync( folder + element);
+			console.log('successfully deleted: ' + folder + element);
+
+
 		});
 	}
 };
