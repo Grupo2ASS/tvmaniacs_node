@@ -33,7 +33,7 @@ function wait_new_links(){
 
 
 function enqueue_links() {
-    create_crowler();
+    create_crawler();
     // Load the database
     var db = new sqlite3.Database(config["db_file"]);
     db.serialize(function() {
@@ -58,7 +58,7 @@ function enqueue_links() {
     });
 }
 
-function create_crowler() {
+function create_crawler() {
     crawler_instance = new Crawler({
         "maxConnections": config["max_connections"],
         "callback": function(error,result,$) {
@@ -67,17 +67,14 @@ function create_crowler() {
             var dir_name = current_links[result.uri]['type'];
             // Get page source code
             var page = result.body.toString();
-            var file_name = "page", file_ext = ".html";
+            var file_name = (result.uri).replace(/[&\/\\#,+()$~%.'":*?<>{}=]/g,'_');
+            var file_ext = ".html";
 
-            // Check if name already exists and add to counter
-            var page_number = 1;
-            while (fs.existsSync(website_dir+"/"+dir_name+"/"+file_name+page_number+file_ext)) {
-                page_number++;
-            }
             // Write page source code to a file
-            var file_path = website_dir+"/"+dir_name+"/"+file_name+page_number+file_ext;
+            var file_path = website_dir+"/"+dir_name+"/"+file_name+file_ext;
             fs.writeFile(file_path, page, function(err) {
                 if(err) {
+                    console.log("Error on write file:");
                     console.log(err);
                 } else {
                     console.log("File saved: "+file_path);
