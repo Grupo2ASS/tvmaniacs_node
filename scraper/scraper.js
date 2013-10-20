@@ -86,13 +86,13 @@ watch.createMonitor(path + '/imdb/series/',function(monitor){
     })
 });
 
-// watch.createMonitor(path + '/imdb/series_lists/',function(monitor){
-// 	 monitor.on("created", function (f, stat) {
-// 	 	if (monitor.files[f] === undefined) {
-//       		threadProcess(imdbSeriesListProcesser,path + '/imdb/series_lists/');
-//       	}
-//     })
-// });
+watch.createMonitor(path + '/imdb/series_lists/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(imdbSeriesListProcesser,path + '/imdb/series_lists/');
+      	}
+    })
+});
 
 watch.createMonitor(path + '/imdb/episodes/',function(monitor){
 	 monitor.on("created", function (f, stat) {
@@ -102,10 +102,10 @@ watch.createMonitor(path + '/imdb/episodes/',function(monitor){
     })
 });
 
-// watch.createMonitor(path + '/imdb/episodes_lists/',function(monitor){
-// 	 monitor.on("created", function (f, stat) {
-// 	 	if (monitor.files[f] === undefined) {
-//       		threadProcess(imdbEpisodesListProcesser,path + '/imdb/episodes_lists/');
-//       	}
-//     })
-// });
+watch.createMonitor(path + '/imdb/episodes_lists/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(imdbEpisodesListProcesser,path + '/imdb/episodes_lists/');
+      	}
+    })
+});
