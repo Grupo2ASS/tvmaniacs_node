@@ -33,7 +33,7 @@ module.exports.getLinks = function(html)
 
 	//linkt to next season
 	var next_season = $('#load_next_episodes');
-	if( next_season ){
+	if( next_season.length > 0 ){
 		var url = checkURL(pageURL,next_season.attr('href'));
 		links.push({
 			"url": url,
