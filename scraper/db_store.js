@@ -35,7 +35,7 @@ module.exports.storeInLocalDB = function(links, local_access) {
     }
 
     insert.finalize();
-
+  
     //Para testear que este guardando.
     // links_db.each("SELECT url, site, type, last_visited as lv FROM links", function(err, row) {
     //     console.log(row.url + ", " + row.site + ", " + row.type + ", " + row.lv);
