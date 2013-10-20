@@ -8,6 +8,14 @@ var current_links = {};
 var crawler_instance = null;
 var enqueued_limit = config["links_enqueued_per_second"];
 
+function print_to_log(str){
+    console.log(str);
+    str = "["+(new Date())+"]: "+str+"\n";
+    fs.appendFile('crawler_log.txt', str, function (err) {
+        if (err) throw err;
+    });
+}
+
 function wait_new_links(){
     var db = new sqlite3.Database(config["db_file"]);
     db.serialize(function(){
@@ -19,7 +27,7 @@ function wait_new_links(){
                     setTimeout(enqueue_links(),1000);
                 }
                 else {
-                    console.log("Waiting "+config["seconds_until_next_db_check"]+" seconds until next check.");
+                    print_to_log("Waiting "+config["seconds_until_next_db_check"]+" seconds until next check.");
                     setTimeout(wait_new_links,config["seconds_until_next_db_check"]*1000);
                 }
             },
@@ -62,28 +70,37 @@ function create_crawler() {
     crawler_instance = new Crawler({
         "maxConnections": config["max_connections"],
         "callback": function(error,result,$) {
-            // This function will be called for each crawled page
-            var website_dir = config["html_folder"]+"/"+current_links[result.uri]['site'];
-            var dir_name = current_links[result.uri]['type'];
-            // Get page source code
-            var page = result.body.toString();
-            var file_name = (result.uri).replace(/[&\/\\#,+()$~%.'":*?<>{}=]/g,'_');
-            var file_ext = ".html";
+            if(error != null || result == undefined || result == null) {
+                var error_str = "-----------ERROR ON REQUEST!-----------\n";
+                error_str += " - [error] - "+error+"\n";
+                error_str += " - [result] - "+result;
+                print_to_log(error_str);
+            }
+            else{
+                // This function will be called for each crawled page
+                var website_dir = config["html_folder"]+"/"+current_links[result.uri]['site'];
+                var dir_name = current_links[result.uri]['type'];
+                // Get page source code
+                var page = result.body.toString();
+                var file_name = (result.uri).replace(/[&\/\\#,+()$~%.'":*?<>{}=]/g,'_');
+                var file_ext = ".html";
 
-            // Write page source code to a file
-            var file_path = website_dir+"/"+dir_name+"/"+file_name+file_ext;
-            fs.writeFile(file_path, page, function(err) {
-                if(err) {
-                    console.log("Error on write file:");
-                    console.log(err);
-                } else {
-                    console.log("File saved: "+file_path);
-                }
-            });
+                // Write page source code to a file
+                var file_path = website_dir+"/"+dir_name+"/"+file_name+file_ext;
+                fs.writeFile(file_path, page, function(err) {
+                    if(err) {
+                        print_to_log("Error on write file:");
+                        print_to_log(err);
+                    } else {
+                        print_to_log("File saved: "+file_path);
+                    }
+                });
+            }
+
         },
         "onDrain": function() {
             // This function executes when queue is empty
-            console.log("No pages on queue... starting to wait for new active links");
+            print_to_log("No pages on queue... starting to wait for new active links");
             wait_new_links();
         }
     });
