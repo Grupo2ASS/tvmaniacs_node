@@ -1,9 +1,9 @@
 {
-    "maxConnections": 10,
+    "max_connections": 10,
 
-    "new_links_limit": 1,
+    "links_enqueued_per_second": 1,
 
-    "interval_to_check": 5,
+    "seconds_until_next_db_check": 5,
 
     "revisit_days": 2,
 
