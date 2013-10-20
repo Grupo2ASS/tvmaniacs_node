@@ -13,8 +13,12 @@ module.exports.getInfo = function(html) {
 
 	//Obtengo el id del actor del tag con el link a la página 
 	pattern = /\d{7}/;
-	imdb_id = $('link[rel = "canonical"]').attr("href").match(pattern);
-	imdb_id = parseInt(imdb_id);
+	imdb_id = $('link[rel = "canonical"]')
+
+	if( imdb_id ){
+		imdb_id = imdb_id.attr("href").match(pattern);
+		imdb_id = parseInt(imdb_id);	
+	}
 	
 	var complete_name = $('span[itemprop="name"]').html().split(' ');
 	first_name = complete_name[0];
