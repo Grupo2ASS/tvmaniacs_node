@@ -70,13 +70,13 @@ watch.createMonitor(path + '/imdb/actors/',function(monitor){
     })
 });
 
-// watch.createMonitor(path + '/imdb/actors_lists/',function(monitor){
-// 	 monitor.on("created", function (f, stat) {
-// 	 	if (monitor.files[f] === undefined) {
-//       		threadProcess(imdbActorsListProcesser,path + '/imdb/actors_lists/');
-//       	}
-//     })
-// });
+watch.createMonitor(path + '/imdb/actors_lists/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(imdbActorsListProcesser,path + '/imdb/actors_lists/');
+      	}
+    })
+});
 
 watch.createMonitor(path + '/imdb/series/',function(monitor){
 	 monitor.on("created", function (f, stat) {
