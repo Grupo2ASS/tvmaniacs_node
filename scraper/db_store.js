@@ -18,8 +18,10 @@ module.exports.storeInLocalDB = function(links, username, password, address) {
     //Solo si no se encuentra el link se agrega. 
     var insert = links_db.prepare( "INSERT INTO links VALUES (?,?,?,?)" );
 
+    var date = new Date();
+
     for( var i = 0; i < links.length; i++){
-      insert.run( links[i].url.substring(0,a.indexOf('&ref')), links[i].site.toLowerCase(), links[i].type, date('now', (-(config["revisit_days"] + 1)).toString() + ' days'));
+      insert.run( links[i].url.substring(0,links[i].url.indexOf('ref')), links[i].site.toLowerCase(), links[i].type, date('now', (-(config["revisit_days"] + 1)).toString() + ' days'));
     }
 
     insert.finalize();
@@ -63,7 +65,7 @@ module.exports.storeInMongo = function(info, username, password, address, model)
 	    aux.save(function(err){
 	        if (err) { console.log(err); }
 	        else { console.log('exito')}
-	    });	
+	   });	
     }
 };
 
