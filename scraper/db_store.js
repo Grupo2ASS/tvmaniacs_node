@@ -11,21 +11,30 @@ mongoose.connect('mongodb://localhost/tvdb');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-module.exports.storeInLocalDB = function(links, username, password, address) {
-    // console.log(links);
-    // console.log("Guardando los siguientes links: ");
-
+module.exports.storeInLocalDB = function(links, local_access) {
+    var username = local_access["username"];
+    var password = local_access["password"];
+    var address = local_access["address"];
     //Solo si no se encuentra el link se agrega. 
     var insert = links_db.prepare( "INSERT INTO links VALUES (?,?,?,?)" );
+    var old_date = new Date();
+    old_date.setDate( old_date.getDate() - config["revisit_days"]);
+    var old_date_str =  old_date.getFullYear() + "-" + (old_date.getMonth() + 1) + "-" + old_date.getDate();
 
     var date = new Date();
 
     for( var i = 0; i < links.length; i++){
-      insert.run( links[i].url.substring(0,links[i].url.indexOf('ref')), links[i].site.toLowerCase(), links[i].type, date('now', (-(config["revisit_days"] + 1)).toString() + ' days'));
+      var index_ref = (links[i].url.indexOf('&ref') == -1) ? links[i].length : links[i].url.indexOf('&ref');
+      index_ref = (links[i].url.indexOf('?ref') == -1) ? index_ref : links[i].url.indexOf('?ref');
+      insert.run(
+          "http://"+links[i].url.substring(0,index_ref),
+          links[i].site.toLowerCase(),
+          links[i].type,
+          old_date_str
+      );
     }
 
     insert.finalize();
-
 
     //Para testear que este guardando.
     // links_db.each("SELECT url, site, type, last_visited as lv FROM links", function(err, row) {
@@ -33,8 +42,10 @@ module.exports.storeInLocalDB = function(links, username, password, address) {
     // });
 };
 
-module.exports.storeInMongo = function(info, username, password, address, model) {
-    
+module.exports.storeInMongo = function(info, mongo_access, model) {
+    var username = mongo_access["username"];
+    var password = mongo_access["password"];
+    var address = mongo_access["address"];
 
     //En el caso de que sea un episodio lo que se este guardando se debe buscar
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.

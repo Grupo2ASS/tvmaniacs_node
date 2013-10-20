@@ -39,12 +39,12 @@ var folders = [
 ];
 
 var sub_folders = [
-	"actors",
-	"actors_lists",
-	"episodes",
-	"episodes_lists",
+	"actor",
+	"actors_list",
+	"episode",
+	"episodes_list",
 	"series",
-	"series_lists",
+	"series_list",
 	"series_full_credits"
 ];
 
