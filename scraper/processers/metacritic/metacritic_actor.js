@@ -8,7 +8,7 @@ var cheerio = require('cheerio');
 	//getInfo receives an html file and returns the actor's information in JSON format
 	//getInfo recibe el html y devuelve la info del actor en formato JSON
 module.exports.getInfo = function(html) {
-	var metacritic_id, name, last_name, score, high_score, low_score, bio, pic, birth_date, birth_place, series;
+	var metacritic_id, first_name, last_name, score, high_score, low_score;
 	var $ = cheerio.load(html);
 
 	//Obtengo el id del actor del tag con el link a la página 
@@ -28,35 +28,37 @@ module.exports.getInfo = function(html) {
 	low_score = $('span[class = "metascore_w small movie mixed review"]').text();
 
 	
+	//NO VA LA INFO DE NACIMIENTO
 	//LA INFO DE NACIMIENTO NO ESTA SEPARADA, ESTA METIDA DENTRO DEL PARRADO
 	//var born_info = $('#name-born-info');
 	//birth_date = $('time', born_info).attr('datetime');
 	//1956-12-31
 	//birth_place = $('a', born_info).last().html();
 	
-	bio = $('meta[name="og:description"]').attr("content");
+	//NO VA LA BIO
+	//bio = $('meta[name="og:description"]').attr("content");
 	
-	//NO HAY FOTO
+	//NO VA LA FOTO
 	//pic = $('#name-poster').attr('src');
 	
-
+	//NO VAN LAS SERIES
 	//guardamos series linkeadas
 	//OJO, ESTA ELIGIENDO
 	//UNAS QUE no nos sirven, TIENEN CM PADRE<div class="module list_trailers">
-	var filmo = $("a[href^='/movie/']");
-	series = new Array(filmo.length);
+	//var filmo = $("a[href^='/movie/']");
+	//series = new Array(filmo.length);
 
 	//AQUI LE PONEMOS EL LINK A LAS SERIES
+	/*
 	filmo.each(function(index, elem){
+		
 		series[index] = $(this).attr('href');
-	//	console.log(series[index]);
+		console.log(series[index]);
 
 	});
-
-	
-	//ESTO FALTA
+	*/
 	//Obtenemos el id de las series en las que actuado el actor
-/*	filmo.each(function(index, elem){
+	/*filmo.each(function(index, elem){
 		// series[index] = {};
 		// series[index]["name"] = $(this).find('a').first().html();
 		// var year = $(this).find('.year_column').html().split(';');
@@ -76,11 +78,11 @@ module.exports.getInfo = function(html) {
 		"score": score,
 		"high_score":high_score,
 		"low_score":low_score,
-		"bio": bio, 
+		//"bio": bio, 
 		//"pic": pic,						//direccion a un recurso del media server??
 		//"birth_date": birth_date,
 		//"birth_place": birth_place,
-		"series": series
+		//"series": series
 			/*[
 			{
 				"name": "House M.D.", 
@@ -110,15 +112,18 @@ module.exports.getLinks = function(html) {
 	
 
 	//obtenemos los links de las peliculas
-	var filmo = $('span[class="metascore_w small movie tbd"]').filter("href");
+	var filmo = $("a[href^='/movie/']");
 	series = new Array(filmo.length);
+
+	//AQUI LE PONEMOS EL LINK A LAS SERIES
 	filmo.each(function(index, elem){
-		var url = checkURL(pageURL,$(this).find('a').attr('href'));
+		var url = checkURL(pageURL,$(this).attr('href'));
 		links.push({
 			"url": url,
-			"site": "metacritic",
+			"site": "Metacritic",
 			"type": "series"
 		});
+
 	});
 	/*
 		{

@@ -5,44 +5,54 @@
 
 var fs = require('fs');
 
+
+console.log("--------------ACTOR PROCESSER-----------------------");
 var metacriticActorProcesser = require('./processers/metacritic/metacritic_actor');
-
-
 //obtener info de actor metacriticIMDB. Check!
 var html_actor = fs.readFileSync('./html_test_files/metacritic/actors/metacritic_actor.html')
 
-
-
 var actor = metacriticActorProcesser.getInfo(html_actor);
-//console.log("Actor Info:")
-//console.log(actor);
+console.log("Actor Info:")
+console.log(actor);
 
-//obtener links de actor imdb. Check!
-//var links_actor = metacriticActorProcesser.getLinks(html_actor);
-//console.log("Actor Links:")
-//console.log(links_actor);
-/*
-var imdbSeriesProcesser = require('./imdb_series');
+//obtener links de actor metacritic. Check!
+var links_actor = metacriticActorProcesser.getLinks(html_actor);
+console.log("Actor Links:")
+console.log(links_actor);
 
-//obtener info de series imdb. Check!
-var html_series = fs.readFileSync('./html_test_files/imdb/series/imdb_series.html')
-var series = imdbSeriesProcesser.getInfo(html_series);
+console.log("--------------SERIE PROCESSER-----------------------");
+var metacriticSeriesProcesser = require('./processers/metacritic/metacritic_series');
+
+//obtener info de series metacritics. Check!
+var html_series = fs.readFileSync('./html_test_files/metacritic/series/metacritic_series.html')
+var series = metacriticSeriesProcesser.getInfo(html_series);
 console.log("Series Info:")
 console.log(series);
 
-
-
-var links_series = imdbSeriesProcesser.getLinks(html_series);
+var links_series = metacriticSeriesProcesser.getLinks(html_series);
 console.log("Series Links:")
 console.log(links_series);
 
-var imdbActorsListProcesser = require('./imdb_episodes_list');
-//obtener lista de actores imdb.
-var html_actors_list = fs.readFileSync('./html_test_files/imdb/episodes_lists/imdb_episodes_list.html')
+console.log("--------------ACTOR LIST PROCESSER-----------------------");
 
+var metacriticActorsListProcesser = require('./processers/metacritic/metacritic_actors_list');
+//obtener lista de actores metacritic.
+var html_actors_list = fs.readFileSync('./html_test_files/metacritic/actors_lists/metacritic_actors_list.html')
 
-var links_actors_list = imdbActorsListProcesser.getLinks(html_actors_list);
-console.log("Episiodekjnsk link:");
+var links_actors_list = metacriticActorsListProcesser.getLinks(html_actors_list);
+
+console.log("Actors link:");
 console.log(links_actors_list);
-*/
 
+console.log("--------------SERIES LIST PROCESSER-----------------------");
+
+var metacriticSeriesListProcesser = require('./processers/metacritic/metacritic_series_list');
+//obtener lista de actores metacritic.
+var html_series_list = fs.readFileSync('./html_test_files/metacritic/series_lists/metacritic_series_list.html')
+
+var links_series_list = metacriticSeriesListProcesser.getLinks(html_series_list);
+
+console.log("Series link:");
+console.log(links_series_list);
+
+console.log("-------------------------------------");

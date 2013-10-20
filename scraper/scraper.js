@@ -10,6 +10,17 @@ var imdbEpisodeProcesser = require('./processers/imdb/imdb_episode.js');
 var imdbActorsListProcesser = require('./processers/imdb/imdb_actors_list.js');
 var imdbSeriesListProcesser = require('./processers/imdb/imdb_series_list.js');
 var imdbEpisodesListProcesser = require('./processers/imdb/imdb_episodes_list.js');
+
+var metacriticActorProcesser = require('./processers/metacritic/metacritic_actor.js');
+var metacriticSeriesProcesser = require('./processers/metacritic/metacritic_series.js');
+//var metacriticEpisodeProcesser = require('./processers/metacritic/metacritic_episode.js');
+var metacriticActorsListProcesser = require('./processers/metacritic/metacritic_actors_list.js');
+var metacriticSeriesListProcesser = require('./processers/metacritic/metacritic_series_list.js');
+//var metacriticEpisodesListProcesser = require('./processers/metacritic/metacritic_episodes_list.js');
+
+
+
+
 //</processers>
 //folder where all html files are (could be an argument when running node scraper.js)
 var path = './html_test_files';
@@ -67,6 +78,8 @@ function threadProcess(processer, folder, model) {
 };
 
 
+//Actors
+	//IMDB
 watch.createMonitor(path + '/imdb/actors/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
@@ -74,7 +87,19 @@ watch.createMonitor(path + '/imdb/actors/',function(monitor){
   		}
     })
 });
+	
+	//metacritic
+watch.createMonitor(path + '/metacritic/actors/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+     		threadProcess(metacriticActorProcesser,path + '/metacritic/actors/', models.actorModel );	
+  		}
+    })
+});
 
+
+//Actors List
+	//IMDB
 watch.createMonitor(path + '/imdb/actors_lists/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
@@ -83,6 +108,17 @@ watch.createMonitor(path + '/imdb/actors_lists/',function(monitor){
     })
 });
 
+	//metacritic
+watch.createMonitor(path + '/metacritic/actors_lists/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(metacriticActorsListProcesser,path + '/metacritic/actors_lists/');
+      	}
+    })
+});
+
+//Series
+	//IMDB
 watch.createMonitor(path + '/imdb/series/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
@@ -91,6 +127,17 @@ watch.createMonitor(path + '/imdb/series/',function(monitor){
     })
 });
 
+	//metacritic
+watch.createMonitor(path + '/metacritic/series/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(metacriticSeriesProcesser,path + '/metacritic/series/', models.serieModel);
+      	}
+    })
+});
+
+//Series List
+	//IMDB
 watch.createMonitor(path + '/imdb/series_lists/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
@@ -99,6 +146,17 @@ watch.createMonitor(path + '/imdb/series_lists/',function(monitor){
     })
 });
 
+	//metacritic
+watch.createMonitor(path + '/metacritic/series_lists/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(metacriticSeriesListProcesser,path + '/metacritic/series_lists/');
+      	}
+    })
+});
+
+//Episodes
+	//IMDB
 watch.createMonitor(path + '/imdb/episodes/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
@@ -106,7 +164,18 @@ watch.createMonitor(path + '/imdb/episodes/',function(monitor){
       	}
     })
 });
-
+	//metacritic
+/*
+watch.createMonitor(path + '/metacritic/episodes/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(metacriticEpisodeProcesser,path + '/metacritic/episodes/', models.chapterModel );
+      	}
+    })
+});
+*/
+//Espisodes List
+	//IMDB
 watch.createMonitor(path + '/imdb/episodes_lists/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
@@ -114,3 +183,13 @@ watch.createMonitor(path + '/imdb/episodes_lists/',function(monitor){
       	}
     })
 });
+	//metacritic
+/*
+watch.createMonitor(path + '/metacritic/episodes_lists/',function(monitor){
+	 monitor.on("created", function (f, stat) {
+	 	if (monitor.files[f] === undefined) {
+      		threadProcess(metacriticEpisodesListProcesser,path + '/metacritic/episodes_lists/');
+      	}
+    })
+});
+*/
