@@ -47,7 +47,7 @@ module.exports.getLinks = function(html)
 	//linkt to past season
 	var previous_season = $('#load_previous_episodes');
 	var url = previous_season.attr('href');
-		if( url.length > 0){
+		if(url){
 			links.push({
 				"url": url,
 				"site": "IMDB",
