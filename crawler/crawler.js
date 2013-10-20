@@ -6,21 +6,21 @@ var sqlite3 = require("sqlite3").verbose();
 // Info of links in queue
 var current_links = {};
 var crawler_instance = null;
+var enqueued_limit = config["links_enqueued_per_second"];
 
 function wait_new_links(){
     var db = new sqlite3.Database(config["db_file"]);
     db.serialize(function(){
         var check_links_query = "SELECT count(*) as num_links FROM links WHERE date(last_visited,'+" +
-            config["revisit_days"] + " days') <= date('now') LIMIT "+config["new_links_limit"];
+            config["revisit_days"] + " days') <= date('now') LIMIT "+enqueued_limit;
         db.each(check_links_query,
             function(err, row) {
-                console.log("Number of links in conditions to be enqueued: "+row.num_links);
                 if(row.num_links > 0) {
-                    enqueue_links();
+                    setTimeout(enqueue_links(),1000);
                 }
                 else {
-                    console.log("Waiting "+config["interval_to_check"]+" seconds until next check.");
-                    setTimeout(wait_new_links,config["interval_to_check"]*1000);
+                    console.log("Waiting "+config["seconds_until_next_db_check"]+" seconds until next check.");
+                    setTimeout(wait_new_links,config["seconds_until_next_db_check"]*1000);
                 }
             },
             function(err, row) {
@@ -39,7 +39,7 @@ function enqueue_links() {
     db.serialize(function() {
         // Get all rows in db
         var active_urls = "SELECT url, site, type, last_visited FROM links WHERE date(last_visited,'+" +
-            config["revisit_days"] + " days') <= date('now') LIMIT "+config["new_links_limit"];
+            config["revisit_days"] + " days') <= date('now') LIMIT "+enqueued_limit;
         db.each(active_urls,
             function(err, row) {
                 current_links[row.url] = { 'site':row.site, 'type':row.type };
@@ -60,7 +60,7 @@ function enqueue_links() {
 
 function create_crowler() {
     crawler_instance = new Crawler({
-        "maxConnections": config["maxConnections"],
+        "maxConnections": config["max_connections"],
         "callback": function(error,result,$) {
             // This function will be called for each crawled page
             var website_dir = config["html_folder"]+"/"+current_links[result.uri]['site'];
