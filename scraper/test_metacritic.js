@@ -4,7 +4,7 @@
 
 
 var fs = require('fs');
-
+/*
 
 console.log("--------------ACTOR PROCESSER-----------------------");
 var metacriticActorProcesser = require('./processers/metacritic/metacritic_actor');
@@ -54,5 +54,14 @@ var links_series_list = metacriticSeriesListProcesser.getLinks(html_series_list)
 
 console.log("Series link:");
 console.log(links_series_list);
+*/
+console.log("-------------------REVIEWS PROCESSESOR------------------");
 
-console.log("-------------------------------------");
+var metacriticReviewProcesser = require('./processers/metacritic/metacritic_review');
+//obtener lista de actores metacritic.
+var html_review = fs.readFileSync('./html_test_files/metacritic/reviews/metacritic_reviews.html');
+var reviews = metacriticReviewProcesser.getInfo(html_review);
+
+console.log("Reviews:");
+console.log(reviews);
+
