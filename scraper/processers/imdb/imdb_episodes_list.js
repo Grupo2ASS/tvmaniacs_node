@@ -33,13 +33,16 @@ module.exports.getLinks = function(html)
 
 	//linkt to next season
 	var next_season = $('#load_next_episodes');
-	var url = checkURL(pageURL,next_season.attr('href'));
-	links.push({
-		"url": url,
-		"site": "IMDB",
-		"type": "episodes_list"
-		 
-	});
+	if( next_season ){
+		var url = checkURL(pageURL,next_season.attr('href'));
+		links.push({
+			"url": url,
+			"site": "IMDB",
+			"type": "episodes_list"
+			 
+		});	
+	}
+	
 
 	//linkt to past season
 	var previous_season = $('#load_previous_episodes');
