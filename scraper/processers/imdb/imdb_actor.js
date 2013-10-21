@@ -119,12 +119,4 @@ var checkURL = function(pageURL,url) {
 	return "www.imdb.com"+url;
 	
 };
-	
-
-// module.exports.getInfo = function(html) {
-//     return getInfo(html);
-// };
-// module.exports.getLinks = function(html) {
-//     return getLinks(html);
-// };
 

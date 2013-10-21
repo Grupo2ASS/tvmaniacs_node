@@ -2,6 +2,9 @@ var mongoose = require('mongoose');
 var models = require('./models');
 var config = require('../config/config.json');
 
+var utils = require('./utils.js');
+var fs = require('fs');
+
 var sqlite3 = require("sqlite3").verbose();
 var links_db = new sqlite3.Database(config["db_file"]);
 
@@ -35,7 +38,7 @@ module.exports.storeInLocalDB = function(links, local_access) {
     }
 
     insert.finalize();
-  
+
     //Para testear que este guardando.
     // links_db.each("SELECT url, site, type, last_visited as lv FROM links", function(err, row) {
     //     console.log(row.url + ", " + row.site + ", " + row.type + ", " + row.lv);
@@ -51,7 +54,7 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.
 
     if ( model == models.chapterModel ){    	
-    	console.log('Saving episode %s from %s', info.name, info.serie );
+    	utils.print_to_log('Saving episode %s from %s', info.name, info.serie );
 
     	models.serieModel.findOne( { 'name': info.serie }, 'name seasons', function( err, serie){
     		if (err) return handleError(err);
@@ -63,19 +66,18 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
   			serie.seasons[ num ].chapters.push( aux );
 
   			serie.save( function(err){
-  				if (err) { console.log(err); }
-	        	else { console.log('exito')}
+  				if (err) { utils.print_to_log(err); }
+	        	else { utils.print_to_log('exito')}
   			});
     	});
     }
 
     else {
-    	console.log('Guardando info')
     	aux = new model( info );
     
 	    aux.save(function(err){
-	        if (err) { console.log(err); }
-	        else { console.log('exito')}
+	        if (err) { utils.print_to_log(err); }
+	        else { utils.print_to_log('exito')}
 	   });	
     }
 };

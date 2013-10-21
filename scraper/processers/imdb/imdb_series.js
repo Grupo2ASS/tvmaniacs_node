@@ -18,8 +18,6 @@ var cheerio = require('cheerio');
 			imdb_id = parseInt(imdb_id);	
 		}
 
-
-
 		name = $('span[itemprop="name"]').html();
 		user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
 		description = $('p[itemprop="description"]').html();
@@ -27,10 +25,9 @@ var cheerio = require('cheerio');
 		var unparsed_duration = $('time[itemprop="duration"]').html();
 		if( unparsed_duration ){
 			unparsed_duration = unparsed_duration.trim().split(' ');	
+			duration = parseInt(unparsed_duration[0]);
 		}
 		
-		
-		duration = parseInt(unparsed_duration[0]);
 		genres = [];
 		$('div[itemprop="genre"] a').each(function(index, elem) {
 			genres.push($(this).html());

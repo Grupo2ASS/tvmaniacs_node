@@ -26,6 +26,8 @@ var dbStore = require('./db_store');
 
 var models = require('./models')
 
+var utils = require('./utils.js')
+
 /*
 Each of the next functions should:
 	Check if there are new files in its folder
@@ -55,17 +57,17 @@ function threadProcess(processer, folder, model) {
 		var asArray = element.split('.');
 		return asArray[asArray.length - 1] == 'html';
 	});
-	console.log(files_list);
+	utils.print_to_log('Archivos en carpeta: ' + files_list);
 	if(files_list.length){
 		_.each(files_list, function(element) {
-			console.log("Gonna read: " + folder + element);
+			utils.print_to_log("Gonna read: " + folder + element);
 			var info = processer.getInfo(fs.readFileSync(folder + element));
 			var links = processer.getLinks(fs.readFileSync(folder + element));
 			store(info, links, model);
 			
 			//delete file
 			fs.unlinkSync( folder + element);
-			console.log('Successfully deleted: ' + folder + element);
+			utils.print_to_log('Successfully deleted: ' + folder + element);
 		});
 	}
 };
