@@ -70,14 +70,14 @@ function create_crawler() {
     crawler_instance = new Crawler({
         "maxConnections": config["max_connections"],
         "callback": function(error,result,$) {
+            // This function will be called for each crawled page
             if(error != null || result == undefined || result == null) {
                 var error_str = "-----------ERROR ON REQUEST!-----------\n";
                 error_str += " - [error] - "+error+"\n";
                 error_str += " - [result] - "+result;
                 print_to_log(error_str);
             }
-            else{
-                // This function will be called for each crawled page
+            else {
                 var website_dir = config["html_folder"]+"/"+current_links[result.uri]['site'];
                 var dir_name = current_links[result.uri]['type'];
                 // Get page source code

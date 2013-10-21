@@ -16,7 +16,6 @@ if(!exists)	{
 	db.serialize(function() {
 		if(!exists) {
 			db.run("CREATE TABLE links (url TEXT, site TEXT, type TEXT, last_visited datetime)");
-			// Add a link to the recently created db (REMOVE LINE WHEN SCRAPPER READY)
 			var first_page = "INSERT INTO links VALUES ('"+config["first_site"]["url"] +
                 "', '"+config["first_site"]["site"]+"', '"+config["first_site"]["site_type"]+
                 "', date('now','-"+config["revisit_days"]+" days'))";
