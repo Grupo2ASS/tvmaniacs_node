@@ -40,7 +40,6 @@ module.exports.getLinks = function(html){
 			"type": "actors_list"
 		});
 	});
-	
 
 	/*
 		{

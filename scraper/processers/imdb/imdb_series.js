@@ -11,13 +11,25 @@ var cheerio = require('cheerio');
 
 		//Obtengo el id del actor del tag con el link a la página 
 		pattern = /\d{7}/;	
-		imdb_id = $('link[rel = "canonical"]').attr("href").match(pattern);		//Busca un numero de exactamente 7 digitos en la url
-		imdb_id = parseInt(imdb_id);
+		imdb_id = $('link[rel = "canonical"]')
+
+		if( imdb_id.length > 0 ){
+			imdb_id = imdb_id.attr("href").match(pattern);						//Busca un numero de exactamente 7 digitos en la url
+			imdb_id = parseInt(imdb_id);	
+		}
+
+
 
 		name = $('span[itemprop="name"]').html();
 		user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
 		description = $('p[itemprop="description"]').html();
-		var unparsed_duration = $('time[itemprop="duration"]').html().trim().split(' ');
+
+		var unparsed_duration = $('time[itemprop="duration"]').html();
+		if( unparsed_duration ){
+			unparsed_duration = unparsed_duration.trim().split(' ');	
+		}
+		
+		
 		duration = parseInt(unparsed_duration[0]);
 		genres = [];
 		$('div[itemprop="genre"] a').each(function(index, elem) {
