@@ -17,7 +17,8 @@ module.exports.getInfo = function(html) {
 
 	if( imdb_id.length > 0 ){
 		imdb_id = imdb_id.attr("href").match(pattern);
-		imdb_id = parseInt(imdb_id);	
+		// imdb_id = parseInt(imdb_id);	
+		imdb_id = imdb_id;	
 	}
 	
 	var complete_name = $('span[itemprop="name"]').html();
