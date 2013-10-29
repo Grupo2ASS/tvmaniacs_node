@@ -74,6 +74,8 @@ function enqueue_links() {
                     var error_str = "-----------ERROR ON enqueue_links!-----------\n";
                     error_str += " - [error] - "+err+"\n";
                     print_to_log(error_str);
+                    print_to_log("Waiting 1 second until trying enqueue_links again");
+                    setTimeout(enqueue_links,1000);
                 }
             }
         );
