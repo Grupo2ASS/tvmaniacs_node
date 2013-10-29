@@ -12,7 +12,9 @@ function print_to_log(str){
     console.log(str);
     str = "["+(new Date())+"]: "+str+"\n";
     fs.appendFile('crawler_log.txt', str, function (err) {
-        if (err) throw err;
+        if (err) {
+            console.log("Error on writing to log: "+err);
+        }
     });
 }
 
@@ -34,6 +36,13 @@ function wait_new_links(){
             function(err, row) {
                 // Close db when no rows left
                 db.close();
+                if(err){
+                    var error_str = "-----------ERROR ON wait_new_links!-----------\n";
+                    error_str += " - [error] - "+err+"\n";
+                    print_to_log(error_str);
+                    print_to_log("Waiting "+config["seconds_until_next_db_check"]+" seconds until next check.");
+                    setTimeout(wait_new_links,config["seconds_until_next_db_check"]*1000);
+                }
             }
         );
     });
@@ -61,6 +70,11 @@ function enqueue_links() {
             function(err, row) {
                 // Close db when no rows left
                 db.close();
+                if(err){
+                    var error_str = "-----------ERROR ON enqueue_links!-----------\n";
+                    error_str += " - [error] - "+err+"\n";
+                    print_to_log(error_str);
+                }
             }
         );
     });
