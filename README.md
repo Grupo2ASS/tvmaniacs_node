@@ -26,6 +26,14 @@ Workflow
 ![Diagram](https://raw.github.com/iufuenza/tvmaniacs_node/master/Blank.png)
 The Cacoo diagram is editable at https://cacoo.com/diagrams/doKBa3jfieyMd57k
 
+How to use
+--------
+There are 3 folders: crawler, scraper and config.
+First go to config and run "npm install" and then "node init_workspace.js". This will create the .db with "Game of Thrones"
+link and the html_folder with the subdirectories of imdb and metacritics.
+Then go to scraper and run "npm install" and then "node scraper.js" (Important: the terminal will be attached to this program).
+Finally, go to crawler and run "npm install" and then "node crawler.js" (Important: the terminal will be attached to this program).
+When both crawler and scraper are running at the same time, they work together as it was explained before.
 
 Project Management
 ------------------
