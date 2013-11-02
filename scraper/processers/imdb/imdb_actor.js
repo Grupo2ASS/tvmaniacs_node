@@ -12,11 +12,11 @@ module.exports.getInfo = function(html) {
 	var $ = cheerio.load(html);
 
 	//Obtengo el id del actor del tag con el link a la página 
-	pattern = /\d{7}/;
+	pattern = /nm\d{7}/;
 	imdb_id = $('link[rel = "canonical"]')
 
 	if( imdb_id.length > 0 ){
-		imdb_id = imdb_id.attr("href").match(pattern);
+		imdb_id = imdb_id.attr("href").match(pattern);			//Busca tt seguido por 7 digitos
 		// imdb_id = parseInt(imdb_id);	
 		imdb_id = imdb_id;	
 	}
@@ -28,7 +28,6 @@ module.exports.getInfo = function(html) {
 		first_name = complete_name[0];
 		complete_name.splice(0,1);
 		last_name = complete_name.join(' ');	
-
 	}
 
 	
