@@ -20,11 +20,23 @@ module.exports.storeInLocalDB = function(links, local_access) {
     var address = local_access["address"];
     //Solo si no se encuentra el link se agrega. 
     var insert = links_db.prepare( "INSERT INTO links VALUES (?,?,?,?)" );
-    var old_date = new Date();
-    old_date.setDate( old_date.getDate() - config["revisit_days"]);
-    var old_date_str =  old_date.getFullYear() + "-" + (old_date.getMonth() + 1) + "-" + old_date.getDate();
 
-    var date = new Date();
+    var old_date = new Date();
+    old_date.setDate( old_date.getDate() - config["revisit_days"] );
+    var old_date_str =  old_date.getFullYear() + "-";
+    if(old_date.getMonth() + 1 < 10) {
+        old_date_str += "0" + (old_date.getMonth() + 1) + "-";
+    }
+    else {
+        old_date_str += (old_date.getMonth() + 1) + "-";
+    }
+
+    if(old_date.getDate() < 10) {
+        old_date_str += "0" + old_date.getDate();
+    }
+    else {
+        old_date_str += old_date.getDate();
+    }
 
     for( var i = 0; i < links.length; i++){
       var index_ref = (links[i].url.indexOf('&ref') == -1) ? links[i].length : links[i].url.indexOf('&ref');
