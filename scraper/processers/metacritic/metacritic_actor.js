@@ -21,54 +21,28 @@ module.exports.getInfo = function(html) {
 	first_name = complete_name[0];
 	last_name = complete_name[1];
 	
-	
-	
-	score = $('span[class = "data textscore textscore_favorable"]').first().text();
-	high_score = $('span[class = "metascore_w small movie positive review"]').text();
-	low_score = $('span[class = "metascore_w small movie mixed review"]').text();
+	//LAS SIGUIENTES 3 LINEAS ARROJAN ERROR, PERO CORRIENDOLAS EN CHROME NO HAY PROBLEMA :s
 
+	score=$(".review_average").find($(".data.textscore.textscore_mixed")).text();
+	high_score = $(".highest_review").find($("span[class^='metascore_w']")).text();
+	low_score = $(".lowest_review.last").find($(".metascore_w.small.movie.negative.indiv")).text();
 	
-	//NO VA LA INFO DE NACIMIENTO
-	//LA INFO DE NACIMIENTO NO ESTA SEPARADA, ESTA METIDA DENTRO DEL PARRADO
-	//var born_info = $('#name-born-info');
-	//birth_date = $('time', born_info).attr('datetime');
-	//1956-12-31
-	//birth_place = $('a', born_info).last().html();
-	
-	//NO VA LA BIO
-	//bio = $('meta[name="og:description"]').attr("content");
-	
-	//NO VA LA FOTO
-	//pic = $('#name-poster').attr('src');
-	
-	//NO VAN LAS SERIES
-	//guardamos series linkeadas
-	//OJO, ESTA ELIGIENDO
-	//UNAS QUE no nos sirven, TIENEN CM PADRE<div class="module list_trailers">
-	//var filmo = $("a[href^='/movie/']");
-	//series = new Array(filmo.length);
 
-	//AQUI LE PONEMOS EL LINK A LAS SERIES
-	/*
-	filmo.each(function(index, elem){
-		
-		series[index] = $(this).attr('href');
-		console.log(series[index]);
 
-	});
-	*/
-	//Obtenemos el id de las series en las que actuado el actor
-	/*filmo.each(function(index, elem){
-		// series[index] = {};
-		// series[index]["name"] = $(this).find('a').first().html();
-		// var year = $(this).find('.year_column').html().split(';');
-		// series[index]["year"] = year[1];
 
-		pattern = /\d{7}/;
-		series[index] = parseInt($(this).find('a').attr('href').match(pattern));
-	});
+	//console.log(high_score);
+	//var filmo = titulos.find($("a[href^='/movie/']"));
 
-*/
+	//var tablaInfo= $('table[class = "profile_score_summary personscore_summary"]');
+	//var tablaInfo = $(".profile_score_summary.personscore_summary");
+
+	//score = tablaInfo.find($("span[class^='data']")).text();
+
+	//score = tablaInfo.find($("span[class='data textscore textscore_mixed']"));
+	//console.log(score);
+	//review = $(".review_average");
+	//score=review.find($(".data")).text();
+
 	
 	
 	return {
@@ -78,17 +52,6 @@ module.exports.getInfo = function(html) {
 		"score": score,
 		"high_score":high_score,
 		"low_score":low_score,
-		//"bio": bio, 
-		//"pic": pic,						//direccion a un recurso del media server??
-		//"birth_date": birth_date,
-		//"birth_place": birth_place,
-		//"series": series
-			/*[
-			{
-				"name": "House M.D.", 
-				"year": 2004
-			}
-			]*/
 	}
 };
 
@@ -112,6 +75,8 @@ module.exports.getLinks = function(html) {
 	
 
 	//obtenemos los links de las peliculas
+	
+	
 	var filmo = $("a[href^='/movie/']");
 	series = new Array(filmo.length);
 
