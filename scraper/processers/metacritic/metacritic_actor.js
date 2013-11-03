@@ -23,9 +23,9 @@ module.exports.getInfo = function(html) {
 	
 	//LAS SIGUIENTES 3 LINEAS ARROJAN ERROR, PERO CORRIENDOLAS EN CHROME NO HAY PROBLEMA :s
 
-	score=$(".review_average").find($(".data.textscore.textscore_mixed")).text();
-	high_score = $(".highest_review").find($("span[class^='metascore_w']")).text();
-	low_score = $(".lowest_review.last").find($(".metascore_w.small.movie.negative.indiv")).text();
+	score=$(".review_average").find(".data.textscore.textscore_mixed").text();
+	high_score = $(".highest_review").find("span[class^='metascore_w']").text();
+	low_score = $(".lowest_review.last").find(".metascore_w.small.movie.negative.indiv").text();
 	
 
 
