@@ -11,9 +11,9 @@ var imdbActorProcesser = require('./processers/imdb/imdb_actor');
 //obtener info de actor IMDB. Check!
 var html_actor = fs.readFileSync('./html_test_files/imdb/actors/imdb_actor.html')
 
-/*var actor = imdbActorProcesser.getInfo(html_actor);
+var actor = imdbActorProcesser.getInfo(html_actor);
 console.log("Actor Info:")
-console.log(actor);*/
+console.log(actor);
 
 //obtener links de actor imdb. Check!
 var links_actor = imdbActorProcesser.getLinks(html_actor);
