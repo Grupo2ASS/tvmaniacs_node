@@ -12,7 +12,8 @@ module.exports.getInfo = function(html) {
 	var $ = cheerio.load(html);
 
 	//Obtengo el id del actor del tag con el link a la página 
-	pattern = /nm\d{7}/;
+	//pattern = /nm\d{7}/;
+    pattern = /\d{7}/;
 	imdb_id = $('link[rel = "canonical"]')
 
 	if( imdb_id.length > 0 ){
@@ -53,7 +54,8 @@ module.exports.getInfo = function(html) {
 		// series[index]["year"] = year[1];
 
 		pattern = /\d{7}/;
-		series[index] = parseInt($(this).find('a').attr('href').match(pattern));
+		//series[index] = parseInt($(this).find('a').attr('href').match(pattern));
+        series[index] = $(this).find('a').attr('href').match(pattern);
 	});
 	
 	return {

@@ -10,7 +10,8 @@ var cheerio = require('cheerio');
 		var $ = cheerio.load(html);
 
 		//Obtengo el id del actor del tag con el link a la página 
-		pattern = /tt\d{7}/;	
+		//pattern = /tt\d{7}/;
+        pattern = /\d{7}/;
 		imdb_id = $('link[rel = "canonical"]')
 
 		if( imdb_id.length > 0 ){
@@ -53,7 +54,8 @@ var cheerio = require('cheerio');
 		$( '.cast_list a[itemprop="url"]' ).each( function( index, elem ){
 			
 			pattern = /\d{7}/;
-			cast.push( parseInt( this.attr('href').match(pattern) ) );
+            cast.push( this.attr('href').match(pattern) );
+			//cast.push( parseInt( this.attr('href').match(pattern) ) );
 		});
 
 		seasons = [];

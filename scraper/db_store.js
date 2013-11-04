@@ -83,6 +83,40 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
   			});
     	});
     }
+//    else if( model == models.serieModel ){
+//        utils.print_to_log('Saving (insert or update )series %s', info.series);
+//
+//        //metodo para standarize name
+
+//
+//        aux = new model( info );
+//
+//        aux.save(function(err){
+//            if (err) { utils.print_to_log(err); }
+//            else { utils.print_to_log('exito')}
+//        });
+//
+//
+//        standard = "new name";
+//        models.serieModel.update({'imdb_id':info.imdb_id}, {$set: {s_name: standard}}, function(err, updated) {
+//        if( err || !updated ) console.log("Series not updated");
+//        else console.log("Series updated");})
+//
+//        //aux = new model(info);
+//        query = {s_name: standard};
+//        models.serieModel.update(query, {s_name:standard}, function (err) {
+//            if (err) {
+//                utils.print_to_log(err);
+//            }
+//            else {
+//                utils.print_to_log('exito')
+//            }
+//        })
+//        //agregar info
+
+//
+//    }
+
 
     else {
     	aux = new model( info );
