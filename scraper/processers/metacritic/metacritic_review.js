@@ -22,11 +22,12 @@ var cheerio = require('cheerio');
 			//agggggg arreglar esto!
 			
 			//ESTO (OBTENER LA INFO DE CADA REVIEW) NO ESTA FUNCIONANDO! 
-			institution = $(this).find(".review_section").find(".review_stats").find(".review_critic has_author").find(".source");	
-			console.log(institution);
+			institution = $(this).find(".review_stats").find(".review_critic.has_author").find(".source");	
+			console.log($(this).html());
 			//	score=$(".review_average").find(".data.textscore.textscore_mixed").text();
 
 			//score = allreviews.find("div.metascore_w medium tvshow positive indiv");
+			console.log(institution.html());
 
 			
 		//	score = $(this).find('div[class="metascore_w medium tvshow positive indiv"]').text();
