@@ -70,6 +70,7 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 
     	models.serieModel.findOne( { 'name': info.serie }, 'name seasons', function( err, serie){
     		if (err) return handleError(err);
+            if( !serie ) {return; utils.print_to_log('error capitulo sin serie');}
 
   			var num = info.season - 1;
   			delete info.season;
@@ -120,10 +121,11 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 
     else {
     	aux = new model( info );
+
     
 	    aux.save(function(err){
 	        if (err) { utils.print_to_log(err); }
-	        else { utils.print_to_log('exito')}
+	        else { utils.print_to_log('exito '+ model.modelName);}
 	   });	
     }
 };
