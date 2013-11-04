@@ -33,31 +33,6 @@ module.exports.getLinks = function(html)
 		 });
 	});
 
-	//linkt to next page
-	//ESTO NO ME RESULTO, NO PUDE IDENTIFICAR EL NEXT EN EL html
-	/*
-	var next_page = $('a[href^="/keyword/"]');//.attr("href");//text("next");
-	console.log(next_page);
-	next_page.each(function(index, elem){
-		var url = checkURL(pageURL,this.attr('href'));
-		console.log(url);
-		links.push({
-			"url": url,
-			"site": "metactiric",
-			"type": "series_list"
-		});
-	});
-	*/
-
-	
-
-	/*
-		{
-			"url":"http://...",
-			"site": "IMDB"/"Metacritic",
-			"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
-		}
-	*/
 	return links;
 };
 

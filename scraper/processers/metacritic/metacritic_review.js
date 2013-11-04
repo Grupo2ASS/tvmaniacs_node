@@ -10,31 +10,36 @@ var cheerio = require('cheerio');
 		reviews = [];
 		var $ = cheerio.load(html);
 		var score, name, institution, comment, date, link, critic;
-		
+		//score es number
+		//critic es True si la review es de un critico. False si es de una persona corriente
 
-		//Obtengo el id del actor del tag con el link a la página 
-		//pattern = /\d{7}/;	
-		allreviews = $('div[class = "review_section"]');
-		//allreviews = $(div[class = "review_section"]');
-		
 
-		//SIN TERMINAR!!!
+		//obtenemos todas las reviews	
+		var allreviews = $('ol[class = "reviews critic_reviews"]').find('div[class="review_content"]');
 
-		
-		//console.log(allreviews);
 		allreviews.each(function(index, elem){
-			//console.log("hola");
-			var aux = (this.find("*"));
-			//console.log(aux);
-
-			institution=(aux.find("a").html());
+			
+			//agggggg arreglar esto!
+			
+			//ESTO (OBTENER LA INFO DE CADA REVIEW) NO ESTA FUNCIONANDO! 
+			institution = $(this).find(".review_section").find(".review_stats").find(".review_critic has_author").find(".source");	
 			console.log(institution);
-			//name=(aux.find("span").html());
-			//console.log(name);
-		
+			//	score=$(".review_average").find(".data.textscore.textscore_mixed").text();
+
+			//score = allreviews.find("div.metascore_w medium tvshow positive indiv");
+
+			
+		//	score = $(this).find('div[class="metascore_w medium tvshow positive indiv"]').text();
+			//console.log(score);
+			console.log(index);
+
+
+			//DEBEMOS GUARDAR LA INFO OBTENIDA COMO UNA REVIEW EN reviews[];
 		});
 
+
 		return {
+			//que retornamos? el arreglo de todos los reviews supongo...
 			"score": score,
 			"name": name,
 			"institution": institution, //(metacritic)
@@ -42,13 +47,6 @@ var cheerio = require('cheerio');
 			"date": date,
 			"link":link,
 			"critic":critic,
-			//"duration": duration, //minutos
-			//"genres": genres,
-			//"pic": pic, //Link a recurso del media server??
-			//"year_start": year_start,
-			//"year_end": year_end, //Puede que sea más fácil sacarlo de metacritic
-			//"cast": cast,
-			//"seasons": seasons
 		}
 	};
 
@@ -59,48 +57,7 @@ var cheerio = require('cheerio');
 		//var pageURL = $('link[rel="canonical"]').attr('href');
 		links = [];
 		
-		//PERO ESTO NO ES INFO INTERESANTE! COMO PA CRAWLERARLA
-		/*
-		var critic_reviews = $('#titleTVSeries a');
-		seasons.each(function(index, val) {
-			var url = checkURL(pageURL,$(this).attr('href'));
-			 links.push({
-			 	"url" : url,
-			 	"site": "metacritic",
-			 	"type": "critic_reviews"
-			 	});
-		});
 
-
-		var user_reviews = $('.infobar a').filter(':has(span[itemprop="genre"])');
-		genres.each(function(index, elem){
-			var url = checkURL(pageURL,$(this).attr('href'));
-			links.push({
-				"url" : url,
-				"site" : "metacritic",
-				"type": "user_reviews"
-			});
-		});
-
-		
-		var related_articles = $('.rec-title').filter(':contains("TV Series")').children('a');
-		related_series.each(function(index, val) {
-			var url = checkURL(pageURL,$(this).attr('href'));
-			links.push({
-				"url" : url,
-			 	"site": "metacritic",
-			 	"type": "related_articles"
-			});
-		});
-
-		*/
-		/*
-				{
-					"url":"http://...",
-					"site": "IMDB"/"Metacritic",
-					"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
-				}
-			*/
 		return links;
 	};
 
