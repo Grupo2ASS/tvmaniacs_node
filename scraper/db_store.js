@@ -66,30 +66,25 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.
 
     if ( model == models.chapterModel ){    	
-    	utils.print_to_log('Saving episode %s from %s', info.name, info.serie );
+    	utils.print_to_log('Saving episode %s from %s', info.name, info.series );
 
-    	models.serieModel.findOne( { 'name': info.serie }, 'name seasons', function( err, serie){
+    	models.serieModel.findOne( { 'name': info.series }, 'name seasons', function( err, series){
     		if (err) return handleError(err);
-            if( !serie ) {return; utils.print_to_log('error capitulo sin serie');}
+            if( !series ) {return; utils.print_to_log('error capitulo sin serie');}
 
   			var num = info.season - 1;
   			delete info.season;
   			aux = new model ( info );
 
-  			serie.seasons[ num ].chapters.push( aux );
+  			series.seasons[ num ].chapters.push( aux );
 
-  			serie.save( function(err){
+  			series.save( function(err){
   				if (err) { utils.print_to_log(err); }
 	        	else { utils.print_to_log('exito')}
   			});
     	});
     }
 //    else if( model == models.serieModel ){
-//        utils.print_to_log('Saving (insert or update )series %s', info.series);
-//
-//        //metodo para standarize name
-
-//
 //        aux = new model( info );
 //
 //        aux.save(function(err){
