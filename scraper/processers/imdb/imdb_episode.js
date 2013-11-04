@@ -122,7 +122,7 @@ module.exports.getLinks = function(html) {
 
 var checkURL = function(pageURL,url)
 {
-	if (url.slice(0,1) == '?'){
+	if (url && url.slice(0,1) == '?'){
 		return pageURL+url;
 	}
 	return "www.imdb.com"+url;

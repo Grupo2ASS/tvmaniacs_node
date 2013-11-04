@@ -1,4 +1,5 @@
 var cheerio = require('cheerio');
+var tidy_string = require('../tidy_string.js');
 
 //This is a module, which make this code behave as an API
 //Lo siguiente es un modulo, lo que nos permite tener variables
@@ -8,11 +9,10 @@ var cheerio = require('cheerio');
 	//getInfo receives an html file and returns the actor's information in JSON format
 	//getInfo recibe el html y devuelve la info del actor en formato JSON
 module.exports.getInfo = function(html) {
-	var imdb_id, first_name, last_name, bio, pic, birth_date, birth_place, series;
+	var imdb_id, first_name, last_name, s_name, bio, pic, birth_date, birth_place, series;
 	var $ = cheerio.load(html);
 
-	//Obtengo el id del actor del tag con el link a la página 
-	//pattern = /nm\d{7}/;
+	//Obtengo el id del actor del tag con el link a la página
     pattern = /\d{7}/;
 	imdb_id = $('link[rel = "canonical"]')
 
@@ -30,8 +30,13 @@ module.exports.getInfo = function(html) {
 		last_name = complete_name.join(' ');	
 	}
 
-	
-	
+    if( first_name != null)
+        s_name = tidy_string.tidy(first_name);
+    if( last_name != null){
+        s_name += ' ';
+        s_name += tidy_string.tidy(last_name);
+    }
+
 	var born_info = $('#name-born-info');
 	birth_date = $('time', born_info).attr('datetime');
 	//1956-12-31
@@ -60,6 +65,7 @@ module.exports.getInfo = function(html) {
 		"imdb_id": imdb_id,
 		"first_name": first_name,
 		"last_name": last_name,
+        "s_name": s_name,
 		"bio": bio, 
 		"pic": pic,						//direccion a un recurso del media server??
 		"birth_date": birth_date,

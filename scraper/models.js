@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 actor = new Schema({
-	// imdb_id: Number,
 	imdb_id: String,
     first_name: String, 
     last_name: String,
@@ -46,8 +45,7 @@ season = new Schema({
 });
 
 
-serie = new Schema({
-	// imdb_id: Number,
+series = new Schema({
 	imdb_id: String, 
 	name: String,
     s_name: String,
@@ -68,4 +66,4 @@ module.exports.actorModel = mongoose.model('actor', actor);
 module.exports.reviewModel = mongoose.model('review', review);
 module.exports.chapterModel = mongoose.model('chapter', chapter);
 module.exports.seasonModel = mongoose.model('season', season);
-module.exports.serieModel = mongoose.model('serie', serie);
+module.exports.serieModel = mongoose.model('series', series);
