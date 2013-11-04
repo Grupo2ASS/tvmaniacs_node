@@ -25,7 +25,7 @@ function wait_new_links(){
             config["revisit_days"] + " days') <= date('now') LIMIT "+enqueued_limit;
         db.each(check_links_query,
             function(err, row) {
-                if(row.num_links > 0) {
+                if(row && row.num_links > 0) {
                     setTimeout(enqueue_links(),1000);
                 }
                 else {
