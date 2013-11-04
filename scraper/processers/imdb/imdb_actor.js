@@ -17,8 +17,7 @@ module.exports.getInfo = function(html) {
 	imdb_id = $('link[rel = "canonical"]')
 
 	if( imdb_id.length > 0 ){
-		imdb_id = imdb_id.attr("href").match(pattern);			//Busca tt seguido por 7 digitos
-		// imdb_id = parseInt(imdb_id);	
+		imdb_id = imdb_id.attr("href").match(pattern);
 		imdb_id = imdb_id;	
 	}
 	
@@ -54,7 +53,6 @@ module.exports.getInfo = function(html) {
 		// series[index]["year"] = year[1];
 
 		pattern = /\d{7}/;
-		//series[index] = parseInt($(this).find('a').attr('href').match(pattern));
         series[index] = $(this).find('a').attr('href').match(pattern);
 	});
 	

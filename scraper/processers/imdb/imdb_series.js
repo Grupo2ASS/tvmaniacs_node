@@ -9,14 +9,12 @@ var cheerio = require('cheerio');
 		var imdb_id, name, user_rating, description, duration, genres, pic, year_start, year_end, cast, seasons;
 		var $ = cheerio.load(html);
 
-		//Obtengo el id del actor del tag con el link a la página 
-		//pattern = /tt\d{7}/;
+		//Obtengo el id del actor del tag con el link a la página
         pattern = /\d{7}/;
 		imdb_id = $('link[rel = "canonical"]')
 
 		if( imdb_id.length > 0 ){
-			imdb_id = imdb_id.attr("href").match(pattern);						//Busca tt seguido por 7 digitos
-			// imdb_id = parseInt(imdb_id);	
+			imdb_id = imdb_id.attr("href").match(pattern);
 			imdb_id = imdb_id;	
 		}
 
@@ -55,7 +53,6 @@ var cheerio = require('cheerio');
 			
 			pattern = /\d{7}/;
             cast.push( this.attr('href').match(pattern) );
-			//cast.push( parseInt( this.attr('href').match(pattern) ) );
 		});
 
 		seasons = [];
