@@ -5,6 +5,7 @@ var tidy_string = require('../tidy_string.js');
 //Lo siguiente es un modulo, lo que nos permite tener variables
 //locales y que hace que el archivo se comporte como una API
 
+
 	
 	//getInfo receives an html file and returns the actor's information in JSON format
 	//getInfo recibe el html y devuelve la info del actor en formato JSON
@@ -108,13 +109,34 @@ module.exports.getLinks = function(html) {
 			"type": "series"
 		});
 	});
-	/*
-		{
-			"url":"http://...",
-			"site": "IMDB"/"Metacritic",
-			"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
-		}
-	*/
+
+
+	//obtenemos el link para que busque al actor en metacritic
+	//los links en metacritic de personas son de la forma
+	//www.metacritic.com/person/jack-nicholson
+	var complete_name = $('span[itemprop="name"]').html();
+	var first_name;
+	var last_name;
+
+	if( complete_name ){
+		complete_name = complete_name.split(' ');
+		first_name = complete_name[0];
+		complete_name.splice(0,1);
+		last_name = complete_name.join(' ');	
+	}
+
+   
+   	first_name= tidy_string.tidy(first_name);
+   	last_name= tidy_string.tidy(last_name);
+	
+	links.push({
+			"url": "www.metacritic.com/person/"+first_name+"-"+last_name,
+			"site": "metacritic",
+			"type": "actor"
+		});
+
+
+
 	return links;
 };
 
