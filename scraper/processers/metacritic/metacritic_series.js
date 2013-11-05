@@ -40,7 +40,7 @@ var cheerio = require('cheerio');
 		if (url.slice(0,1) == '?'){
 			return pageURL+url;
 		}
-		return "www.imdb.com"+url;
+		return "www.metacritic.com"+url;
 		
 	};
 
