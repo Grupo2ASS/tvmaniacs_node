@@ -1,4 +1,5 @@
 var cheerio = require('cheerio');
+var tidy_string = require('../tidy_string.js');
 
 //This is a module, which make this code behave as an API
 //Lo siguiente es un modulo, lo que nos permite tener variables
@@ -6,20 +7,22 @@ var cheerio = require('cheerio');
 (function() {
 
 	var getInfo = function(html) {
-		var imdb_id, name, user_rating, description, duration, genres, pic, year_start, year_end, cast, seasons;
+		var imdb_id, name, s_name, user_rating, description, duration, genres, pic, year_start, year_end, cast, seasons;
 		var $ = cheerio.load(html);
 
-		//Obtengo el id del actor del tag con el link a la página 
-		pattern = /tt\d{7}/;	
+		//Obtengo el id del actor del tag con el link a la página
+        pattern = /\d{7}/;
 		imdb_id = $('link[rel = "canonical"]')
 
 		if( imdb_id.length > 0 ){
-			imdb_id = imdb_id.attr("href").match(pattern);						//Busca tt seguido por 7 digitos
-			// imdb_id = parseInt(imdb_id);	
+			imdb_id = imdb_id.attr("href").match(pattern);
 			imdb_id = imdb_id;	
 		}
 
 		name = $('span[itemprop="name"]').html();
+        if(name != null)
+            s_name = tidy_string.tidy(name);
+
 		user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
 		description = $('p[itemprop="description"]').html();
 
@@ -35,15 +38,17 @@ var cheerio = require('cheerio');
 		});
 		pic = $('img[itemprop="image"]').attr('src');
 		var years = $('.header > .nobr').html();
-		years = years.replace('(', '');
-		years = years.replace(')', '');
-		years = years.replace(' ', '');
-		years = years.split('–');
-		year_start = years[0];
-		if (years.length > 1)
-			year_end = years[1];
-		else
-			year_end = null;
+        if(years){
+            years = years.replace('(', '');
+            years = years.replace(')', '');
+            years = years.replace(' ', '');
+            years = years.split('–');
+            year_start = years[0];
+            if (years.length > 1)
+                year_end = years[1];
+            else
+                year_end = null;
+        }
 		cast = [];
 		// $('.cast_list span[itemprop="name"]').each(function(index, elem) {
 		// 	cast.push({
@@ -53,7 +58,7 @@ var cheerio = require('cheerio');
 		$( '.cast_list a[itemprop="url"]' ).each( function( index, elem ){
 			
 			pattern = /\d{7}/;
-			cast.push( parseInt( this.attr('href').match(pattern) ) );
+            cast.push( this.attr('href').match(pattern) );
 		});
 
 		seasons = [];
@@ -67,6 +72,7 @@ var cheerio = require('cheerio');
 		return {
 			"imdb_id": imdb_id,
 			"name": name,
+            "s_name": s_name,
 			"user_rating": user_rating, //(metacritic)
 			"description": description,
 			"duration": duration, //minutos
@@ -173,7 +179,7 @@ var cheerio = require('cheerio');
 
 	var checkURL = function(pageURL,url)
 	{
-		if (url.slice(0,1) == '?'){
+		if (url && url.slice(0,1) == '?'){
 			return pageURL+url;
 		}
 		return "www.imdb.com"+url;

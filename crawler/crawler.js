@@ -25,7 +25,7 @@ function wait_new_links(){var db = new sqlite3.Database(config["db_file"]);
             config["revisit_days"] + " days') <= date('now') LIMIT "+enqueued_limit;
         db.each(check_links_query,
             function(err, row) {
-                if(row.num_links > 0) {
+                if(row && row.num_links > 0) {
                     setTimeout(enqueue_links(),1000);
                 }
                 else {
@@ -59,13 +59,15 @@ function enqueue_links() {
             config["revisit_days"] + " days') <= date('now') LIMIT "+enqueued_limit;
         db.each(active_urls,
             function(err, row) {
-                current_links[row.url] = { 'site':row.site, 'type':row.type };
-                crawler_instance.queue(row.url);
+                if(row != null){
+                    current_links[row.url] = { 'site':row.site, 'type':row.type };
+                    crawler_instance.queue(row.url);
 
-                // Update last_visited date to revisit_page days later
-                var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+row.url+"'");
-                stmt.run();
-                stmt.finalize();
+                    // Update last_visited date to revisit_page days later
+                    var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+row.url+"'");
+                    stmt.run();
+                    stmt.finalize();
+                }
             },
             function(err, row) {
                 // Close db when no rows left

@@ -10,6 +10,7 @@ var links_db = new sqlite3.Database(config["db_file"]);
 
 // links_db.run("CREATE TABLE links (url TEXT), (site TEXT), (type TEXT), (last_visited datetime)");
 
+
 mongoose.connect('mongodb://localhost/tvdb');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -66,30 +67,61 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.
 
     if ( model == models.chapterModel ){    	
-    	utils.print_to_log('Saving episode %s from %s', info.name, info.serie );
+    	utils.print_to_log('Saving episode %s from %s', info.name, info.series );
 
-    	models.serieModel.findOne( { 'name': info.serie }, 'name seasons', function( err, serie){
+    	models.serieModel.findOne( { 'name': info.series }, 'name seasons', function( err, series){
     		if (err) return handleError(err);
+            if( !series ) {return; utils.print_to_log('error capitulo sin serie');}
 
   			var num = info.season - 1;
   			delete info.season;
   			aux = new model ( info );
 
-  			serie.seasons[ num ].chapters.push( aux );
+  			series.seasons[ num ].chapters.push( aux );
 
-  			serie.save( function(err){
+  			series.save( function(err){
   				if (err) { utils.print_to_log(err); }
 	        	else { utils.print_to_log('exito')}
   			});
     	});
     }
+//    else if( model == models.serieModel ){
+//        aux = new model( info );
+//
+//        aux.save(function(err){
+//            if (err) { utils.print_to_log(err); }
+//            else { utils.print_to_log('exito')}
+//        });
+//
+//
+//        standard = "new name";
+//        models.serieModel.update({'imdb_id':info.imdb_id}, {$set: {s_name: standard}}, function(err, updated) {
+//        if( err || !updated ) console.log("Series not updated");
+//        else console.log("Series updated");})
+//
+//        //aux = new model(info);
+//        query = {s_name: standard};
+//        models.serieModel.update(query, {s_name:standard}, function (err) {
+//            if (err) {
+//                utils.print_to_log(err);
+//            }
+//            else {
+//                utils.print_to_log('exito')
+//            }
+//        })
+//        //agregar info
+
+//
+//    }
+
 
     else {
     	aux = new model( info );
+
     
 	    aux.save(function(err){
 	        if (err) { utils.print_to_log(err); }
-	        else { utils.print_to_log('exito')}
+	        else { utils.print_to_log('exito '+ model.modelName);}
 	   });	
     }
 };

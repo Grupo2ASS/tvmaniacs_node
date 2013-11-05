@@ -66,3 +66,5 @@ for (var i = 0; i < folders.length; i++) {
 		makeDir(config["html_folder"]+"/"+folders[i], sub_folders[j]);
 	};
 };
+
+module.exports.sub_folders = sub_folders;
