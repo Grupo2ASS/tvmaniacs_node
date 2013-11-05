@@ -23,9 +23,10 @@ module.exports.getLinks = function(html)
 	links = [];
 	
 	//series list 
-	var series = $('h3[class="product_title basic_stat"]');
+	var series = $(".credits.person_credits").find(".title.brief_metascore").find('a');
 	series.each(function(index, elem){
-		var url = checkURL(pageURL,$(this).children().attr('href'));
+		var url = $(this).attr('href');
+		url=pageURL+url;
 		links.push({
 			"url": url,
 			"site": "metacritic",
