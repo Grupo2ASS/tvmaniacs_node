@@ -30,8 +30,29 @@ var cheerio = require('cheerio');
 
 	var getLinks = function(html) {
 		
-		//AL PARECER NO HAY LINKS INTERESANTES, solo critics y reviews
+		
+		var $ = cheerio.load(html);
 		links = [];
+		pageURL = $('link[rel="canonical"]').attr('href');
+		
+
+		//reviews
+		//guardamos el mismo link de esta serie, pero ahora para que lo scrapee como review
+		links.push({
+
+			"url": pageURL,
+			"site": "Metacritic",
+			"type": "review"
+		});
+
+		//ahora una vez para cada season
+
+		//var seasons = $(".product_data").find(".summary_detail product_seasons").html();
+
+
+
+
+
 		return links;
 	};
 

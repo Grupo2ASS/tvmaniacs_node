@@ -24,7 +24,7 @@ var links_actor = metacriticActorProcesser.getLinks(html_actor);
 console.log("Actor Links:")
 console.log(links_actor);
 
-
+*/
 
 console.log("--------------SERIE PROCESSER-----------------------");
 var metacriticSeriesProcesser = require('./processers/metacritic/metacritic_series');
@@ -38,7 +38,7 @@ console.log(series);
 var links_series = metacriticSeriesProcesser.getLinks(html_series);
 console.log("Series Links:")
 console.log(links_series);
-
+/*
 
 console.log("--------------ACTOR LIST PROCESSER-----------------------");
 
@@ -64,7 +64,7 @@ var links_series_list = metacriticSeriesListProcesser.getLinks(html_series_list)
 
 console.log("Series link:");
 console.log(links_series_list);
-*/
+
 
 //este aun funciona mal
 console.log("-------------------REVIEWS PROCESSESOR------------------");
@@ -76,3 +76,4 @@ var reviews = metacriticReviewProcesser.getInfo(html_review);
 
 console.log("Reviews:");
 console.log(reviews);
+*/

@@ -54,7 +54,7 @@ module.exports.getLinks = function(html) {
 	var filmo= $('table[class="credits person_credits"]').find("tbody").find("tr").find('td[class="title brief_metascore"]').find('a');
 
 
-	//series = new Array(filmo.length);
+	
 
 	//AQUI LE PONEMOS EL LINK A LAS SERIES
 	filmo.each(function(index, elem){
