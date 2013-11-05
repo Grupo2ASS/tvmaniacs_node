@@ -35,11 +35,6 @@ Then go to scraper and run "npm install" and then "node scraper.js" (Important: 
 Finally, go to crawler and run "npm install" and then "node crawler.js" (Important: the terminal will be attached to this program).
 When both crawler and scraper are running at the same time, they work together as it was explained before.
 
-
-Tests
---------
-To execute or create tests jasmine-node must be installed, go to tests folder and run "npm install jasmine-node -g". In this folder run "jasmine-node spec" to execute all tests inside spec. To add a test just name the file "name-spec.js" and move it into spec folder.
-
 Project Management
 ------------------
 Kanbanery (https://kanbanery.com/) is used for tracking. This project's URL is https://tvmaniacs.kanbanery.com/
