@@ -1,9 +1,10 @@
 fs = require('fs');
+config = require('../../config/config.json')
 init = require('../../config/init_workspace');
 describe("file initialization", function () {
 
 	it('is creating db file', function() {
-		expect(fs.existsSync('../tvmaniacs_node.db')).toBe(true);
+		expect(fs.existsSync(config['db_file'])).toBe(true);
 	});
 
 	it('is creating imdb folders', function() {
@@ -20,4 +21,3 @@ describe("file initialization", function () {
 		}
 	});
 });
-
