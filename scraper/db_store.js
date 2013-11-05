@@ -10,6 +10,7 @@ var links_db = new sqlite3.Database(config["db_file"]);
 
 // links_db.run("CREATE TABLE links (url TEXT), (site TEXT), (type TEXT), (last_visited datetime)");
 
+
 mongoose.connect('mongodb://localhost/tvdb');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
