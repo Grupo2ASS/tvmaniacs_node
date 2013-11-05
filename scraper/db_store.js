@@ -70,7 +70,7 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 
     	models.serieModel.findOne( { 'name': info.series }, 'name seasons', function( err, series){
     		if (err) return handleError(err);
-            if( !series ) {return; utils.print_to_log('error capitulo sin serie');}
+            if( !series ) {utils.print_to_log('error capitulo sin serie'); return; }
 
   			var num = info.season - 1;
   			delete info.season;
@@ -80,48 +80,47 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 
   			series.save( function(err){
   				if (err) { utils.print_to_log(err); }
-	        	else { utils.print_to_log('exito')}
+	        	else { utils.print_to_log('exito episode')}
   			});
     	});
     }
-//    else if( model == models.serieModel ){
-//        aux = new model( info );
-//
-//        aux.save(function(err){
-//            if (err) { utils.print_to_log(err); }
-//            else { utils.print_to_log('exito')}
-//        });
-//
-//
-//        standard = "new name";
-//        models.serieModel.update({'imdb_id':info.imdb_id}, {$set: {s_name: standard}}, function(err, updated) {
-//        if( err || !updated ) console.log("Series not updated");
-//        else console.log("Series updated");})
-//
-//        //aux = new model(info);
-//        query = {s_name: standard};
-//        models.serieModel.update(query, {s_name:standard}, function (err) {
-//            if (err) {
-//                utils.print_to_log(err);
-//            }
-//            else {
-//                utils.print_to_log('exito')
-//            }
-//        })
-//        //agregar info
+    else if( model == models.actorModel){
+       models.actorModel.findOneAndUpdate({s_name: info.s_name}, { $set: info}, function(err, actor) {
+            if(err)
+                return console.error(err);
+            else if(actor == null){
+                    aux = new model( info );
+                    aux.save(function(err){
+                        if (err) { utils.print_to_log(err); }
+                        else { utils.print_to_log('exito nuevo '+ model.modelName + '  --  ' + info.s_name);}
+                    });
+            }
+            else
+                utils.print_to_log('update exitoso ' + actor.s_name);
 
-//
-//    }
+       });
+    }
+    else if( model == models.serieModel){
+        models.serieModel.findOneAndUpdate({s_name: info.s_name}, { $set: info}, function(err, series) {
+            if(err)
+                return console.error(err);
+            else if(series == null){
+                    aux = new model( info );
+                    aux.save(function(err){
+                        if (err) { utils.print_to_log(err); }
+                        else { utils.print_to_log('exito nuevo '+ model.modelName + '  --  ' + info.s_name);}
+                    });
+            }
+            else
+                utils.print_to_log('update exitoso ' + series.s_name);
 
-
+        });
+    }
     else {
     	aux = new model( info );
-
-    
 	    aux.save(function(err){
 	        if (err) { utils.print_to_log(err); }
 	        else { utils.print_to_log('exito '+ model.modelName);}
 	   });	
     }
 };
-
