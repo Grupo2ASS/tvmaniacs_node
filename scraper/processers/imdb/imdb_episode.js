@@ -7,7 +7,7 @@ var cheerio = require('cheerio');
 
 module.exports.getInfo = function(html) {
 
-	var name, user_rating, description, series, season;
+	var name, user_rating, description, serie, season;
 	var $ = cheerio.load(html);
 
 	name = $('span[itemprop="name"]').html().trim();
@@ -20,7 +20,7 @@ module.exports.getInfo = function(html) {
 	season = parseInt( season.split(" ")[1] );
 
 	return {
-		"serie": serie,
+		"series": serie,
 		"season": season,
 		"name": name,
 		"user_rating": user_rating, //(metacritic)
