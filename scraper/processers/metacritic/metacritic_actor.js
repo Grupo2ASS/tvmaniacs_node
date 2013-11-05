@@ -1,4 +1,5 @@
 var cheerio = require('cheerio');
+var tidy_string = require('../tidy_string.js');
 
 //This is a module, which make this code behave as an API
 //Lo siguiente es un modulo, lo que nos permite tener variables
@@ -8,7 +9,7 @@ var cheerio = require('cheerio');
 	//getInfo receives an html file and returns the actor's information in JSON format
 	//getInfo recibe el html y devuelve la info del actor en formato JSON
 module.exports.getInfo = function(html) {
-	var metacritic_id, first_name, last_name, score, high_score, low_score;
+	var metacritic_id, first_name, last_name, s_name, score, high_score, low_score;
 	var $ = cheerio.load(html);
 
 	//Obtengo el id del actor del tag con el link a la página 
@@ -20,6 +21,13 @@ module.exports.getInfo = function(html) {
 	complete_name = complete_name.split(" ");
 	first_name = complete_name[0];
 	last_name = complete_name[1];
+
+    if( first_name != null)
+        s_name = tidy_string.tidy(first_name);
+    if( last_name != null){
+        s_name += ' ';
+        s_name += tidy_string.tidy(last_name);
+    }
 	
 
 	score=$(".review_average").find(".data.textscore.textscore_mixed").text();
@@ -31,9 +39,10 @@ module.exports.getInfo = function(html) {
 		"metacritic_id": metacritic_id,
 		"first_name": first_name,
 		"last_name": last_name,
+        "s_name": s_name,
 		"score": score,
 		"high_score":high_score,
-		"low_score":low_score,
+		"low_score":low_score
 	}
 };
 
