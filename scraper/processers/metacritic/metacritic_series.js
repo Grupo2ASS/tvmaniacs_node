@@ -1,5 +1,4 @@
 var cheerio = require('cheerio');
-var tidy_string = require('../tidy_string.js');
 
 //This is a module, which make this code behave as an API
 //Lo siguiente es un modulo, lo que nos permite tener variables
@@ -7,7 +6,7 @@ var tidy_string = require('../tidy_string.js');
 (function() {
 
 	var getInfo = function(html) {
-		var metacritic_id, name, s_name, user_rating, metascore;
+		var metacritic_id, name, user_rating, metascore;
 		var $ = cheerio.load(html);
 
 		//Obtengo el id del actor del tag con el link a la página 
@@ -16,8 +15,6 @@ var tidy_string = require('../tidy_string.js');
 		//metacritic_id = parseInt(metacritic_id);
 
 		name = $('meta[name="og:title"]').attr("content");
-        if(name != null)
-            s_name = tidy_string.tidy(name);
 		user_rating = parseFloat($('div[class="metascore_w user large tvshow positive"]').html());
 		metascore = $('div[class="metascore_w xlarge tvshow positive"]').html();
 
@@ -26,9 +23,8 @@ var tidy_string = require('../tidy_string.js');
 		return {
 			"metacritic_id": metacritic_id,
 			"name": name,
-            "s_name": s_name,
 			"user_rating": user_rating, //(metacritic)
-			"metascore": metascore
+			"metascore": metascore,
 		}
 	};
 
@@ -51,9 +47,28 @@ var tidy_string = require('../tidy_string.js');
 
 		//ahora una vez para cada season
 
-		//var seasons = $(".product_data").find(".summary_detail product_seasons").html();
+		//OJOOOO XQ NO ESTAN HECHO LOS PROCESSERS DE SEASONS! DND VA A IR A GUARDAR LAS REVIEWS?
 
+		var seasons = $(".product_data").find(".summary_detail.product_seasons").find(".data").find('a');
+		seasons.each(function(index, val) {
+			var url = checkURL(pageURL,$(this).attr('href'));
+			links.push({
+			 	"url" : url,
+			 	"site": "Metacritic",
+			 	"type": "review"
+			 	});
+		});
 
+		//guardamos series relacionadas //se podria revisar esto si funciona al 100, parece no pescar ni la primera ni la ultima url
+		var related_series = $(".module.products_module.list_product_titles_widget_module.contain_module").find(".body").find(".score_title_row").find(".product_title");
+		related_series.each(function(index, val) {
+			var url = checkURL(pageURL,$(this).attr('href'));
+			links.push({
+				"url" : url,
+			 	"site": "IMDB",
+			 	"type": "series"
+			});
+		});
 
 
 
