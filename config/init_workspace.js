@@ -16,13 +16,17 @@ if(!exists)	{
 	db.serialize(function() {
 		if(!exists) {
 			db.run("CREATE TABLE links (url TEXT, site TEXT, type TEXT, last_visited datetime)");
-			var first_page = "INSERT INTO links VALUES ('"+config["first_site"]["url"] +
-                "', '"+config["first_site"]["site"]+"', '"+config["first_site"]["site_type"]+
-                "', date('now','-"+config["revisit_days"]+" days'))";
-			var stmt = db.prepare(first_page);
-			stmt.run();
-			stmt.finalize();
-			exists = true;
+
+            for (var j = 0; j < config["initial_sites"].length; j++) {
+                var page_info = config["initial_sites"][j];
+			    var page_query = "INSERT INTO links VALUES ('"+page_info["url"] +
+                    "', '"+page_info["site"]+"', '"+page_info["site_type"]+
+                    "', date('now','-"+config["revisit_days"]+" days'))";
+			    var stmt = db.prepare(page_query);
+		    	stmt.run();
+			    stmt.finalize();
+            }
+            exists = true;
 		}
 	});
 }
