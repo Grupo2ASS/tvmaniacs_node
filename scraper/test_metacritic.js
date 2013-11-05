@@ -6,8 +6,9 @@
 var fs = require('fs');
 
 
-//QUEDA PENDIENTE VER UNA DUDA, FUNCIONA EN CHROME NO ACA
 
+//esto tiene una falla pendiente de revisar
+/*
 
 console.log("--------------ACTOR PROCESSER-----------------------");
 var metacriticActorProcesser = require('./processers/metacritic/metacritic_actor');
@@ -63,7 +64,7 @@ var links_series_list = metacriticSeriesListProcesser.getLinks(html_series_list)
 
 console.log("Series link:");
 console.log(links_series_list);
-
+*/
 
 //este aun funciona mal
 console.log("-------------------REVIEWS PROCESSESOR------------------");

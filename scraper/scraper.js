@@ -13,9 +13,10 @@ var imdbEpisodesListProcesser = require('./processers/imdb/imdb_episodes_list.js
 
 var metacriticActorProcesser = require('./processers/metacritic/metacritic_actor.js');
 var metacriticSeriesProcesser = require('./processers/metacritic/metacritic_series.js');
-//var metacriticEpisodeProcesser = require('./processers/metacritic/metacritic_episode.js');
 var metacriticActorsListProcesser = require('./processers/metacritic/metacritic_actors_list.js');
 var metacriticSeriesListProcesser = require('./processers/metacritic/metacritic_series_list.js');
+var metacriticReviewProcesser = require('./processers/metacritic/metacritic_review.js');
+//var metacriticEpisodeProcesser = require('./processers/metacritic/metacritic_episode.js');
 //var metacriticEpisodesListProcesser = require('./processers/metacritic/metacritic_episodes_list.js');
 //</processers>
 
@@ -47,7 +48,7 @@ function store(info, links, model) {
 		dbStore.storeInLocalDB(links, config["access"]["Local"]);
 	}
 	if(info){
-		//dbStore.storeInMongo(info, config["access"]["Mongo"], model);
+		dbStore.storeInMongo(info, config["access"]["Mongo"], model);
 	}
 };
 
@@ -160,16 +161,6 @@ watch.createMonitor(path + '/imdb/episode/',function(monitor){
     })
 });
 
-	//metacritic
-/*
-watch.createMonitor(path + '/metacritic/episode/',function(monitor){
-	 monitor.on("created", function (f, stat) {
-	 	if (monitor.files[f] === undefined) {
-      		threadProcess(metacriticEpisodeProcesser,path + '/metacritic/episode/', models.chapterModel );
-      	}
-    })
-});
-*/
 
 //Espisodes List
 	//IMDB
@@ -181,13 +172,14 @@ watch.createMonitor(path + '/imdb/episodes_list/',function(monitor){
     })
 });
 
+
+
+//Reviews
 	//metacritic
-/*
-watch.createMonitor(path + '/metacritic/episodes_list/',function(monitor){
+watch.createMonitor(path + '/metacritic/review/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
-      		threadProcess(metacriticEpisodesListProcesser,path + '/metacritic/episodes_list/');
+      		threadProcess(metacriticReviewProcesser,path + '/metacritic/review/');
       	}
     })
 });
-*/
