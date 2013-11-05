@@ -44,7 +44,8 @@ var sub_folders = [
 	"episodes_list",
 	"series",
 	"series_list",
-	"series_full_credits"
+	"series_full_credits",
+	"review"
 ];
 
 function makeDir(parent_dir,dir_name) {
