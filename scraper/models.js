@@ -5,10 +5,10 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 actor = new Schema({
-	// imdb_id: Number,
 	imdb_id: String,
     first_name: String, 
     last_name: String,
+    s_name: String,
     score: Number,              //(metacritic)    
     high_score: Number,             //(metacritic)
     low_score: Number,              //(metacritic)
@@ -17,7 +17,7 @@ actor = new Schema({
     // birthdate: { type: Date },
     birth_date: String,
     birth_place: String,
-    series: [Number]
+    series: [String]
 });
 
 review = new Schema({			//(metacritic)
@@ -45,10 +45,10 @@ season = new Schema({
 });
 
 
-serie = new Schema({
-	// imdb_id: Number,
+series = new Schema({
 	imdb_id: String, 
 	name: String,
+    s_name: String,
 	user_rating: Number,	//(metacritic)	
 	metascore: Number,	//(metacritic)
 	description: String,
@@ -57,7 +57,7 @@ serie = new Schema({
 	pic: String,
 	year_start: Number,
 	year_end: Number,
-	cast: [Number],
+	cast: [String],
 	seasons: [season]
 });
 
@@ -66,4 +66,4 @@ module.exports.actorModel = mongoose.model('actor', actor);
 module.exports.reviewModel = mongoose.model('review', review);
 module.exports.chapterModel = mongoose.model('chapter', chapter);
 module.exports.seasonModel = mongoose.model('season', season);
-module.exports.serieModel = mongoose.model('serie', serie);
+module.exports.serieModel = mongoose.model('series', series);

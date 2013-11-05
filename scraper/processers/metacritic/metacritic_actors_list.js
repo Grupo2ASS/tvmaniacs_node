@@ -42,35 +42,23 @@ module.exports.getLinks = function(html){
 	//linkt to next page
 	var next_page = $('a[class="page_num"]');//.attr("href");//text("next");
 	
+	
+
+	//ingresamos las 5 siguientes paginas
+	var contador=0;
 	next_page.each(function(index, elem){
 		var url = checkURL(pageURL,this.attr('href'));
-		links.push({
+		if(contador<5)
+		{
+			links.push({
 			"url": url,
 			"site": "metactiric",
 			"type": "actors_list"
-		});
-	});
-
-
-
-/*
-	next_page.each(function(index, elem){
-		var url = checkURL(pageURL,this.attr('href'));
-		links.push({
-			"url": url,
-			"site": "metacritis",
-			"type": "actors_list"
-		});
-	});
-	
-*/
-	/*
-		{
-			"url":"http://...",
-			"site": "IMDB"/"Metacritic",
-			"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
+			});
 		}
-	*/
+		contador=contador+1;
+	});
+
 	return links;
 };
 

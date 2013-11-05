@@ -21,28 +21,10 @@ module.exports.getInfo = function(html) {
 	first_name = complete_name[0];
 	last_name = complete_name[1];
 	
-	//LAS SIGUIENTES 3 LINEAS ARROJAN ERROR, PERO CORRIENDOLAS EN CHROME NO HAY PROBLEMA :s
 
-	score=$(".review_average").find($(".data.textscore.textscore_mixed")).text();
-	high_score = $(".highest_review").find($("span[class^='metascore_w']")).text();
-	low_score = $(".lowest_review.last").find($(".metascore_w.small.movie.negative.indiv")).text();
-	
-
-
-
-	//console.log(high_score);
-	//var filmo = titulos.find($("a[href^='/movie/']"));
-
-	//var tablaInfo= $('table[class = "profile_score_summary personscore_summary"]');
-	//var tablaInfo = $(".profile_score_summary.personscore_summary");
-
-	//score = tablaInfo.find($("span[class^='data']")).text();
-
-	//score = tablaInfo.find($("span[class='data textscore textscore_mixed']"));
-	//console.log(score);
-	//review = $(".review_average");
-	//score=review.find($(".data")).text();
-
+	score=$(".review_average").find(".data.textscore.textscore_mixed").text();
+	high_score = $(".highest_review").find("span[class^='metascore_w']").text();
+	low_score = $(".lowest_review.last").find(".metascore_w.small.movie.negative.indiv").text();
 	
 	
 	return {
@@ -62,23 +44,17 @@ module.exports.getLinks = function(html) {
 	var pageURL = $('meta[name="og:url"]').attr('content');
 	links = [];
 	
-	//actors list from birth date links (monthday and year)
-	//var birth_date = $('#name-born-info time a');
-	//birth_date.each(function(index, elem){
-	//	var url = checkURL(pageURL,this.attr('href'));
-	//	links.push({
-	//		"url": url,
-	//		"site": "IMDB",
-	//		"type": "actors_list"
-	//	 });
-	//});
 	
+	//ACA HAY UN PROBLEMA NO RESUELTO. POR DEFECTO, LA PAGINA DE UN ACTOR EN METACRITIC NOS MUESTRA LAS PELICULAS EN LAS
+	//QUE HA PARTICIPADO.. NECESITAMOS LAS SERIES.. ERgO HAY QUE HACER CLICK EN SERIES Y LUEGO BUSCAR LOS LINKS EN ESA PAGINA, NO ENL LA ACTUAL!
+	//RESCATAR EL HTML DE LA SECCION 'TV' ES PEGA DEL CRAWLER!
 
-	//obtenemos los links de las peliculas
-	
-	
-	var filmo = $("a[href^='/movie/']");
-	series = new Array(filmo.length);
+
+
+	var filmo= $('table[class="credits person_credits"]').find("tbody").find("tr").find('td[class="title brief_metascore"]').find('a');
+
+
+	//series = new Array(filmo.length);
 
 	//AQUI LE PONEMOS EL LINK A LAS SERIES
 	filmo.each(function(index, elem){
@@ -90,13 +66,7 @@ module.exports.getLinks = function(html) {
 		});
 
 	});
-	/*
-		{
-			"url":"http://...",
-			"site": "IMDB"/"Metacritic",
-			"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
-		}
-	*/
+
 	return links;
 };
 
