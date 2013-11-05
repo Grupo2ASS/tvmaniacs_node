@@ -85,9 +85,11 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     	});
     }
     else if( model == models.actorModel){
+        //busca si existe un documento con el mismo s_name
        models.actorModel.findOneAndUpdate({s_name: info.s_name}, { $set: info}, function(err, actor) {
             if(err)
                 return console.error(err);
+            //si no existe, se crea un documento nuevo con los datos
             else if(actor == null){
                     aux = new model( info );
                     aux.save(function(err){
@@ -95,15 +97,18 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
                         else { utils.print_to_log('exito nuevo '+ model.modelName + '  --  ' + info.s_name);}
                     });
             }
+            //si existe, se hace el update guardando los datos nuevos
             else
                 utils.print_to_log('update exitoso ' + actor.s_name);
 
        });
     }
     else if( model == models.serieModel){
+        //busca si existe un documento con el mismo s_name
         models.serieModel.findOneAndUpdate({s_name: info.s_name}, { $set: info}, function(err, series) {
             if(err)
                 return console.error(err);
+            //si no existe, se crea un documento nuevo con los datos
             else if(series == null){
                     aux = new model( info );
                     aux.save(function(err){
@@ -111,6 +116,7 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
                         else { utils.print_to_log('exito nuevo '+ model.modelName + '  --  ' + info.s_name);}
                     });
             }
+            //si existe, se hace el update guardando los datos nuevos
             else
                 utils.print_to_log('update exitoso ' + series.s_name);
 
