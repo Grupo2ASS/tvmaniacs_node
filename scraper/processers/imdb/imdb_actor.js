@@ -16,7 +16,7 @@ module.exports.getInfo = function(html) {
 	imdb_id = $('link[rel = "canonical"]')
 
 	if( imdb_id.length > 0 ){
-		imdb_id = imdb_id.attr("href").match(pattern);			//Busca tt seguido por 7 digitos
+		imdb_id = imdb_id.attr("href").match(pattern);			//Busca nm seguido por 7 digitos
 		// imdb_id = parseInt(imdb_id);	
 		imdb_id = imdb_id;	
 	}
@@ -91,8 +91,8 @@ module.exports.getLinks = function(html) {
 			"type": "actors_list"
 		 });
 	});
-	
-	var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
+	var filmo = $("#filmography").children("[data-category='actor']").next().children().filter(":contains('(TV Series)')");
+	//var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
 	series = new Array(filmo.length);
 	filmo.each(function(index, elem){
 		var url = checkURL(pageURL,$(this).find('a').attr('href'));

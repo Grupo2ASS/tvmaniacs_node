@@ -18,7 +18,7 @@ function print_to_log(str){
     });
 }
 
-function wait_new_links(){
+function wait_new_links(){var db = new sqlite3.Database(config["db_file"]);
     var db = new sqlite3.Database(config["db_file"]);
     db.serialize(function(){
         var check_links_query = "SELECT count(*) as num_links FROM links WHERE date(last_visited,'+" +
@@ -120,6 +120,12 @@ function create_crawler() {
             wait_new_links();
         }
     });
+}
+
+//function that enqueues IMDB actors when all the links are already visited
+function get_actor_links() {
+	//start with link starting in http://www.imdb.com/name/nm0000001/
+	var db = new sqlite3.Database(config["db_file"]);
 }
 
 wait_new_links();
