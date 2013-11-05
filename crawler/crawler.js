@@ -122,10 +122,5 @@ function create_crawler() {
     });
 }
 
-//function that enqueues IMDB actors when all the links are already visited
-function get_actor_links() {
-	//start with link starting in http://www.imdb.com/name/nm0000001/
-	var db = new sqlite3.Database(config["db_file"]);
-}
 
 wait_new_links();
