@@ -132,9 +132,10 @@ module.exports.getLinks = function(html) {
 		last_name = complete_name.join(' ');	
 	}
 
-   
-   	first_name= tidy_string.tidy(first_name);
-   	last_name= tidy_string.tidy(last_name);
+    if(first_name != null)
+   	    first_name= tidy_string.tidy(first_name);
+    if(last_name != null)
+        last_name= tidy_string.tidy(last_name);
 	
 	links.push({
 			"url": "www.metacritic.com/person/"+first_name+"-"+last_name,
