@@ -37,6 +37,9 @@ var tidy_string = require('../tidy_string.js');
 			genres.push($(this).html());
 		});
 		pic = $('img[itemprop="image"]').attr('src');
+        if(pic == undefined)
+            pic = '';
+        
 		var years = $('.header > .nobr').html();
         if(years){
             years = years.replace('(', '');
