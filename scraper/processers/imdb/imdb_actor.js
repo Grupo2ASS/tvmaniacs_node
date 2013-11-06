@@ -39,11 +39,18 @@ module.exports.getInfo = function(html) {
 
 	var born_info = $('#name-born-info');
 	birth_date = $('time', born_info).attr('datetime');
+    if(birth_date == undefined){
+        birth_date = new Date();
+    }
 	//1956-12-31
 	birth_place = $('a', born_info).last().html();
 	
 	bio = $('.inline[itemprop="description"]').html();
+    if(bio == undefined)
+        bio = '';
 	pic = $('#name-poster').attr('src');
+    if(pic == undefined)
+        pic = '';
 	
 	//solo filmografia como actor, por eso el first()
 	var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
