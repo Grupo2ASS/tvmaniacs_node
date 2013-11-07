@@ -37,7 +37,7 @@ function wait_new_links(){
                 // Close db when no rows left
                 db.close();
                 if(err){
-                    var error_str = "-----------ERROR ON wait_new_links!-----------\n";
+                    var error_str = "-----------ERROR - wait_new_links-----------\n";
                     error_str += " - [error] - "+err+"\n";
                     print_to_log(error_str);
                     print_to_log("Waiting "+config["seconds_until_next_db_check"]+" seconds until next check.");
@@ -73,7 +73,7 @@ function enqueue_links() {
                 // Close db when no rows left
                 db.close();
                 if(err){
-                    var error_str = "-----------ERROR ON enqueue_links!-----------\n";
+                    var error_str = "-----------ERROR - enqueue_links-----------\n";
                     error_str += " - [error] - "+err+"\n";
                     print_to_log(error_str);
                     print_to_log("Waiting 1 second until trying enqueue_links again");
@@ -90,9 +90,14 @@ function create_crawler() {
         "callback": function(error,result,$) {
             // This function will be called for each crawled page
             if(error != null || result == undefined || result == null) {
-                var error_str = "-----------ERROR ON REQUEST!-----------\n";
+                var error_str = "-----------ERROR - REQUEST-----------\n";
                 error_str += " - [error] - "+error+"\n";
                 error_str += " - [result] - "+result;
+                print_to_log(error_str);
+            }
+            else if(result.statusCode != 200) {
+                var error_str = "-----------ERROR - REQUEST STATUS CODE-----------\n";
+                error_str += " - [error] - Status code "+result.statusCode +" instead of 200\n";
                 print_to_log(error_str);
             }
             else {
