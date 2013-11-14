@@ -49,6 +49,7 @@ function store(info, links, model) {
 	}
 	if(info){
 		dbStore.storeInMongo(info, config["access"]["Mongo"], model);
+		dbStore.sendPicLinkToMediaServer(info);
 	}
 };
 

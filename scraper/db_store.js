@@ -131,3 +131,11 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 	   });	
     }
 };
+module.exports.sendPicLinkToMediaServer = function(info) {
+	var pic = info['pic'];
+	http.get("http://arqui12.ing.puc.cl/receiver?image_url=" + pic, function(res) {
+		console.log("Got response: " + res.statusCode);
+	}).on('error', function(e) {
+  		console.log("Got error: " + e.message);
+	});
+};
