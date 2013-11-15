@@ -26,9 +26,12 @@ module.exports.getInfo = function(html) {
 
 	// Season
 	// var season_episode = $(".tv_header .nobr").html().split(',');
-	var season_episode = $(".nobr").html().split(',');
-	season = season_episode[0];
-	season = parseInt( season.split(" ")[1] );
+	var season_episode = $(".nobr").html();
+	if( season_episode ){
+		season_episode = season_episode.split(',');
+		season = season_episode[0];
+		season = parseInt( season.split(" ")[1] );
+	}
 
 	return {
 		"series": serie,
