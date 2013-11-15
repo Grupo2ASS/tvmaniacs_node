@@ -10,13 +10,19 @@ module.exports.getInfo = function(html) {
 	var name, user_rating, description, serie, season;
 	var $ = cheerio.load(html);
 
-	name = $('span[itemprop="name"]').html().trim();
+	//NAME
+	name = $('span[itemprop="name"]').html();
+	if( name )
+		name = name.trim();
 
 	user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
 
 	description = $('p[itemprop="description"]').html();
 
-	serie = $(".tv_header a").html().trim();
+	//SERIE
+	serie = $(".tv_header a").html();
+	if( serie )
+		serie = serie.trim();
 
 	// Season
 	// var season_episode = $(".tv_header .nobr").html().split(',');

@@ -67,8 +67,10 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     //En el caso de que sea un episodio lo que se este guardando se debe buscar
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.
 
-    if ( model == models.chapterModel ){    	
-    	utils.print_to_log('Saving episode %s from %s', info.name, info.series );
+    if ( model == models.chapterModel ){    
+
+        log = 'Saving episode ' + info.name + ' from ' + info.series;	
+    	utils.print_to_log( log );
 
     	models.serieModel.findOne( { 'name': info.series }, 'name seasons', function( err, series){
     		if (err) return handleError(err);
