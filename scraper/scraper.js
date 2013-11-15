@@ -179,7 +179,7 @@ watch.createMonitor(path + '/imdb/episodes_list/',function(monitor){
 watch.createMonitor(path + '/metacritic/review/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
-      		threadProcess(metacriticReviewProcesser,path + '/metacritic/review/');
+      		threadProcess(metacriticReviewProcesser,path + '/metacritic/review/', models.reviewModel);
       	}
     })
 });
