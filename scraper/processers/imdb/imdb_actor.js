@@ -13,7 +13,7 @@ module.exports.getInfo = function(html) {
 	var imdb_id, first_name, last_name, s_name, bio, pic, birth_date, birth_place, series;
 	var $ = cheerio.load(html);
 
-	//Obtengo el id del actor del tag con el link a la página
+	// ID
     pattern = /\d{7}/;
 	imdb_id = $('link[rel = "canonical"]')
 
@@ -22,6 +22,8 @@ module.exports.getInfo = function(html) {
 		imdb_id = imdb_id;	
 	}
 	
+
+	// NAME
 	var complete_name = $('span[itemprop="name"]').html();
 
 	if( complete_name ){
@@ -38,6 +40,8 @@ module.exports.getInfo = function(html) {
         s_name += tidy_string.tidy(last_name);
     }
 
+
+    // BIRTHINFO
 	var born_info = $('#name-born-info');
 	birth_date = $('time', born_info).attr('datetime');
     if(birth_date == undefined){
@@ -46,9 +50,12 @@ module.exports.getInfo = function(html) {
 	//1956-12-31
 	birth_place = $('a', born_info).last().html();
 	
+	// BIOGRAPHY
 	bio = $('.inline[itemprop="description"]').html();
     if(bio == undefined)
         bio = '';
+
+    // PICTURE
 	pic = $('#name-poster').attr('src');
     if(pic == undefined)
         pic = '';
@@ -58,7 +65,7 @@ module.exports.getInfo = function(html) {
 	series = new Array(filmo.length);
 
 
-	//Obtenemos el id de las series en las que actuado el actor
+	// SERIES
 	filmo.each(function(index, elem){
 		// series[index] = {};
 		// series[index]["name"] = $(this).find('a').first().html();
@@ -79,12 +86,6 @@ module.exports.getInfo = function(html) {
 		"birth_date": birth_date,
 		"birth_place": birth_place,
 		"series": series
-			/*[
-			{
-				"name": "House M.D.", 
-				"year": 2004
-			}
-			]*/
 	}
 };
 

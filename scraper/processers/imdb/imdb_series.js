@@ -10,7 +10,7 @@ var tidy_string = require('../tidy_string.js');
 		var imdb_id, name, s_name, user_rating, description, duration, genres, pic, year_start, year_end, cast, seasons;
 		var $ = cheerio.load(html);
 
-		//Obtengo el id del actor del tag con el link a la página
+		// ID
         pattern = /\d{7}/;
 		imdb_id = $('link[rel = "canonical"]')
 
@@ -19,27 +19,37 @@ var tidy_string = require('../tidy_string.js');
 			imdb_id = imdb_id;	
 		}
 
+		// NAME
 		name = $('span[itemprop="name"]').html();
         if(name != null)
             s_name = tidy_string.tidy(name);
 
+        // USER RATING
 		user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
+
+		// DESCRIPTION
 		description = $('p[itemprop="description"]').html();
 
+		// DURATION
 		var unparsed_duration = $('time[itemprop="duration"]').html();
 		if( unparsed_duration ){
 			unparsed_duration = unparsed_duration.trim().split(' ');	
 			duration = parseInt(unparsed_duration[0]);
 		}
 		
+
+		// GENEROS
 		genres = [];
 		$('div[itemprop="genre"] a').each(function(index, elem) {
 			genres.push($(this).html());
 		});
+
+		// PIC
 		pic = $('img[itemprop="image"]').attr('src');
         if(pic == undefined)
             pic = '';
         
+        // YEARS
 		var years = $('.header > .nobr').html();
         if(years){
             years = years.replace('(', '');
@@ -52,6 +62,8 @@ var tidy_string = require('../tidy_string.js');
             else
                 year_end = null;
         }
+
+        // cast
 		cast = [];
 		// $('.cast_list span[itemprop="name"]').each(function(index, elem) {
 		// 	cast.push({
@@ -64,6 +76,7 @@ var tidy_string = require('../tidy_string.js');
             cast.push( this.attr('href').match(pattern) );
 		});
 
+		// SEASONS
 		seasons = [];
 		$('#titleTVSeries .see-more.inline').first().children('a').each(function(index, elem) {
 			seasons.push({
@@ -88,6 +101,8 @@ var tidy_string = require('../tidy_string.js');
 		}
 	};
 
+
+	
 	var getLinks = function(html) {
 		var $ = cheerio.load(html);
 		var pageURL = $('link[rel="canonical"]').attr('href');
