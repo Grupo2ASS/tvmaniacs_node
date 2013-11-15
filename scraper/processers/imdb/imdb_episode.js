@@ -13,8 +13,13 @@ module.exports.getInfo = function(html) {
 	name = $('span[itemprop="name"]').html().trim();
 
 	user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
+
 	description = $('p[itemprop="description"]').html();
+
 	serie = $(".tv_header a").html().trim();
+
+	// Season
+	// var season_episode = $(".tv_header .nobr").html().split(',');
 	var season_episode = $(".nobr").html().split(',');
 	season = season_episode[0];
 	season = parseInt( season.split(" ")[1] );
