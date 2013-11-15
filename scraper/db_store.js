@@ -80,6 +80,8 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
   			delete info.season;
   			aux = new model ( info );
 
+            if( !series[num] ) {utils.print_to_log('error capitulo sin temporada'); return; }
+            
   			series.seasons[ num ].chapters.push( aux );
 
   			series.save( function(err){
