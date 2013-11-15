@@ -10,18 +10,20 @@ var tidy_string = require('../tidy_string.js');
 		var metacritic_id, name, s_name, user_rating, metascore;
 		var $ = cheerio.load(html);
 
-		//Obtengo el id del actor del tag con el link a la página 
-		//pattern = /\d{7}/;	
-		metacritic_id = $('meta[name = "fb:app_id"]').attr("content");		//Busca un numero de exactamente 7 digitos en la url
+		
+		
+		// ID
+		metacritic_id = $('meta[name = "fb:app_id"]').attr("content");		
 		//metacritic_id = parseInt(metacritic_id);
 
+		// NAME
 		name = $('meta[name="og:title"]').attr("content");
         if(name != null)
             s_name = tidy_string.tidy(name);
+
 		user_rating = parseFloat($('div[class="metascore_w user large tvshow positive"]').html());
+
 		metascore = $('div[class="metascore_w xlarge tvshow positive"]').html();
-
-
 		
 		return {
 			"metacritic_id": metacritic_id,

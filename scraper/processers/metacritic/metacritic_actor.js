@@ -12,12 +12,12 @@ var tidy_string = require('../tidy_string.js');
 module.exports.getInfo = function(html) {
 	var metacritic_id, first_name, last_name, s_name, score, high_score, low_score;
 	var $ = cheerio.load(html);
-
-	//Obtengo el id del actor del tag con el link a la página 
-	//pattern = /\d{7}/; 
+	
+	// ID
  	metacritic_id = $('meta[name = "fb:app_id"]').attr("content");//.match(pattern);
 	metacritic_id = parseInt(metacritic_id);
 	
+	// NAME
 	var complete_name = $('meta[name="og:title"]').attr("content");
 	complete_name = complete_name.split(" ");
 	first_name = complete_name[0];
@@ -32,7 +32,9 @@ module.exports.getInfo = function(html) {
 	
 
 	score=$(".review_average").find(".data.textscore.textscore_mixed").text();
+
 	high_score = $(".highest_review").find("span[class^='metascore_w']").text();
+	
 	low_score = $(".lowest_review.last").find(".metascore_w.small.movie.negative.indiv").text();
 	
 	

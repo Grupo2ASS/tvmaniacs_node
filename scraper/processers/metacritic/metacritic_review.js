@@ -20,11 +20,17 @@ var cheerio = require('cheerio');
 			//console.log("Review de critico numero "+index);
 			
 			score = parseInt($(this).find(".review_stats").find("div[class^='review_grade']").text().trim()); 
+
 			name = $(this).find(".review_stats").find("div[class^='review_critic']"/*".review_critic.has_author"*/).find(".author").find('a').text();
+
 			institution = $(this).find(".review_stats").find(".review_critic.has_author").find(".source").find('a').text();	
+
 			comment=$(this).find(".review_body").text().trim();
+
 			date = null; //no hay
+
 			link=$(this).find(".review_section.review_actions").find(".review_action.full_review").find('a').attr('href');//text().trim();
+
 			critic=true;
 
 			/*
@@ -58,11 +64,17 @@ var cheerio = require('cheerio');
 			//console.log("Review de usuario numero "+index);
 			
 			score = parseInt($(this).find(".review_stats").find("div[class^='review_grade']").text().trim()); 
+
 			name = $(this).find(".review_stats").find("div[class^='review_critic']").find(".name").children().text();	
+
 			institution = null;	//no hay
+
 			comment= $(this).find(".review_body").text().trim();
+
 			date = $(this).find(".review_stats").find("div[class^='review_critic']").find(".date").text();	
+
 			link=null; //no hay
+
 			critic=false;
 
 			/*
