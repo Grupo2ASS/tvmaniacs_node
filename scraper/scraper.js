@@ -1,5 +1,4 @@
 var config = require('../config/config.json'); //Load config values
-
 var fs = require('fs'); // files streaming
 var _ = require('underscore'); // utilities like _.each
 var watch = require('watch'); // adding a new file asynchronous event
@@ -49,6 +48,7 @@ function store(info, links, model) {
 	}
 	if(info){
 		dbStore.storeInMongo(info, config["access"]["Mongo"], model);
+		dbStore.sendPicLinkToMediaServer(info);
 	}
 };
 

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var http = require('http');
 var models = require('./models');
 var config = require('../config/config.json');
 
@@ -130,4 +131,12 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 	        else { utils.print_to_log('exito '+ model.modelName);}
 	   });	
     }
+};
+module.exports.sendPicLinkToMediaServer = function(info) {
+	var pic = info['pic'];
+	http.get("http://arqui12.ing.puc.cl/receiver?image_url=" + pic, function(res) {
+		console.log("Got response: " + res.statusCode);
+	}).on('error', function(e) {
+  		console.log("Got error: " + e.message);
+	});
 };
