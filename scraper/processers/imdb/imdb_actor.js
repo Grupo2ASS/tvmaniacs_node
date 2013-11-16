@@ -15,7 +15,7 @@ module.exports.getInfo = function(html) {
 
 	// ID
     pattern = /\d{7}/;
-	imdb_id = $('link[rel = "canonical"]')
+	imdb_id = $('link[rel = "canonical"]');
 
 	if( imdb_id.length > 0 ){
 		imdb_id = imdb_id.attr("href").match(pattern);
@@ -50,8 +50,10 @@ module.exports.getInfo = function(html) {
 	//1956-12-31
 	birth_place = $('a', born_info).last().html();
 	
+	var biobio;
 	// BIOGRAPHY
 	bio = $('.inline[itemprop="description"]').html();
+	var bio_formatted = formatAllLinks(bio);
     if(bio == undefined)
         bio = '';
 
@@ -81,7 +83,7 @@ module.exports.getInfo = function(html) {
 		"first_name": first_name,
 		"last_name": last_name,
         "s_name": s_name,
-		"bio": bio, 
+		"bio": bio_formatted, 
 		"pic": pic,						//direccion a un recurso del media server??
 		"birth_date": birth_date,
 		"birth_place": birth_place,
@@ -154,6 +156,23 @@ var checkURL = function(pageURL,url) {
 		return pageURL+url;
 	}
 	return "www.imdb.com"+url;
-	
 };
 
+var formatAllLinks = function(text_chain) {
+	text_chain_splited = text_chain.split('href="');
+	var finalBio = text_chain_splited[0];
+	for(var i=1;i<text_chain_splited.length;i++){
+		finalBio = finalBio+'href="www.imdb.com'+text_chain_splited[i];
+	}
+
+	return finalBio;
+};
+
+var formatLink = function(bio) {
+	link_start = bio.split('href');
+	start = link_start[3].indexOf('"')+1;
+	end = link_start[3].indexOf('"',start);
+	biobio = link_start[3].substring(start,end);//bio.match(/href/g);
+
+	return "www.imdb.com"+biobio;
+};

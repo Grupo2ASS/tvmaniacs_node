@@ -16,9 +16,9 @@ console.log("Actor Info:")
 console.log(actor);
 
 //obtener links de actor imdb. Check!
-var links_actor = imdbActorProcesser.getLinks(html_actor);
-console.log("Actor Links:")
-console.log(links_actor);
+// var links_actor = imdbActorProcesser.getLinks(html_actor);
+// console.log("Actor Links:")
+// console.log(links_actor);
 /*
 var imdbSeriesProcesser = require('./imdb_series');
 
