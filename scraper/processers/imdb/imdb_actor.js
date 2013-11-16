@@ -53,7 +53,7 @@ module.exports.getInfo = function(html) {
 	var biobio;
 	// BIOGRAPHY
 	bio = $('.inline[itemprop="description"]').html();
-	var bio_formatted = formatAllLinks(bio);
+	bio = formatAllLinks(bio);
     if(bio == undefined)
         bio = '';
 
@@ -84,7 +84,7 @@ module.exports.getInfo = function(html) {
 		"first_name": first_name,
 		"last_name": last_name,
         "s_name": s_name,
-		"bio": bio_formatted, 
+		"bio": bio, 
 		"pic": pic,						//direccion a un recurso del media server??
 		"birth_date": birth_date,
 		"birth_place": birth_place,

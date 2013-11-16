@@ -29,6 +29,7 @@ var tidy_string = require('../tidy_string.js');
 
 		// DESCRIPTION
 		description = $('p[itemprop="description"]').html();
+		description = formatAllLinks(description);
 
 		// DURATION
 		var unparsed_duration = $('time[itemprop="duration"]').html();
@@ -73,7 +74,9 @@ var tidy_string = require('../tidy_string.js');
 		$( '.cast_list a[itemprop="url"]' ).each( function( index, elem ){
 			
 			pattern = /\d{7}/;
-            cast.push( this.attr('href').match(pattern) );
+			var current_cast = this.attr('href').match(pattern);
+			current_cast.input="www.imdb.com"+current_cast.input
+            cast.push( current_cast );
 		});
 
 		// SEASONS
@@ -200,6 +203,16 @@ var tidy_string = require('../tidy_string.js');
 		}
 		return "www.imdb.com"+url;
 		
+	};
+
+	var formatAllLinks = function(text_chain) {
+		text_chain_splited = text_chain.split('href="');
+		var finalBio = text_chain_splited[0];
+		for(var i=1;i<text_chain_splited.length;i++){
+			finalBio = finalBio+'href="www.imdb.com'+text_chain_splited[i];
+		}
+
+		return finalBio;
 	};
 
 

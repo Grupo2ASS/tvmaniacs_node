@@ -9,38 +9,34 @@ var fs = require('fs');
 var imdbActorProcesser = require('./processers/imdb/imdb_actor');
 
 //obtener info de actor IMDB. Check!
-var html_actor = fs.readFileSync('./html_test_files/imdb/actors/imdb_actor.html')
+// var html_actor = fs.readFileSync('./html_test_files/imdb/actors/imdb_actor.html')
 
-var actor = imdbActorProcesser.getInfo(html_actor);
-console.log("Actor Info:")
-console.log(actor);
+// var actor = imdbActorProcesser.getInfo(html_actor);
+// console.log("Actor Info:")
+// console.log(actor);
 
 //obtener links de actor imdb. Check!
 // var links_actor = imdbActorProcesser.getLinks(html_actor);
 // console.log("Actor Links:")
 // console.log(links_actor);
-/*
-var imdbSeriesProcesser = require('./imdb_series');
+
+var imdbSeriesProcesser = require('./processers/imdb/imdb_episode');
 
 //obtener info de series imdb. Check!
-var html_series = fs.readFileSync('./html_test_files/imdb/series/imdb_series.html')
-var series = imdbSeriesProcesser.getInfo(html_series);
-console.log("Series Info:")
-console.log(series);
+var html_episode = fs.readFileSync('./html_test_files/imdb/episodes/imdb_episode.html')
+var episodes = imdbSeriesProcesser.getInfo(html_episode);
+console.log("Episodes Info:")
+console.log(episodes);
 
+// var links_series = imdbSeriesProcesser.getLinks(html_series);
+// console.log("Series Links:")
+// console.log(links_series);
 
-
-var links_series = imdbSeriesProcesser.getLinks(html_series);
-console.log("Series Links:")
-console.log(links_series);
-
-var imdbActorsListProcesser = require('./imdb_episodes_list');
+var imdbActorsListProcesser = require('./processers/imdb/imdb_actors_list');
 //obtener lista de actores imdb.
-var html_actors_list = fs.readFileSync('./html_test_files/imdb/episodes_lists/imdb_episodes_list.html')
-
-
-var links_actors_list = imdbActorsListProcesser.getLinks(html_actors_list);
-console.log("Episiodekjnsk link:");
+var html_actors_list = fs.readFileSync('./html_test_files/imdb/episodes_lists/imdb_actors_list.html')
+var links_actors_list = imdbActorsListProcesser.getInfo(html_actors_list);
+console.log("Actor link:");
 console.log(links_actors_list);
-*/
+
 
