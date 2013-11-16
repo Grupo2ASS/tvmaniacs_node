@@ -19,22 +19,25 @@ module.exports.getInfo = function(html) {
 	
 	// NAME
 	var complete_name = $('meta[name="og:title"]').attr("content");
-	complete_name = complete_name.split(" ");
-	first_name = complete_name[0];
-	last_name = complete_name[1];
 
-    if( first_name != null)
-        s_name = tidy_string.tidy(first_name);
-    if( last_name != null){
-        s_name += ' ';
-        s_name += tidy_string.tidy(last_name);
-    }
+	if( complete_name ){
+		complete_name = complete_name.split(" ");
+		first_name = complete_name[0];
+		last_name = complete_name[1];	
+
+		if( first_name )
+        	s_name = tidy_string.tidy(first_name);
+    	if( last_name ){
+	        s_name += ' ';
+	        s_name += tidy_string.tidy(last_name);
+    	}
+	}
 	
 
 	score=$(".review_average").find(".data.textscore.textscore_mixed").text();
 
 	high_score = $(".highest_review").find("span[class^='metascore_w']").text();
-	
+
 	low_score = $(".lowest_review.last").find(".metascore_w.small.movie.negative.indiv").text();
 	
 	

@@ -18,7 +18,7 @@ var tidy_string = require('../tidy_string.js');
 
 		// NAME
 		name = $('meta[name="og:title"]').attr("content");
-        if(name != null)
+        if( name )
             s_name = tidy_string.tidy(name);
 
 		user_rating = parseFloat($('div[class="metascore_w user large tvshow positive"]').html());

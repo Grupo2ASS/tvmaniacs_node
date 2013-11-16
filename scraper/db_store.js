@@ -41,14 +41,16 @@ module.exports.storeInLocalDB = function(links, local_access) {
     }
 
     for( var i = 0; i < links.length; i++){
-      var index_ref = (links[i].url.indexOf('&ref') == -1) ? links[i].length : links[i].url.indexOf('&ref');
-      index_ref = (links[i].url.indexOf('?ref') == -1) ? index_ref : links[i].url.indexOf('?ref');
-      insert.run(
-          "http://"+links[i].url.substring(0,index_ref),
-          links[i].site.toLowerCase(),
-          links[i].type,
-          old_date_str
-      );
+        if( links[i].url ){
+            var index_ref = (links[i].url.indexOf('&ref') == -1) ? links[i].length : links[i].url.indexOf('&ref');
+            index_ref = (links[i].url.indexOf('?ref') == -1) ? index_ref : links[i].url.indexOf('?ref');
+            insert.run(
+              "http://"+links[i].url.substring(0,index_ref),
+              links[i].site.toLowerCase(),
+              links[i].type,
+              old_date_str
+            );      
+        }
     }
 
     insert.finalize();
