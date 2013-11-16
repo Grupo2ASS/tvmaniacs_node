@@ -15,7 +15,7 @@ module.exports.getInfo = function(html) {
 
 	// ID
     pattern = /\d{7}/;
-	imdb_id = $('link[rel = "canonical"]')
+	imdb_id = $('link[rel = "canonical"]');
 
 	if( imdb_id.length > 0 ){
 		imdb_id = imdb_id.attr("href").match(pattern);

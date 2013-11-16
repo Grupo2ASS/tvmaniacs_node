@@ -1,4 +1,5 @@
 var fs = require('fs');
+var cheerio = require('cheerio');
 
 module.exports.print_to_log = function(str){
 	
@@ -8,4 +9,17 @@ module.exports.print_to_log = function(str){
 		if (err) throw err;
 	});
 };
+
+
+// Retorna true si la página es un error 404 de metacritic
+module.exports.check_404 = function( html ){
+
+	var $ = cheerio.load(html);
+	var error = $('.error_code').html();
+
+	if( error != undefined )
+		return true;
+	else
+		return false;
+}
 
