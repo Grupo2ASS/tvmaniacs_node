@@ -76,6 +76,7 @@ module.exports.getInfo = function(html) {
 
 		pattern = /\d{7}/;
         series[index] = $(this).find('a').attr('href').match(pattern);
+        series[index].input="www.imdb.com"+series[index].input
 	});
 	
 	return {
