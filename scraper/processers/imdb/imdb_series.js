@@ -187,12 +187,32 @@ var tidy_string = require('../tidy_string.js');
 			});
 		});
 		/*
-				{
-					"url":"http://...",
-					"site": "IMDB"/"Metacritic",
-					"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
-				}
-			*/
+			{
+				"url":"http://...",
+				"site": "IMDB"/"Metacritic",
+				"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
+			}
+		*/
+
+
+		//obtenemos el link para que busque la serie en metacritic
+		//los links en metacritic de series son de la forma
+		//www.metacritic.com/tv/game-of-thrones
+		var series_name = $('span[itemprop="name"]').html();
+
+		if( series_name ){
+			series_name = tidy_string.tidy(series_name);
+			series_name = series_name.split(' ');
+			series_name = series_name.join('-');
+
+			links.push({
+				"url": "www.metacritic.com/tv/"+series_name,
+				"site": "metacritic",
+				"type": "series"
+			});
+		}
+
+
 		return links;
 	};
 
