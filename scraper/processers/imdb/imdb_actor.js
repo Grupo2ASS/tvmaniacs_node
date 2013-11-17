@@ -126,28 +126,18 @@ module.exports.getLinks = function(html) {
 	//los links en metacritic de personas son de la forma
 	//www.metacritic.com/person/jack-nicholson
 	var complete_name = $('span[itemprop="name"]').html();
-	var first_name;
-	var last_name;
 
 	if( complete_name ){
+		complete_name = tidy_string.tidy(complete_name);
 		complete_name = complete_name.split(' ');
-		first_name = complete_name[0];
-		complete_name.splice(0,1);
-		last_name = complete_name.join(' ');	
-	}
+		complete_name = complete_name.join('-');
 
-    if(first_name != null)
-   	    first_name= tidy_string.tidy(first_name);
-    if(last_name != null)
-        last_name= tidy_string.tidy(last_name);
-	
-	links.push({
-			"url": "www.metacritic.com/person/"+first_name+"-"+last_name,
+		links.push({
+			"url": "www.metacritic.com/person/"+complete_name,
 			"site": "metacritic",
 			"type": "actor"
 		});
-
-
+	}
 
 	return links;
 };
