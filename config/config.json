@@ -16,11 +16,6 @@
             "url": "http://www.imdb.com/title/tt0944947/",
             "site": "imdb",
             "site_type": "series"
-        },
-        {
-            "url": "http://www.metacritic.com/person/kevin-bacon",
-            "site": "metacritic",
-            "site_type": "actor"
         }
     ],
 

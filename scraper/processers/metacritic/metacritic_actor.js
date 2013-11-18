@@ -5,33 +5,39 @@ var tidy_string = require('../tidy_string.js');
 //Lo siguiente es un modulo, lo que nos permite tener variables
 //locales y que hace que el archivo se comporte como una API
 
+
 	
 	//getInfo receives an html file and returns the actor's information in JSON format
 	//getInfo recibe el html y devuelve la info del actor en formato JSON
 module.exports.getInfo = function(html) {
 	var metacritic_id, first_name, last_name, s_name, score, high_score, low_score;
 	var $ = cheerio.load(html);
-
-	//Obtengo el id del actor del tag con el link a la página 
-	//pattern = /\d{7}/; 
+	
+	// ID
  	metacritic_id = $('meta[name = "fb:app_id"]').attr("content");//.match(pattern);
 	metacritic_id = parseInt(metacritic_id);
 	
+	// NAME
 	var complete_name = $('meta[name="og:title"]').attr("content");
-	complete_name = complete_name.split(" ");
-	first_name = complete_name[0];
-	last_name = complete_name[1];
 
-    if( first_name != null)
-        s_name = tidy_string.tidy(first_name);
-    if( last_name != null){
-        s_name += ' ';
-        s_name += tidy_string.tidy(last_name);
-    }
+	if( complete_name ){
+		complete_name = complete_name.split(" ");
+		first_name = complete_name[0];
+		last_name = complete_name[1];	
+
+		if( first_name )
+        	s_name = tidy_string.tidy(first_name);
+    	if( last_name ){
+	        s_name += ' ';
+	        s_name += tidy_string.tidy(last_name);
+    	}
+	}
 	
 
 	score=$(".review_average").find(".data.textscore.textscore_mixed").text();
+
 	high_score = $(".highest_review").find("span[class^='metascore_w']").text();
+
 	low_score = $(".lowest_review.last").find(".metascore_w.small.movie.negative.indiv").text();
 	
 	
@@ -52,29 +58,17 @@ module.exports.getLinks = function(html) {
 	var $ = cheerio.load(html);
 	var pageURL = $('meta[name="og:url"]').attr('content');
 	links = [];
-	
-	
-	//ACA HAY UN PROBLEMA NO RESUELTO. POR DEFECTO, LA PAGINA DE UN ACTOR EN METACRITIC NOS MUESTRA LAS PELICULAS EN LAS
-	//QUE HA PARTICIPADO.. NECESITAMOS LAS SERIES.. ERgO HAY QUE HACER CLICK EN SERIES Y LUEGO BUSCAR LOS LINKS EN ESA PAGINA, NO ENL LA ACTUAL!
-	//RESCATAR EL HTML DE LA SECCION 'TV' ES PEGA DEL CRAWLER!
 
+	//obtenemos el link a la lista de series en que aparece el actor
 
-
-	var filmo= $('table[class="credits person_credits"]').find("tbody").find("tr").find('td[class="title brief_metascore"]').find('a');
-
-
-	//series = new Array(filmo.length);
-
-	//AQUI LE PONEMOS EL LINK A LAS SERIES
-	filmo.each(function(index, elem){
-		var url = checkURL(pageURL,$(this).attr('href'));
-		links.push({
-			"url": url,
+	var urlListaSeries =$(".module.credits_module.person_credits_module").find(".tabs.tabs_type_1").find(".tab.tab_type_1.tab_tv.last").find('a').attr('href');
+	urlListaSeries="www.metacritic.com"+urlListaSeries;
+	links.push({
+			"url": urlListaSeries,
 			"site": "Metacritic",
-			"type": "series"
+			"type": "series_list"
 		});
 
-	});
 
 	return links;
 };

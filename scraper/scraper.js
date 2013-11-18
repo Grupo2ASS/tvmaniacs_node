@@ -1,5 +1,4 @@
 var config = require('../config/config.json'); //Load config values
-
 var fs = require('fs'); // files streaming
 var _ = require('underscore'); // utilities like _.each
 var watch = require('watch'); // adding a new file asynchronous event
@@ -49,6 +48,7 @@ function store(info, links, model) {
 	}
 	if(info){
 		dbStore.storeInMongo(info, config["access"]["Mongo"], model);
+		dbStore.sendPicLinkToMediaServer(info);
 	}
 };
 
@@ -62,9 +62,16 @@ function threadProcess(processer, folder, model) {
 	if(files_list.length){
 		_.each(files_list, function(element) {
 			utils.print_to_log("Gonna read: " + folder + element);
-			var info = processer.getInfo(fs.readFileSync(folder + element));
-			var links = processer.getLinks(fs.readFileSync(folder + element));
-			store(info, links, model);
+
+			// Reviso que el archivo no sea un error 404  
+			if( !utils.check_404( fs.readFileSync(folder + element ) ) ){
+				var info = processer.getInfo(fs.readFileSync(folder + element));
+				var links = processer.getLinks(fs.readFileSync(folder + element));
+				store(info, links, model);
+			}
+
+			else
+				utils.print_to_log("Archivo era un error 404!!")
 			
 			//delete file
 			fs.unlinkSync( folder + element);
@@ -179,7 +186,7 @@ watch.createMonitor(path + '/imdb/episodes_list/',function(monitor){
 watch.createMonitor(path + '/metacritic/review/',function(monitor){
 	 monitor.on("created", function (f, stat) {
 	 	if (monitor.files[f] === undefined) {
-      		threadProcess(metacriticReviewProcesser,path + '/metacritic/review/');
+      		threadProcess(metacriticReviewProcesser,path + '/metacritic/review/', models.reviewModel);
       	}
     })
 });

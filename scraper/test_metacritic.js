@@ -8,7 +8,7 @@ var fs = require('fs');
 
 
 //esto tiene una falla pendiente de revisar
-/*
+
 
 console.log("--------------ACTOR PROCESSER-----------------------");
 var metacriticActorProcesser = require('./processers/metacritic/metacritic_actor');
@@ -64,9 +64,9 @@ var links_series_list = metacriticSeriesListProcesser.getLinks(html_series_list)
 
 console.log("Series link:");
 console.log(links_series_list);
-*/
 
-//este aun funciona mal
+
+
 console.log("-------------------REVIEWS PROCESSESOR------------------");
 
 var metacriticReviewProcesser = require('./processers/metacritic/metacritic_review');

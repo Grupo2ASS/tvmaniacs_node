@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var http = require('http');
 var models = require('./models');
 var config = require('../config/config.json');
 
@@ -40,14 +41,16 @@ module.exports.storeInLocalDB = function(links, local_access) {
     }
 
     for( var i = 0; i < links.length; i++){
-      var index_ref = (links[i].url.indexOf('&ref') == -1) ? links[i].length : links[i].url.indexOf('&ref');
-      index_ref = (links[i].url.indexOf('?ref') == -1) ? index_ref : links[i].url.indexOf('?ref');
-      insert.run(
-          "http://"+links[i].url.substring(0,index_ref),
-          links[i].site.toLowerCase(),
-          links[i].type,
-          old_date_str
-      );
+        if( links[i].url ){
+            var index_ref = (links[i].url.indexOf('&ref') == -1) ? links[i].length : links[i].url.indexOf('&ref');
+            index_ref = (links[i].url.indexOf('?ref') == -1) ? index_ref : links[i].url.indexOf('?ref');
+            insert.run(
+              "http://"+links[i].url.substring(0,index_ref),
+              links[i].site.toLowerCase(),
+              links[i].type,
+              old_date_str
+            );      
+        }
     }
 
     insert.finalize();
@@ -66,8 +69,10 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     //En el caso de que sea un episodio lo que se este guardando se debe buscar
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.
 
-    if ( model == models.chapterModel ){    	
-    	utils.print_to_log('Saving episode %s from %s', info.name, info.series );
+    if ( model == models.chapterModel ){    
+
+        log = 'Saving episode ' + info.name + ' from ' + info.series;	
+    	utils.print_to_log( log );
 
     	models.serieModel.findOne( { 'name': info.series }, 'name seasons', function( err, series){
     		if (err) return handleError(err);
@@ -77,6 +82,8 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
   			delete info.season;
   			aux = new model ( info );
 
+            if( !series[num] ) {utils.print_to_log('error capitulo sin temporada'); return; }
+            
   			series.seasons[ num ].chapters.push( aux );
 
   			series.save( function(err){
@@ -130,4 +137,12 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 	        else { utils.print_to_log('exito '+ model.modelName);}
 	   });	
     }
+};
+module.exports.sendPicLinkToMediaServer = function(info) {
+	var pic = info['pic'];
+	http.get("http://arqui12.ing.puc.cl/receiver?image_url=" + pic, function(res) {
+		console.log("Got response: " + res.statusCode);
+	}).on('error', function(e) {
+  		console.log("Got error: " + e.message);
+	});
 };

@@ -7,20 +7,35 @@ var cheerio = require('cheerio');
 
 module.exports.getInfo = function(html) {
 
-	var name, user_rating, description, series, season;
+	var name, user_rating, description, serie, season;
 	var $ = cheerio.load(html);
 
-	name = $('span[itemprop="name"]').html().trim();
+	//NAME
+	name = $('span[itemprop="name"]').html();
+	if( name )
+		name = name.trim();
 
 	user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
+
 	description = $('p[itemprop="description"]').html();
-	serie = $(".tv_header a").html().trim();
-	var season_episode = $(".nobr").html().split(',');
-	season = season_episode[0];
-	season = parseInt( season.split(" ")[1] );
+	description = formatAllLinks(description);
+
+	//SERIE
+	serie = $(".tv_header a").html();
+	if( serie )
+		serie = serie.trim();
+
+	// Season
+	// var season_episode = $(".tv_header .nobr").html().split(',');
+	var season_episode = $(".nobr").html();
+	if( season_episode ){
+		season_episode = season_episode.split(',');
+		season = season_episode[0];
+		season = parseInt( season.split(" ")[1] );
+	}
 
 	return {
-		"serie": serie,
+		"series": serie,
 		"season": season,
 		"name": name,
 		"user_rating": user_rating, //(metacritic)
@@ -127,4 +142,14 @@ var checkURL = function(pageURL,url)
 	}
 	return "www.imdb.com"+url;
 	
+};
+
+var formatAllLinks = function(text_chain) {
+	text_chain_splited = text_chain.split('href="');
+	var finalBio = text_chain_splited[0];
+	for(var i=1;i<text_chain_splited.length;i++){
+		finalBio = finalBio+'href="www.imdb.com'+text_chain_splited[i];
+	}
+
+	return finalBio;
 };

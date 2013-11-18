@@ -13,9 +13,8 @@ actor = new Schema({
     high_score: Number,             //(metacritic)
     low_score: Number,              //(metacritic)
     bio: String,    
-    pic: String,                
-    // birthdate: { type: Date },
-    birth_date: String,
+    pic: String,
+    birth_date: Date,
     birth_place: String,
     series: [String]
 });
@@ -33,13 +32,12 @@ review = new Schema({			//(metacritic)
 chapter = new Schema({
 	name: String,
 	description: String,
-	rating: Number
+	user_rating: Number
 });
 
 
 season = new Schema({
 	number: Number,
-	// date: String,
 	chapters: [chapter],
 	reviews: [review]
 });
@@ -49,7 +47,7 @@ series = new Schema({
 	imdb_id: String, 
 	name: String,
     s_name: String,
-	user_rating: Number,	//(metacritic)	
+	user_rating: Number, //(metacritic)
 	metascore: Number,	//(metacritic)
 	description: String,
 	length: Number,
