@@ -50,7 +50,7 @@ module.exports.storeInLocalDB = function(links, local_access) {
               links[i].type,
               old_date_str
             );
-                
+            console.log("saved in local db");      
         }
     }
 

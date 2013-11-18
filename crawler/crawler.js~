@@ -2,6 +2,7 @@ var config = require('../config/config.json');
 var Crawler = require("crawler").Crawler;
 var fs = require('fs');
 var sqlite3 = require("sqlite3").verbose();
+var pushlinks = require('../scraper/push_actor_links');
 		
 // Info of links in queue
 var current_links = {};
@@ -25,7 +26,7 @@ function wait_new_links(){var db = new sqlite3.Database(config["db_file"]);
             config["revisit_days"] + " days') <= date('now') LIMIT "+enqueued_limit;
         db.each(check_links_query,
             function(err, row) {
-                if(row.num_links > 0) {
+                if(row && row.num_links > 0) {
                     setTimeout(enqueue_links(),1000);
                 }
                 else {
@@ -37,7 +38,7 @@ function wait_new_links(){var db = new sqlite3.Database(config["db_file"]);
                 // Close db when no rows left
                 db.close();
                 if(err){
-                    var error_str = "-----------ERROR ON wait_new_links!-----------\n";
+                    var error_str = "-----------ERROR - wait_new_links-----------\n";
                     error_str += " - [error] - "+err+"\n";
                     print_to_log(error_str);
                     print_to_log("Waiting "+config["seconds_until_next_db_check"]+" seconds until next check.");
@@ -59,19 +60,21 @@ function enqueue_links() {
             config["revisit_days"] + " days') <= date('now') LIMIT "+enqueued_limit;
         db.each(active_urls,
             function(err, row) {
-                current_links[row.url] = { 'site':row.site, 'type':row.type };
-                crawler_instance.queue(row.url);
+                if(row != null){
+                    current_links[row.url] = { 'site':row.site, 'type':row.type };
+                    crawler_instance.queue(row.url);
 
-                // Update last_visited date to revisit_page days later
-                var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+row.url+"'");
-                stmt.run();
-                stmt.finalize();
+                    // Update last_visited date to revisit_page days later
+                    var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+row.url+"'");
+                    stmt.run();
+                    stmt.finalize();
+                }
             },
             function(err, row) {
                 // Close db when no rows left
                 db.close();
                 if(err){
-                    var error_str = "-----------ERROR ON enqueue_links!-----------\n";
+                    var error_str = "-----------ERROR - enqueue_links-----------\n";
                     error_str += " - [error] - "+err+"\n";
                     print_to_log(error_str);
                     print_to_log("Waiting 1 second until trying enqueue_links again");
@@ -88,9 +91,14 @@ function create_crawler() {
         "callback": function(error,result,$) {
             // This function will be called for each crawled page
             if(error != null || result == undefined || result == null) {
-                var error_str = "-----------ERROR ON REQUEST!-----------\n";
+                var error_str = "-----------ERROR - REQUEST-----------\n";
                 error_str += " - [error] - "+error+"\n";
                 error_str += " - [result] - "+result;
+                print_to_log(error_str);
+            }
+            else if(result.statusCode != 200) {
+                var error_str = "-----------ERROR - REQUEST STATUS CODE-----------\n";
+                error_str += " - [error] - Status code "+result.statusCode +" instead of 200\n";
                 print_to_log(error_str);
             }
             else {
@@ -117,15 +125,12 @@ function create_crawler() {
         "onDrain": function() {
             // This function executes when queue is empty
             print_to_log("No pages on queue... starting to wait for new active links");
+            
             wait_new_links();
+            pushlinks.pushImdbActorLinks();
         }
     });
 }
 
-//function that enqueues IMDB actors when all the links are already visited
-function get_actor_links() {
-	//start with link starting in http://www.imdb.com/name/nm0000001/
-	var db = new sqlite3.Database(config["db_file"]);
-}
 
 wait_new_links();
