@@ -29,6 +29,7 @@ var tidy_string = require('../tidy_string.js');
 
 		// DESCRIPTION
 		description = $('p[itemprop="description"]').html();
+		description = formatAllLinks(description);
 
 		// DURATION
 		var unparsed_duration = $('time[itemprop="duration"]').html();
@@ -73,7 +74,9 @@ var tidy_string = require('../tidy_string.js');
 		$( '.cast_list a[itemprop="url"]' ).each( function( index, elem ){
 			
 			pattern = /\d{7}/;
-            cast.push( this.attr('href').match(pattern) );
+			var current_cast = this.attr('href').match(pattern);
+			current_cast.input="www.imdb.com"+current_cast.input
+            cast.push( current_cast );
 		});
 
 		// SEASONS
@@ -184,12 +187,32 @@ var tidy_string = require('../tidy_string.js');
 			});
 		});
 		/*
-				{
-					"url":"http://...",
-					"site": "IMDB"/"Metacritic",
-					"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
-				}
-			*/
+			{
+				"url":"http://...",
+				"site": "IMDB"/"Metacritic",
+				"type": "actor" / "series" / "episode" / "episodes_list" / "actors_list"
+			}
+		*/
+
+
+		//obtenemos el link para que busque la serie en metacritic
+		//los links en metacritic de series son de la forma
+		//www.metacritic.com/tv/game-of-thrones
+		var series_name = $('span[itemprop="name"]').html();
+
+		if( series_name ){
+			series_name = tidy_string.tidy(series_name);
+			series_name = series_name.split(' ');
+			series_name = series_name.join('-');
+
+			links.push({
+				"url": "www.metacritic.com/tv/"+series_name,
+				"site": "metacritic",
+				"type": "series"
+			});
+		}
+
+
 		return links;
 	};
 
@@ -200,6 +223,16 @@ var tidy_string = require('../tidy_string.js');
 		}
 		return "www.imdb.com"+url;
 		
+	};
+
+	var formatAllLinks = function(text_chain) {
+		text_chain_splited = text_chain.split('href="');
+		var finalBio = text_chain_splited[0];
+		for(var i=1;i<text_chain_splited.length;i++){
+			finalBio = finalBio+'href="www.imdb.com'+text_chain_splited[i];
+		}
+
+		return finalBio;
 	};
 
 

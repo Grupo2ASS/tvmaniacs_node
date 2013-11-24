@@ -49,7 +49,8 @@ module.exports.storeInLocalDB = function(links, local_access) {
               links[i].site.toLowerCase(),
               links[i].type,
               old_date_str
-            );      
+            );
+                
         }
     }
 

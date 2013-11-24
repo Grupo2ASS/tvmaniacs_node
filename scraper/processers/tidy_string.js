@@ -11,8 +11,10 @@ function toLower(str){
     return str.toLowerCase();
 }
 
+//Removes multiples spaces and trims leading and trailings spaces.
 function removeMultipleSpaces(str){
-    //remove spaces
+    str = str.replace(/ +(?= )/g,'');
+    str = str.trim();
     return str;
 }
 

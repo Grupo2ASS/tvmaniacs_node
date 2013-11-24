@@ -1,0 +1,10 @@
+CREATE TABLE "node-links".links
+(
+  url text NOT NULL,
+  site text,
+  type text,
+  last_visited timestamp without time zone,
+  id integer NOT NULL DEFAULT nextval('"node-links".links_id_seq'::regclass),
+  CONSTRAINT id PRIMARY KEY (id )
+)
+

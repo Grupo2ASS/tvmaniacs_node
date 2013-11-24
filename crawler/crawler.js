@@ -2,6 +2,7 @@ var config = require('../config/config.json');
 var Crawler = require("crawler").Crawler;
 var fs = require('fs');
 var sqlite3 = require("sqlite3").verbose();
+var pushlinks = require('../scraper/push_actor_links');
 		
 // Info of links in queue
 var current_links = {};
@@ -18,7 +19,7 @@ function print_to_log(str){
     });
 }
 
-function wait_new_links(){
+function wait_new_links(){var db = new sqlite3.Database(config["db_file"]);
     var db = new sqlite3.Database(config["db_file"]);
     db.serialize(function(){
         var check_links_query = "SELECT count(*) as num_links FROM links WHERE date(last_visited,'+" +
@@ -124,9 +125,12 @@ function create_crawler() {
         "onDrain": function() {
             // This function executes when queue is empty
             print_to_log("No pages on queue... starting to wait for new active links");
+            
             wait_new_links();
+            //pushlinks.pushImdbActorLinks();
         }
     });
 }
+
 
 wait_new_links();

@@ -18,7 +18,7 @@ module.exports.getInfo = function(html) {
 	imdb_id = $('link[rel = "canonical"]');
 
 	if( imdb_id.length > 0 ){
-		imdb_id = imdb_id.attr("href").match(pattern);
+		imdb_id = imdb_id.attr("href").match(pattern);			//Busca nm seguido por 7 digitos
 		imdb_id = imdb_id;	
 	}
 	
@@ -50,8 +50,10 @@ module.exports.getInfo = function(html) {
 	//1956-12-31
 	birth_place = $('a', born_info).last().html();
 	
+	var biobio;
 	// BIOGRAPHY
 	bio = $('.inline[itemprop="description"]').html();
+	bio = formatAllLinks(bio);
     if(bio == undefined)
         bio = '';
 
@@ -61,6 +63,8 @@ module.exports.getInfo = function(html) {
         pic = '';
 	
 	//solo filmografia como actor, por eso el first()
+	//***edit: No siempre es el first, pero si es el next en que data-category = 'actor'
+	//var filmo = $("#filmography").children("[data-category='actor']").next().children().filter(":contains('(TV Series)')");
 	var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
 	series = new Array(filmo.length);
 
@@ -74,6 +78,7 @@ module.exports.getInfo = function(html) {
 
 		pattern = /\d{7}/;
         series[index] = $(this).find('a').attr('href').match(pattern);
+        series[index].input="www.imdb.com"+series[index].input
 	});
 	
 	return {
@@ -106,7 +111,7 @@ module.exports.getLinks = function(html) {
 			"type": "actors_list"
 		 });
 	});
-	
+	//var filmo = $("#filmography").children("[data-category='actor']").next().children().filter(":contains('(TV Series)')");
 	var filmo = $(".filmo-category-section").first().children().filter(":contains('(TV Series)')");
 	series = new Array(filmo.length);
 	filmo.each(function(index, elem){
@@ -123,28 +128,18 @@ module.exports.getLinks = function(html) {
 	//los links en metacritic de personas son de la forma
 	//www.metacritic.com/person/jack-nicholson
 	var complete_name = $('span[itemprop="name"]').html();
-	var first_name;
-	var last_name;
 
 	if( complete_name ){
+		complete_name = tidy_string.tidy(complete_name);
 		complete_name = complete_name.split(' ');
-		first_name = complete_name[0];
-		complete_name.splice(0,1);
-		last_name = complete_name.join(' ');	
-	}
+		complete_name = complete_name.join('-');
 
-    if(first_name != null)
-   	    first_name= tidy_string.tidy(first_name);
-    if(last_name != null)
-        last_name= tidy_string.tidy(last_name);
-	
-	links.push({
-			"url": "www.metacritic.com/person/"+first_name+"-"+last_name,
+		links.push({
+			"url": "www.metacritic.com/person/"+complete_name,
 			"site": "metacritic",
 			"type": "actor"
 		});
-
-
+	}
 
 	return links;
 };
@@ -154,6 +149,23 @@ var checkURL = function(pageURL,url) {
 		return pageURL+url;
 	}
 	return "www.imdb.com"+url;
-	
 };
 
+var formatAllLinks = function(text_chain) {
+	text_chain_splited = text_chain.split('href="');
+	var finalBio = text_chain_splited[0];
+	for(var i=1;i<text_chain_splited.length;i++){
+		finalBio = finalBio+'href="www.imdb.com'+text_chain_splited[i];
+	}
+
+	return finalBio;
+};
+
+var formatLink = function(bio) {
+	link_start = bio.split('href');
+	start = link_start[3].indexOf('"')+1;
+	end = link_start[3].indexOf('"',start);
+	biobio = link_start[3].substring(start,end);//bio.match(/href/g);
+
+	return "www.imdb.com"+biobio;
+};

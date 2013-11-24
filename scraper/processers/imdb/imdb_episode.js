@@ -18,6 +18,7 @@ module.exports.getInfo = function(html) {
 	user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
 
 	description = $('p[itemprop="description"]').html();
+	description = formatAllLinks(description);
 
 	//SERIE
 	serie = $(".tv_header a").html();
@@ -141,4 +142,14 @@ var checkURL = function(pageURL,url)
 	}
 	return "www.imdb.com"+url;
 	
+};
+
+var formatAllLinks = function(text_chain) {
+	text_chain_splited = text_chain.split('href="');
+	var finalBio = text_chain_splited[0];
+	for(var i=1;i<text_chain_splited.length;i++){
+		finalBio = finalBio+'href="www.imdb.com'+text_chain_splited[i];
+	}
+
+	return finalBio;
 };
