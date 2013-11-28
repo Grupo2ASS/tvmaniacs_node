@@ -50,12 +50,15 @@ module.exports.getInfo = function(html) {
 	//1956-12-31
 	birth_place = $('a', born_info).last().html();
 	
-	var biobio;
 	// BIOGRAPHY
+	var biobio;
+
 	bio = $('.inline[itemprop="description"]').html();
-	bio = formatAllLinks(bio);
+	// bio = formatAllLinks(bio);
     if(bio == undefined)
         bio = '';
+    else
+    	bio = formatAllLinks(bio);
 
     // PICTURE
 	pic = $('#name-poster').attr('src');
