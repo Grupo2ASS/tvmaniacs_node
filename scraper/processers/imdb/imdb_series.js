@@ -29,7 +29,8 @@ var tidy_string = require('../tidy_string.js');
 
 		// DESCRIPTION
 		description = $('p[itemprop="description"]').html();
-		description = formatAllLinks(description);
+		if(description!= null)
+			description = formatAllLinks(description);
 
 		// DURATION
 		var unparsed_duration = $('time[itemprop="duration"]').html();
