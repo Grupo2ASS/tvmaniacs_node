@@ -18,12 +18,14 @@ module.exports.getInfo = function(html) {
 	user_rating = parseFloat($('span[itemprop="ratingValue"]').html());
 
 	description = $('p[itemprop="description"]').html();
-	try{
+	// try{
+	// 	description = formatAllLinks(description);	
+	// }
+	// catch(err){
+	// 	console.log("Ojo!! El capitulo no tenía descripción")
+	// }
+	if(description != null)
 		description = formatAllLinks(description);	
-	}
-	catch(err){
-		console.log("Ojo!! El capitulo no tenía descripción")
-	}
 	
 
 	//SERIE
