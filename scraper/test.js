@@ -6,13 +6,18 @@ var _ = require('underscore');
 
 
 // Actores
-testear( './html_test_files/imdb/actors/', './processers/imdb/imdb_actor', 'Actor Processer' );
+testear( './html_test_files/imdb/actors/', './processers/imdb/imdb_actor', 'IMDB Actor Processer' );
+testear( './html_test_files/metacritic/actors/', './processers/metacritic/metacritic_actor', 'Metacritic Actor Processer')
 
 // Series
-testear('./html_test_files/imdb/series/', './processers/imdb/imdb_series', 'Series Processer');
+testear('./html_test_files/imdb/series/', './processers/imdb/imdb_series', 'IMDB Series Processer');
+testear( './html_test_files/metacritic/series/', './processers/metacritic/metacritic_series', 'Metacritic Series Processer')
 
 // Episodios
-testear('./html_test_files/imdb/episodes/', './processers/imdb/imdb_episode', 'Episodes Processer')
+testear('./html_test_files/imdb/episodes/', './processers/imdb/imdb_episode', 'IMDB Episodes Processer')
+
+// Reviews
+testear( './html_test_files/metacritic/reviews/', './processers/metacritic/metacritic_review', 'Metacritic Review Processer')
 
 
 function testear( folder, processer_path, test_name  ){
