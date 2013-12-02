@@ -78,7 +78,7 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     //Replace pic link immediately
     	
 	if (info['pic']!= undefined){
-		storeInMongo(info);
+		sendPicLinkToMediaServer(info);
 		info['pic'] = info['pic'].replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
 	}
 
