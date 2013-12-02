@@ -84,12 +84,18 @@ var tidy_string = require('../tidy_string.js');
 
 		// SEASONS
 		seasons = [];
-		$('#titleTVSeries .see-more.inline').first().children('a').each(function(index, elem) {
+		seasons_count = $('#titleTVSeries .see-more.inline').first().children('a').first().html();
+		for(var i=0;i<seasons_count;i++){
 			seasons.push({
-				"number": this.html()
+				"number": i+1
 			});
-		});
-		seasons = seasons.reverse();
+		}
+		// $('#titleTVSeries .see-more.inline').first().children('a').each(function(index, elem) {
+		// 	seasons.push({
+		// 		"number": this.html()
+		// 	});
+		// });
+		// seasons = seasons.reverse();
 
 		return {
 			"imdb_id": imdb_id,
