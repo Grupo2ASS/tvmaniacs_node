@@ -79,7 +79,7 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     	
 	if (info['pic']!= undefined){
 		storeInMongo(info);
-		pic.replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
+		info['pic'] = info['pic'].replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
 	}
 
     //En el caso de que sea un episodio lo que se este guardando se debe buscar
