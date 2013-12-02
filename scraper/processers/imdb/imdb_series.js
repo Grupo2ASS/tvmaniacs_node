@@ -1,6 +1,5 @@
 var cheerio = require('cheerio');
 var tidy_string = require('../tidy_string.js');
-var pics_save = require('../pics_save.js');
 
 //This is a module, which make this code behave as an API
 //Lo siguiente es un modulo, lo que nos permite tener variables
