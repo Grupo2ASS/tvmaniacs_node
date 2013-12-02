@@ -1,5 +1,5 @@
 var sqlite3 = require("sqlite3").verbose();
-var dbStore = require('./db_store');
+var dbStore = require('../scraper/db_store');
 var config = require('../config/config.json'); //Load config values
 
 //function that enqueues IMDB actors when all the links are already visited
