@@ -2,7 +2,8 @@ var config = require('../config/config.json');
 var Crawler = require("crawler").Crawler;
 var fs = require('fs');
 var sqlite3 = require("sqlite3").verbose();
-var pushlinks = require('../scraper/push_actor_links');
+var pushlinks = require('./push_actor_links');
+
 		
 // Info of links in queue
 var current_links = {};
@@ -125,7 +126,7 @@ function create_crawler() {
         "onDrain": function() {
             // This function executes when queue is empty
             print_to_log("No pages on queue... starting to wait for new active links");
-            
+	    pushlinks.pushImdbActorLinks();            
             wait_new_links();
             //pushlinks.pushImdbActorLinks();
         }
