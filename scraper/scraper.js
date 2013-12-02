@@ -47,8 +47,9 @@ function store(info, links, model) {
 		dbStore.storeInLocalDB(links, config["access"]["Local"]);
 	}
 	if(info){
-		dbStore.storeInMongo(info, config["access"]["Mongo"], model);
 		dbStore.sendPicLinkToMediaServer(info);
+		dbStore.storeInMongo(info, config["access"]["Mongo"], model);
+		
 	}
 };
 

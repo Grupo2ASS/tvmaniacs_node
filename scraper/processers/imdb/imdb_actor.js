@@ -64,8 +64,6 @@ module.exports.getInfo = function(html) {
 	pic = $('#name-poster').attr('src');
     if(pic == undefined)
         pic = '';
-	else
-		pic = pic.replace("ia.media-imdb.com", "arqui12.ing.puc.cl");
 	
 	//solo filmografia como actor, por eso el first()
 	//***edit: No siempre es el first, pero si es el next en que data-category = 'actor'
