@@ -11,7 +11,7 @@ var links_db = new sqlite3.Database(config["db_file"]);
 
 // links_db.run("CREATE TABLE links (url TEXT), (site TEXT), (type TEXT), (last_visited datetime)");
 
-function sendPicLinkToMediaServer = function(info) {
+var sendPicLinkToMediaServer = function(info) {
 	var pic = info['pic'];
 	http.get("http://arqui12.ing.puc.cl/receiver?image_url=" + pic, function(res) {
 		console.log("Got response: " + res.statusCode);
