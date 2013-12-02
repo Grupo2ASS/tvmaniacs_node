@@ -156,7 +156,7 @@ var formatAllLinks = function(text_chain) {
 	text_chain_splited = text_chain.split('href="');
 	var finalBio = text_chain_splited[0];
 	for(var i=1;i<text_chain_splited.length;i++){
-		finalBio = finalBio+'href="www.imdb.com'+text_chain_splited[i];
+		finalBio = finalBio+'href="http://www.imdb.com'+text_chain_splited[i];
 	}
 
 	return finalBio;
