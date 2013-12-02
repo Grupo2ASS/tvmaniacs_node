@@ -20,7 +20,7 @@ module.exports.getLinks = function(html){
 	links = [];
 	
 	//actors list 
-	var actors = $('.results .name a');
+	var actors = $('.results .name>a');
 	actors.each(function(index, elem){
 		var url = checkURL(pageURL,this.attr('href'));
 		links.push({
