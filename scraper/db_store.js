@@ -11,6 +11,14 @@ var links_db = new sqlite3.Database(config["db_file"]);
 
 // links_db.run("CREATE TABLE links (url TEXT), (site TEXT), (type TEXT), (last_visited datetime)");
 
+function sendPicLinkToMediaServer = function(info) {
+	var pic = info['pic'];
+	http.get("http://arqui12.ing.puc.cl/receiver?image_url=" + pic, function(res) {
+		console.log("Got response: " + res.statusCode);
+	}).on('error', function(e) {
+  		console.log("Got error: " + e.message);
+	});
+};
 
 mongoose.connect('mongodb://localhost/tvdb');
 var db = mongoose.connection;
@@ -66,6 +74,13 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     var username = mongo_access["username"];
     var password = mongo_access["password"];
     var address = mongo_access["address"];
+
+    //Replace pic link immediately
+    	
+	if (info['pic']!= undefined){
+		storeInMongo(info);
+		pic.replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
+	}
 
     //En el caso de que sea un episodio lo que se este guardando se debe buscar
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.
@@ -139,11 +154,4 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 	   });	
     }
 };
-module.exports.sendPicLinkToMediaServer = function(info) {
-	var pic = info['pic'];
-	http.get("http://arqui12.ing.puc.cl/receiver?image_url=" + pic, function(res) {
-		console.log("Got response: " + res.statusCode);
-	}).on('error', function(e) {
-  		console.log("Got error: " + e.message);
-	});
-};
+
