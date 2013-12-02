@@ -11,6 +11,14 @@ var links_db = new sqlite3.Database(config["db_file"]);
 
 // links_db.run("CREATE TABLE links (url TEXT), (site TEXT), (type TEXT), (last_visited datetime)");
 
+var sendPicLinkToMediaServer = function(info) {
+	var pic = info['pic'];
+	http.get("http://arqui12.ing.puc.cl/receiver?image_url=" + pic, function(res) {
+		console.log("Got response: " + res.statusCode);
+	}).on('error', function(e) {
+  		console.log("Got error: " + e.message);
+	});
+};
 
 mongoose.connect('mongodb://localhost/tvdb');
 var db = mongoose.connection;
@@ -67,6 +75,13 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     var password = mongo_access["password"];
     var address = mongo_access["address"];
 
+    //Replace pic link immediately
+    	
+	if (info['pic']!= undefined){
+		storeInMongo(info);
+		pic.replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
+	}
+
     //En el caso de que sea un episodio lo que se este guardando se debe buscar
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.
 
@@ -77,13 +92,13 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 
     	models.serieModel.findOne( { 'name': info.series }, 'name seasons', function( err, series){
     		if (err) return handleError(err);
-            if( !series ) {utils.print_to_log('error capitulo sin serie'); return; }
+            if( !series ) {console.log('error capitulo sin serie'); return; }
 
   			var num = info.season - 1;
   			delete info.season;
   			aux = new model ( info );
 
-            if( !series[num] ) {utils.print_to_log('error capitulo sin temporada'); return; }
+            if( !series[num] ) {console.log('error capitulo sin temporada'); return; }
             
   			series.seasons[ num ].chapters.push( aux );
 
@@ -139,11 +154,4 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 	   });	
     }
 };
-module.exports.sendPicLinkToMediaServer = function(info) {
-	var pic = info['pic'];
-	http.get("http://arqui12.ing.puc.cl/receiver?image_url=" + pic, function(res) {
-		console.log("Got response: " + res.statusCode);
-	}).on('error', function(e) {
-  		console.log("Got error: " + e.message);
-	});
-};
+

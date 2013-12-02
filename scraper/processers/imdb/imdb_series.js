@@ -50,8 +50,6 @@ var tidy_string = require('../tidy_string.js');
 		pic = $('img[itemprop="image"]').attr('src');
         if(pic == undefined)
             pic = '';
-		else
-			pic = pic.replace("ia.media-imdb.com", "arqui12.ing.puc.cl");
         
         // YEARS
 		var years = $('.header > .nobr').html();

@@ -48,7 +48,7 @@ function store(info, links, model) {
 	}
 	if(info){
 		dbStore.storeInMongo(info, config["access"]["Mongo"], model);
-		dbStore.sendPicLinkToMediaServer(info);
+		
 	}
 };
 
@@ -67,6 +67,9 @@ function threadProcess(processer, folder, model) {
 			if( !utils.check_404( fs.readFileSync(folder + element ) ) ){
 				var info = processer.getInfo(fs.readFileSync(folder + element));
 				var links = processer.getLinks(fs.readFileSync(folder + element));
+				console.log('File: ' + element + ' Ready to store');
+				console.log('info : ' + JSON.stringify(info));
+				console.log('links: ' + JSON.stringify(links));
 				store(info, links, model);
 			}
 
