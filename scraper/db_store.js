@@ -77,13 +77,13 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 
     	models.serieModel.findOne( { 'name': info.series }, 'name seasons', function( err, series){
     		if (err) return handleError(err);
-            if( !series ) {utils.print_to_log('error capitulo sin serie'); return; }
+            if( !series ) {console.log('error capitulo sin serie'); return; }
 
   			var num = info.season - 1;
   			delete info.season;
   			aux = new model ( info );
 
-            if( !series[num] ) {utils.print_to_log('error capitulo sin temporada'); return; }
+            if( !series[num] ) {console.log('error capitulo sin temporada'); return; }
             
   			series.seasons[ num ].chapters.push( aux );
 
