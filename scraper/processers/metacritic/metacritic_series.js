@@ -71,7 +71,7 @@ var tidy_string = require('../tidy_string.js');
 			var url = checkURL(pageURL,$(this).attr('href'));
 			links.push({
 				"url" : url,
-			 	"site": "IMDB",
+			 	"site": "Metacritic",
 			 	"type": "series"
 			});
 		});

@@ -44,8 +44,9 @@ module.exports.getInfo = function(html) {
     // BIRTHINFO
 	var born_info = $('#name-born-info');
 	birth_date = $('time', born_info).attr('datetime');
+
     if(birth_date == undefined){
-        birth_date = new Date();
+        birth_date = new Date(); //esta mal, pone fecha del dia actual
     }
 	//1956-12-31
 	birth_place = $('a', born_info).last().html();

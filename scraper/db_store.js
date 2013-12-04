@@ -98,7 +98,7 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
   			delete info.season;
   			aux = new model ( info );
 
-            if( !series[num] ) {console.log('error capitulo sin temporada'); return; }
+            if( !series.seasons[num] ) {console.log('error capitulo sin temporada'); return; }
             
   			series.seasons[ num ].chapters.push( aux );
 
@@ -111,8 +111,10 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     else if( model == models.actorModel){
         //busca si existe un documento con el mismo s_name
        models.actorModel.findOneAndUpdate({s_name: info.s_name}, { $set: info}, function(err, actor) {
-            if(err)
+            if(err){
                 return console.error(err);
+                utils.print_to_log(err);
+            }
             //si no existe, se crea un documento nuevo con los datos
             else if(actor == null){
                     aux = new model( info );
