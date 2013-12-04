@@ -1,5 +1,9 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
+var config = require('../config/config.json');
+var sqlite3 = require("sqlite3").verbose();
+
+module.exports.links_db = new sqlite3.Database(config["db_file"]);
 
 module.exports.print_to_log = function(str){
 	
