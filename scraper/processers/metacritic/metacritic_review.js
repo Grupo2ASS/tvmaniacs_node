@@ -8,11 +8,19 @@ var cheerio = require('cheerio');
 	var getInfo = function(html) {
 		reviews = [];
 		var $ = cheerio.load(html);
-		var score, name, institution, comment, date, link, critic;
+		var series, season, score, name, institution, comment, date, link, critic;
 		//score es number
 		//critic es True si la review es de un critico. False si es de una persona corriente
 
-		//obtenemos todas las reviews de criticos	
+
+        //HAY QUE SACAR NOMBRE DE SERIE Y TEMPORADA PARA PODER GUARDARLO DONDE CORRESPONDE EN LA DB
+        //no funcionan
+//		var titleReview = $('div[class = "product_title"]').attr('href').text();
+//      var pageURL = $('link[rel="canonical"]').attr('href');
+//      var url = $(titleReview).attr('href');
+
+
+        //obtenemos todas las reviews de criticos
 		var allCriticsReviews = $('ol[class = "reviews critic_reviews"]').find('div[class="review_content"]');
 
 		allCriticsReviews.each(function(index, elem){
@@ -45,13 +53,15 @@ var cheerio = require('cheerio');
 			*/
 
 			reviews.push({
-			"Score": score,
-			"Name": name,
-			"Institution": institution,
-			"Comment": comment,
-			"Date": date,
-			"Link": link,	
-			"Critic": critic
+			"score": score,
+			"name": name,
+			"institution": institution,
+			"comment": comment,
+			"date": date,
+			"link": link,
+			"critic": critic,
+            //"series":series,
+            //"season":season
 			});
 		
 		});
@@ -88,13 +98,15 @@ var cheerio = require('cheerio');
 			console.log(" ");
 			*/
 			reviews.push({
-			"Score": score,
-			"Name": name,
-			"Institution": institution,
-			"Comment": comment,
-			"Date": date,
-			"Link": link,	
-			"Critic": critic
+			"score": score,
+			"name": name,
+			"institution": institution,
+			"comment": comment,
+			"date": date,
+			"link": link,
+			"critic": critic
+            //"series":series,
+            //"season":season
 			});
 		
 		});		
