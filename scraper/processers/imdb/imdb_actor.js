@@ -91,7 +91,7 @@ module.exports.getInfo = function(html) {
 		"last_name": last_name,
         "s_name": s_name,
 		"bio": bio, 
-		"pic": pic,						//direccion a un recurso del media server??
+		"pic": pic,
 		"birth_date": birth_date,
 		"birth_place": birth_place,
 		"series": series

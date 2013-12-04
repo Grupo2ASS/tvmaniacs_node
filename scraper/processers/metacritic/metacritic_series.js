@@ -30,7 +30,7 @@ var tidy_string = require('../tidy_string.js');
 			"name": name,
             "s_name":s_name,
 			"user_rating": user_rating, //(metacritic)
-			"metascore": metascore,
+			"metascore": metascore
 		}
 	};
 
