@@ -63,21 +63,23 @@ function threadProcess(processer, folder, model) {
 		_.each(files_list, function(element) {
 			utils.print_to_log("Gonna read: " + folder + element);
 
+			archivo = fs.readFileSync( folder + element)
 			// Reviso que el archivo no sea un error 404  
-			if( !utils.check_404( fs.readFileSync(folder + element ) ) ){
-				var info = processer.getInfo(fs.readFileSync(folder + element));
-				var links = processer.getLinks(fs.readFileSync(folder + element));
+			if( !utils.check_404( archivo ) ){
+				var info = processer.getInfo(archivo);
+				var links = processer.getLinks(archivo);
 				console.log('File: ' + element + ' Ready to store');
-				console.log('info : ' + JSON.stringify(info));
-				console.log('links: ' + JSON.stringify(links));
+				// console.log('info : ' + JSON.stringify(info));
+				// console.log('links: ' + JSON.stringify(links));
 				store(info, links, model);
 			}
 
 			else
-				utils.print_to_log("Archivo era un error 404!!")
+				utils.print_to_log("Archivo era un error 404!!");
 			
 			//delete file
 			fs.unlinkSync( folder + element);
+
 			utils.print_to_log('Successfully deleted: ' + folder + element);
 		});
 	}

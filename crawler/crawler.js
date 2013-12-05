@@ -2,7 +2,8 @@ var config = require('../config/config.json');
 var Crawler = require("crawler").Crawler;
 var fs = require('fs');
 var sqlite3 = require("sqlite3").verbose();
-var pushlinks = require('./push_actor_links');
+// var pushlinks = require('./push_actor_links');
+var pushlinks = require('../scraper/push_actor_links');     //OJO!!! Hay que usar el del scraper, ya que ese tiene la conexión válida a sqlite
 
 		
 // Info of links in queue
@@ -20,8 +21,9 @@ function print_to_log(str){
     });
 }
 
-function wait_new_links(){var db = new sqlite3.Database(config["db_file"]);
+function wait_new_links(){
     var db = new sqlite3.Database(config["db_file"]);
+
     db.serialize(function(){
         var check_links_query = "SELECT count(*) as num_links FROM links WHERE date(last_visited,'+" +
             config["revisit_days"] + " days') <= date('now') LIMIT "+enqueued_limit;
@@ -55,6 +57,7 @@ function enqueue_links() {
     create_crawler();
     // Load the database
     var db = new sqlite3.Database(config["db_file"]);
+    // var db = utils.links_db;
     db.serialize(function() {
         // Get all rows in db
         var active_urls = "SELECT url, site, type, last_visited FROM links WHERE date(last_visited,'+" +
@@ -66,9 +69,11 @@ function enqueue_links() {
                     crawler_instance.queue(row.url);
 
                     // Update last_visited date to revisit_page days later
-                    var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+row.url+"'");
-                    stmt.run();
-                    stmt.finalize();
+                    
+                    pushlinks.updateLinksDate(row.url);
+                    // var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+row.url+"'");
+                    // stmt.run();
+                    // stmt.finalize();
                 }
             },
             function(err, row) {
@@ -126,7 +131,7 @@ function create_crawler() {
         "onDrain": function() {
             // This function executes when queue is empty
             print_to_log("No pages on queue... starting to wait for new active links");
-	    pushlinks.pushImdbActorLinks();            
+            pushlinks.pushImdbActorLinks();            
             wait_new_links();
             //pushlinks.pushImdbActorLinks();
         }
