@@ -6,8 +6,6 @@ var config = require('../config/config.json');
 var utils = require('./utils.js');
 var fs = require('fs');
 
-// var sqlite3 = require("sqlite3").verbose();
-// var links_db = new sqlite3.Database(config["db_file"]);
 
 // links_db.run("CREATE TABLE links (url TEXT), (site TEXT), (type TEXT), (last_visited datetime)");
 
@@ -30,9 +28,11 @@ module.exports.storeInLocalDB = function(links, local_access) {
     var address = local_access["address"];
     //Solo si no se encuentra el link se agrega. 
 
-    utils.links_db.serialize(function(){
+    // Obtengo la conexión a la base de datos desde utils
+    var links_db = utils.links_db;
+    links_db.serialize(function(){
 
-        var insert = utils.links_db.prepare( "INSERT INTO links VALUES (?,?,?,?)" );
+        var insert = links_db.prepare( "INSERT INTO links VALUES (?,?,?,?)" );
 
         var old_date = new Date();
         old_date.setDate( old_date.getDate() - config["revisit_days"] );
@@ -95,10 +95,10 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 
     //Replace pic link immediately
     	
-	// if (info['pic']!= undefined){
-	// 	sendPicLinkToMediaServer(info);
-	// 	info['pic'] = info['pic'].replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
-	// }
+	if (info['pic']!= undefined){
+		sendPicLinkToMediaServer(info);
+		info['pic'] = info['pic'].replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
+	}
 
     //En el caso de que sea un episodio lo que se este guardando se debe buscar
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.

@@ -1,4 +1,5 @@
 var sqlite3 = require("sqlite3").verbose();
+// var utils = require("../config/utils.js");
 var dbStore = require('../scraper/db_store');
 var config = require('../config/config.json'); //Load config values
 
@@ -7,6 +8,7 @@ module.exports.pushImdbActorLinks = function() {
 	//start with link starting in http://www.imdb.com/name/nm0000001/
 	console.log("Push 10 actor links");
 	var db = new sqlite3.Database(config["db_file"]);
+  // var db = utils.links_db;
 	var links = new Array(); 
 	db.serialize(function() {
         // Get all actor_links rows in db
