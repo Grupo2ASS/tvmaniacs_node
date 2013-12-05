@@ -95,10 +95,10 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
 
     //Replace pic link immediately
     	
-	if (info['pic']!= undefined){
-		sendPicLinkToMediaServer(info);
-		info['pic'] = info['pic'].replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
-	}
+	// if (info['pic']!= undefined){
+	// 	sendPicLinkToMediaServer(info);
+	// 	info['pic'] = info['pic'].replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
+	// }
 
     //En el caso de que sea un episodio lo que se este guardando se debe buscar
     //la serie y la temporada a la que corresponde y embedirlo dentro de ella.

@@ -69,9 +69,11 @@ function enqueue_links() {
                     crawler_instance.queue(row.url);
 
                     // Update last_visited date to revisit_page days later
-                    var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+row.url+"'");
-                    stmt.run();
-                    stmt.finalize();
+                    
+                    pushlinks.updateLinksDate(row.url);
+                    // var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+row.url+"'");
+                    // stmt.run();
+                    // stmt.finalize();
                 }
             },
             function(err, row) {

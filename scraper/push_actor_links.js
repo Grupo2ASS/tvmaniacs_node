@@ -7,8 +7,8 @@ var utils = require('./utils.js');
 module.exports.pushImdbActorLinks = function() {
 	//start with link starting in http://www.imdb.com/name/nm0000001/
 	console.log("Push 10 actor links");
-	// var db = new sqlite3.Database(config["db_file"]);
-  // var db = links_db;
+	
+  //Obtengo la conexión a la base de datos de escritura.
   var db = utils.links_db;
 
 
@@ -37,6 +37,17 @@ module.exports.pushImdbActorLinks = function() {
 	});
    dbStore.storeInLocalDB(links, config["access"]["Local"]);
 }
+
+module.exports.updateLinksDate = function(url){
+    var db = utils.links_db;
+    db.serialize( function(){
+        var stmt = db.prepare("UPDATE links set last_visited=date('now') WHERE url='"+url+"'");
+        stmt.run();
+        console.log("Update de fecha de visita a la url: ", url);
+        stmt.finalize();    
+    })
+}
+
 //formatear un nro para que quede de forma 0000000
 function pad(n, width, z) {
   z = z || '0';
