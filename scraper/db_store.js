@@ -126,6 +126,29 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
   			});
     	});
     }
+    else if ( model == models.reviewModel ){
+        //FALTA REVISAR QUE ESTE CASO FUNCIONE BIEN
+        log = 'Saving review from ' + info.name + ' about ' + info.series;
+        utils.print_to_log( log );
+
+        models.serieModel.findOne( { 'series': info.series }, 'name seasons', function( err, series){
+            if (err) return handleError(err);
+            if( !series ) {console.log('error review sin serie'); return; }
+
+            var num = info.season - 1;
+            delete info.season;
+            aux = new model ( info );
+
+            if( !series.seasons[num] ) {console.log('error review sin temporada'); return; }
+
+            series.seasons[ num ].reviews.push( aux );
+
+            series.save( function(err){
+                if (err) { utils.print_to_log(err); }
+                else { utils.print_to_log('exito review')}
+            });
+        });
+    }
     else if( model == models.actorModel){
         //busca si existe un documento con el mismo s_name
        models.actorModel.findOneAndUpdate({s_name: info.s_name}, { $set: info}, function(err, actor) {
