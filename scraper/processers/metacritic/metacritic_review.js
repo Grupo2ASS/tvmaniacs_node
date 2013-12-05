@@ -1,4 +1,5 @@
 var cheerio = require('cheerio');
+var tidy_string = require('../tidy_string.js');
 
 //This is a module, which make this code behave as an API
 //Lo siguiente es un modulo, lo que nos permite tener variables
@@ -12,13 +13,12 @@ var cheerio = require('cheerio');
 		//score es number
 		//critic es True si la review es de un critico. False si es de una persona corriente
 
-
-        //HAY QUE SACAR NOMBRE DE SERIE Y TEMPORADA PARA PODER GUARDARLO DONDE CORRESPONDE EN LA DB
-        //no funcionan
-//		var titleReview = $('div[class = "product_title"]').attr('href').text();
-//      var pageURL = $('link[rel="canonical"]').attr('href');
-//      var url = $(titleReview).attr('href');
-
+        //obtenemos nombre de la serie y temporada del review
+    	var info = $('div[class= "product_title"]').text().trim();
+        var title = info.split(":");
+        series = title[0].trim();
+        series = tidy_string.tidy(series);
+        season = title[1].trim().split(" ").pop();
 
         //obtenemos todas las reviews de criticos
 		var allCriticsReviews = $('ol[class = "reviews critic_reviews"]').find('div[class="review_content"]');
@@ -47,7 +47,7 @@ var cheerio = require('cheerio');
 			console.log("Institution: "+institution);
 			console.log("Comment: "+comment);
 			console.log("Date: "+date);
-			console.log("Link: "+link);	
+			console.log("Link: "+link);
 			console.log("Critic: "+critic);
 			console.log(" ");
 			*/
@@ -60,8 +60,8 @@ var cheerio = require('cheerio');
 			"date": date,
 			"link": link,
 			"critic": critic,
-            //"series":series,
-            //"season":season
+            "series":series,
+            "season":season
 			});
 		
 		});
@@ -104,14 +104,16 @@ var cheerio = require('cheerio');
 			"comment": comment,
 			"date": date,
 			"link": link,
-			"critic": critic
-            //"series":series,
-            //"season":season
+			"critic": critic,
+            "series":series,
+            "season":season
 			});
 		
-		});		
+		});
+        reviews.push({"series": series, "season": season});
 
 		return reviews;
+
 		
 	};
 
