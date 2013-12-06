@@ -2,7 +2,6 @@ var config = require('../config/config.json');
 var Crawler = require("crawler").Crawler;
 var fs = require('fs');
 var sqlite3 = require("sqlite3").verbose();
-// var pushlinks = require('./push_actor_links');
 var pushlinks = require('../scraper/push_actor_links');     //OJO!!! Hay que usar el del scraper, ya que ese tiene la conexión válida a sqlite
 
 		
@@ -133,7 +132,7 @@ function create_crawler() {
             print_to_log("No pages on queue... starting to wait for new active links");
             pushlinks.pushImdbActorLinks();            
             wait_new_links();
-            //pushlinks.pushImdbActorLinks();
+
         }
     });
 }
