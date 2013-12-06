@@ -93,8 +93,7 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     var password = mongo_access["password"];
     var address = mongo_access["address"];
 
-    //Replace pic link immediately
-    	
+    //Replace pic link immediately	
 	if (info['pic']!= undefined){
 		sendPicLinkToMediaServer(info);
 		info['pic'] = info['pic'].replace('ia.media-imdb.com', 'arqui12.ing.puc.cl');
