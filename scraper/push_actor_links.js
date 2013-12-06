@@ -17,24 +17,19 @@ module.exports.pushImdbActorLinks = function() {
         // Get all actor_links rows in db
          var id_lookup;
          var num_links = 0;
-         var links = new Array(); 
          var actor_query = "SELECT * FROM links WHERE url = ? "
         	for(var i = 0; i < 20; i++){
         		id_lookup = getRandomInt(1,5999999);
         		var url = "www.imdb.com/name/nm" + pad(id_lookup,7) +"/";
         		console.log(url);
-        		db.get(actor_query,"http://"+url, function (err,rows){
-        			console.log(rows);
-        			if(!rows){
         				links.push({"url" : url,
         						"site" : "IMDB",
         						"type" : "actor"});
-        				num_links++;
-        			}        			
-        		}); 
         	}	
         	console.log(num_links+" links added to db");
 	});
+console.log("links: ");
+console.log(links);
    dbStore.storeInLocalDB(links, config["access"]["Local"]);
 }
 

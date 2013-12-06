@@ -127,7 +127,11 @@ module.exports.storeInMongo = function(info, mongo_access, model) {
     }
     else if ( model == models.reviewModel ){
         //FALTA REVISAR QUE ESTE CASO FUNCIONE BIEN
-        log = 'Saving review from ' + info.name + ' about ' + info.series;
+
+
+       // log = 'Saving review from ' + info.name + ' about ' + info.series;
+        log = info;
+        //info es un arreglo de objetos, hay que recorrerlo y guardar cada uno.
         utils.print_to_log( log );
 
         models.serieModel.findOne( { 'series': info.series }, 'name seasons', function( err, series){

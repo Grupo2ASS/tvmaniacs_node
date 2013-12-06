@@ -17,9 +17,6 @@ actor = new Schema({
     birth_date: Date,
     birth_place: String,
     series: [String],
-
-    //faltaba el degree
-    degree: Number
 });
 
 review = new Schema({			//(metacritic)

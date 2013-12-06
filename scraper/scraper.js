@@ -43,7 +43,13 @@ Each of the next functions should:
 
 //function that calls dbstore modules and sends it the info and access keys
 function store(info, links, model) {
-	if(links){
+console.log("store model: ");
+if(model!== undefined)console.log(model.modelName);
+console.log("links: ");
+console.log(links);
+console.log("info: ");
+console.log(info);
+if(links){
 		dbStore.storeInLocalDB(links, config["access"]["Local"]);
 	}
 	if(info){
